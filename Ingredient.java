@@ -1,3 +1,5 @@
+import java.sql.Date;
+
 public class Ingredient {
     private int ingredient_id;
     private int batch_no;
@@ -9,13 +11,13 @@ public class Ingredient {
     // private String[] storage_type = {"Dry", "Refrigerated", "Frozen"};
     // private String[] measurement_unit = {"grams", "litres"};
     private double stock_quantity;
-    private String expiry_date;
+    private Date expiry_date;
     private String restock_status; 
     // private String[] restock_status = {"Available", "Low Stock", "Out of Stock"};
 
     public Ingredient(int ingredient_id, int batch_no, String ingredient_name, 
                         String category, String storage_type, String measurement_unit,
-                        double stock_quantity, String expiry_date, String restock_status) 
+                        double stock_quantity, Date expiry_date, String restock_status) 
     {
         this.ingredient_id = ingredient_id;
         this.batch_no = batch_no;
@@ -91,7 +93,7 @@ public class Ingredient {
         this.stock_quantity = stock_quantity;
     }
 
-    public void setExpiry_date(String expiry_date) {
+    public void setExpiry_date(Date expiry_date) {
         this.expiry_date = expiry_date;
     }
     public void setRestock_status(String restock_status) {
