@@ -1,17 +1,17 @@
 public class FloodData
 {
     private int flood_id;
-    private String flood_factor;
+    private FloodFactor flood_factor;
     private float avg_water_level;
     private int affected_households;
-    private String road_condition;
+    private RoadCondition road_condition;
     private boolean special_packaging;
-    private String alt_delivery_method;
+    private AltDeliveryMethod alt_delivery_method;
     private int location_id;
 
-    public FloodData(int flood_id, String flood_factor, float avg_water_level, 
-                     int affected_households, String road_condition, boolean special_packaging,
-                     String alt_delivery_method, int location_id)
+    public FloodData(int flood_id, FloodFactor flood_factor, float avg_water_level, 
+                     int affected_households, RoadCondition road_condition, boolean special_packaging,
+                     AltDeliveryMethod alt_delivery_method, int location_id)
                      {
                         this.flood_id = flood_id;
                         this.flood_factor = flood_factor;
@@ -30,7 +30,7 @@ public class FloodData
         return flood_id;
     }
 
-    public String getFloodFactor()
+    public FloodFactor getFloodFactor()
     {
         return flood_factor;
     }
@@ -40,7 +40,7 @@ public class FloodData
         return location_id;
     }
 
-    public String getAltDeliveryMethod()
+    public AltDeliveryMethod getAltDeliveryMethod()
     {
         return alt_delivery_method;
     }
@@ -55,7 +55,7 @@ public class FloodData
         return avg_water_level;
     }
 
-    public String getRoadCondition()
+    public RoadCondition getRoadCondition()
     {
         return road_condition;
     }
@@ -70,7 +70,7 @@ public class FloodData
         this.flood_id = flood_id;
     }
 
-    public void setFloodFactor(String flood_factor)
+    public void setFloodFactor(FloodFactor flood_factor)
     {
         this.flood_factor = flood_factor;
     }
@@ -80,7 +80,7 @@ public class FloodData
         this.location_id = location_id;
     }
 
-    public void setAltDeliveryMethod(String alt_delivery_method)
+    public void setAltDeliveryMethod(AltDeliveryMethod alt_delivery_method)
     {
         this.alt_delivery_method = alt_delivery_method;
     }
@@ -95,7 +95,7 @@ public class FloodData
         this.avg_water_level = avg_water_level;
     }
 
-    public void setRoadCondition(String road_condition)
+    public void setRoadCondition(RoadCondition road_condition)
     {
         this.road_condition = road_condition;
     }
