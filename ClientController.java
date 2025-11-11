@@ -1,4 +1,5 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 
 public class ClientController {
     private ClientDAO clientDAO;
@@ -11,16 +12,14 @@ public class ClientController {
         Client client = new Client();
         client.setName(name);
         client.setContactNo(contactNo);
-        client.setDateCreated(new Date());
-        client.setPlanId(planId);
-        client.setDietPreferenceId(dietPreferenceId);
-        client.setLocationId(locationId);
 
-        clientDAO.addClient(client);
+        client.setDateCreated(LocalDate.now());
 
-        return true;
+        client.setPlanID(planId);
+        client.setDietPreferenceID(dietPreferenceId);
+        client.setLocationID(locationId);
+
+        return clientDAO.addClient(client) > 0;
     }
-
-
-
 }
+

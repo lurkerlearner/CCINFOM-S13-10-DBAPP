@@ -13,6 +13,8 @@ public class Main
         {
             System.out.println("Failed to connect to MySQL.");
         }
+
+        new FloodPandaWelcome().setVisible(true);
     }
 }
 
