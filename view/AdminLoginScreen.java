@@ -18,7 +18,7 @@ public class AdminLoginScreen extends JFrame {
         //==TITLE
         JLabel title = new JLabel("FloodPanda - Admin Login", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 28));
-        title.setForeground(new Color(255, 105, 180)); // pink
+        title.setForeground(new Color(220, 31, 127));
         title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(title, BorderLayout.NORTH);
 

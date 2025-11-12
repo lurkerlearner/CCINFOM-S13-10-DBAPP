@@ -4,52 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AdminLoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/AdminLoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/DBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DietPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/DietPreference.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DietPreferenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/DietPreferenceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DietPreferenceDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/DietPreferenceDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FloodPandaWelcome.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/FloodPandaWelcome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ingredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Ingredient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IngredientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/IngredientDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Meal.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Meal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/MealController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/MealDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealMealPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/MealMealPlan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealMealPlanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/MealMealPlanDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/MealPlan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/MealPlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MealPlanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/MealPlanDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Measurement_unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Measurement_unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RegisterScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/RegisterScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Restock_status.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Restock_status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Storage_type.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Storage_type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplierDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/SupplierDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/floodpanda.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/floodpanda.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/AdminLoginScreen.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/ClientAuth.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/ClientAuthDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/ClientController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/ClientDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/ClientDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/Location.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/LocationDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/LoginScreen.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/Meal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

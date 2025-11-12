@@ -19,7 +19,7 @@ public class RegisterScreen extends JFrame {
         // ADD TITLE AT TOP
         JLabel title = new JLabel("FloodPanda - Create Account", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 28));
-        title.setForeground(new Color(255, 105, 180)); // Same pink
+        title.setForeground(new Color(220, 31, 127));
         title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(title, BorderLayout.NORTH);
 
