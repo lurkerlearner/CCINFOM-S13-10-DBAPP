@@ -213,7 +213,7 @@ public class FloodDataPanel extends JPanel
         refreshFloodTable();
     }
     
-    // Create the panel for searching deliveries
+    // Create the panel for searching flood data
     private void createSearchPanel() 
     {
         searchPanel = new JPanel();
@@ -482,4 +482,5 @@ public class FloodDataPanel extends JPanel
                                           JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 }
