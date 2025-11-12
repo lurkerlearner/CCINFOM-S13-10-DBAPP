@@ -143,4 +143,20 @@ public class Delivery
     {
         this.delivery_method = delivery_method;
     }
+
+    @Override
+    public String toString() 
+    {
+        return  "Transaction ID: " + transaction_id + "\n" +
+                "Order Date: " + order_date + "\n" +
+                "Time Ordered: " + time_ordered + "\n" +
+                "Time Delivered: " + time_delivered + "\n" +
+                "Payment Mode: " + payment_mode + "\n" +
+                "Payment Status: " + payment_status + "\n" +
+                "Delivery Method: " + delivery_method + "\n" +
+                "Delivery Status: " + delivery_status + "\n" +
+                "Client ID: " + client_id + "\n" +
+                "Meal ID: " + meal_id + "\n" +
+                "Rider ID: " + rider_id;
+    }
 }
