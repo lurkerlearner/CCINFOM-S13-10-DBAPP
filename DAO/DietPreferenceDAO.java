@@ -71,6 +71,7 @@ public class DietPreferenceDAO {
         }
         return preferences;
     }
+
     public DietPreference getDietPreferenceById(int id) {
         DietPreference pref = null;
         String query = "SELECT diet_preference_id, diet_name, description FROM diet_preference WHERE diet_preference_id = ?";

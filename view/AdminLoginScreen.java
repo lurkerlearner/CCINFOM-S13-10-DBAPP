@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class AdminLoginScreen extends JFrame {
 
+    //HARDCODED NA SIYA HERE
     private final String ADMIN_USERNAME = "admin";
     private final String ADMIN_PASSWORD = "admin123";
 
@@ -93,7 +94,7 @@ public class AdminLoginScreen extends JFrame {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
 
-
+            //todo: palagay here thanks
             if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
                 JOptionPane.showMessageDialog(this, "Welcome, Admin!");
                 dispose();

@@ -25,5 +25,11 @@ public class Location {
     public String getStreet() { return street; }
     public String getCity() { return city; }
     public String getZip() { return zip; }
+
+    @Override
+    public String toString() {
+        return street + ", " + city;
+    }
+
 }
 

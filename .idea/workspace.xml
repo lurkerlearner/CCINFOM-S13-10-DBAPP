@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="" />
+    <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/view/AccountManagementScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view/ClientMainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/ClientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/DietPreferenceDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/DietPreferenceDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/DietPreferenceDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/DietPreferenceDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/LocationDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/LocationDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Location.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Location.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AdminLoginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AdminLoginScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LoginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LoginScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/AdminLoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/AdminLoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/RegisterScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/RegisterScreen.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

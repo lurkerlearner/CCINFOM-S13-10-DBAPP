@@ -47,6 +47,14 @@ public class ClientDAO {
                 Client c = new Client();
                 c.setClientID(rs.getInt("client_id"));
                 c.setName(rs.getString("name"));
+                c.setContactNo(rs.getString("contact_no"));
+                c.setPassword(rs.getString("password"));
+                c.setUnitDetails(rs.getString("unit_details"));
+                c.setDateCreated(rs.getDate("date_created").toLocalDate());
+                c.setLocationID(rs.getInt("location_id"));
+                c.setPlanID(rs.getInt("plan_id"));
+                c.setDietPreferenceID(rs.getInt("diet_preference_id"));
+
                 return c;
             }
 
@@ -56,6 +64,7 @@ public class ClientDAO {
 
         return null;
     }
+
 
     //FINDING DUPLICATES
     public boolean isContactExists(String contactNo) {
@@ -71,6 +80,29 @@ public class ClientDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean updateClient(Client c) {
+        String sql = "UPDATE CLIENT SET name = ?, contact_no = ?, location_id = ?, diet_preference_id = ? " +
+                "WHERE client_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, c.getName());
+            ps.setString(2, c.getContactNo());
+            ps.setInt(3, c.getLocationID());
+            ps.setInt(4, c.getDietPreferenceID());
+            ps.setInt(5, c.getClientID());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

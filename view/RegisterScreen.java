@@ -23,8 +23,6 @@ public class RegisterScreen extends JFrame {
         title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(title, BorderLayout.NORTH);
 
-
-        // MAIN PANEL FOR FORM
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // padding around components
@@ -46,35 +44,31 @@ public class RegisterScreen extends JFrame {
         gbc.gridx = 1;
         mainPanel.add(fullNameField, gbc);
 
-// Row 1 - Contact Number
         gbc.gridx = 0; gbc.gridy = 1;
         mainPanel.add(new JLabel("Contact Number:"), gbc);
         gbc.gridx = 1;
         mainPanel.add(contactField, gbc);
 
-// Row 2 - Password
         gbc.gridx = 0; gbc.gridy = 2;
         mainPanel.add(new JLabel("Password:"), gbc);
         gbc.gridx = 1;
         mainPanel.add(passwordField, gbc);
 
-// Row 3 - Confirm Password
         gbc.gridx = 0; gbc.gridy = 3;
         mainPanel.add(new JLabel("Confirm Password:"), gbc);
         gbc.gridx = 1;
         mainPanel.add(confirmPasswordField, gbc);
 
-// Row 4 - Show Password checkbox
+
         gbc.gridx = 1; gbc.gridy = 4;
         mainPanel.add(showPassword, gbc);
 
-// Row 5 - Unit / House No.
         gbc.gridx = 0; gbc.gridy = 5;
         mainPanel.add(new JLabel("Unit / House No.:"), gbc);
         gbc.gridx = 1;
         mainPanel.add(unitField, gbc);
 
-// Row 6 - Street / Area
+
         gbc.gridx = 0; gbc.gridy = 6;
         mainPanel.add(new JLabel("Street / Area:"), gbc);
         gbc.gridx = 1;
@@ -82,7 +76,7 @@ public class RegisterScreen extends JFrame {
 
         add(mainPanel, BorderLayout.CENTER);
 
-        // SOUTH PANEL FOR BUTTONS
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         JButton registerBtn = new JButton("Create Account");
@@ -93,7 +87,6 @@ public class RegisterScreen extends JFrame {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // TOGGLE SHOW PASSWORD
         showPassword.addActionListener(e -> {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
@@ -104,7 +97,7 @@ public class RegisterScreen extends JFrame {
             }
         });
 
-        // REGISTER BUTTON ACTION
+
         registerBtn.addActionListener(e -> {
             String name = fullNameField.getText().trim();
             String contact = contactField.getText().trim();
@@ -112,7 +105,6 @@ public class RegisterScreen extends JFrame {
             String confirmPassword = new String(confirmPasswordField.getPassword()).trim();
             String unit = unitField.getText().trim();
 
-            // VALIDATION
             if (name.isEmpty() || contact.isEmpty() || password.isEmpty() ||
                     confirmPassword.isEmpty() || unit.isEmpty() || locationDrop.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.");
@@ -146,10 +138,10 @@ public class RegisterScreen extends JFrame {
             }
         });
 
-        // EXIT BUTTON ACTION
+
         exitBtn.addActionListener(e -> {
-            dispose();  // close this window
-            new FloodPandaWelcome(); // go back to main welcome screen
+            dispose();
+            new FloodPandaWelcome();
         });
 
         setVisible(true);

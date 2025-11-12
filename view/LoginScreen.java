@@ -1,7 +1,8 @@
 package view;
 
-import controller.LoginController;
-import model.Client;
+import DAO.*;
+import controller.*;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.*;
 public class LoginScreen extends JFrame {
 
     private LoginController controller = new LoginController();
+    private LocationDAO locationDAO = new LocationDAO();
 
     public LoginScreen() {
         setTitle("FloodPanda - Login");
@@ -38,7 +40,7 @@ public class LoginScreen extends JFrame {
         contactField.setPreferredSize(fieldSize);
         passwordField.setPreferredSize(fieldSize);
 
-        //==CONTACT
+        // CONTACT
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
@@ -48,7 +50,7 @@ public class LoginScreen extends JFrame {
         gbc.weightx = 1;
         formPanel.add(contactField, gbc);
 
-        //==PASSWORD
+        // PASSWORD
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0;
@@ -58,7 +60,7 @@ public class LoginScreen extends JFrame {
         gbc.weightx = 1;
         formPanel.add(passwordField, gbc);
 
-        //==SHOW PASSWORD
+        // SHOW PASSWORD
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.weightx = 0;
@@ -67,21 +69,24 @@ public class LoginScreen extends JFrame {
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(formPanel, BorderLayout.CENTER);
 
-        //==SOUTH PANEL
+        // --- SOUTH PANEL (BUTTONS) ---
         JPanel southPanel = new JPanel();
-        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // 20px gap
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         JButton loginBtn = new JButton("Login");
-        loginBtn.setPreferredSize(new Dimension(120, 40));
-
         JButton exitBtn = new JButton("Exit");
-        exitBtn.setPreferredSize(new Dimension(120, 40));
+
+        Dimension btnSize = new Dimension(120, 40);
+        loginBtn.setPreferredSize(btnSize);
+        exitBtn.setPreferredSize(btnSize);
 
         southPanel.add(loginBtn);
         southPanel.add(exitBtn);
         add(southPanel, BorderLayout.SOUTH);
 
-        //==ACTION LISTENERS
+        // --- ACTION LISTENERS ---
+
+        // Show/hide password
         showPassword.addActionListener(e -> {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
@@ -90,29 +95,36 @@ public class LoginScreen extends JFrame {
             }
         });
 
-
+        // LOGIN BUTTON
         loginBtn.addActionListener(e -> {
-            String contact = contactField.getText();
-            String password = new String(passwordField.getPassword());
+            String contact = contactField.getText().trim();
+            String password = new String(passwordField.getPassword()).trim();
 
             Client c = controller.login(contact, password);
 
-            if (c != null) {
-                JOptionPane.showMessageDialog(this, "Welcome, " + c.getName() + "!");
-                dispose();
-                // new ClientMainMenu(c);
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid login.");
+            if (c == null) {
+                JOptionPane.showMessageDialog(this, "Invalid contact number or password.");
+                return;
             }
-        });
 
-        exitBtn.addActionListener(e -> {
-            new FloodPandaWelcome().setVisible(true);
+            // safe to access location now
+            Location l = locationDAO.getLocationById(c.getLocationID());
+            if (l == null) {
+                JOptionPane.showMessageDialog(this, "Client location not found.");
+                return;
+            }
+
+            JOptionPane.showMessageDialog(this, "Welcome, " + c.getName() + "!");
             dispose();
+            new ClientMainMenu(c, l); // redirect to client main menu
         });
 
+        // EXIT BUTTON
+        exitBtn.addActionListener(e -> {
+            dispose();
+            new FloodPandaWelcome().setVisible(true);
+        });
 
         setVisible(true);
     }
 }
-
