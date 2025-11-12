@@ -98,6 +98,16 @@ public class DeliveryController
         return deliveryDAO.getDeliveriesWithinDateRange(startDate, endDate);
     }
 
+    public ArrayList<Delivery> getDeliveriesByPaymentStatus(PaymentStatus ps)
+    {
+        return deliveryDAO.getDeliveriesByPaymentStatus(ps);
+    }
+
+    public ArrayList<Delivery> getDeliveriesByDeliveryStatus(DeliveryStatus ds)
+    {
+        return deliveryDAO.getDeliveriesByDeliveryStatus(ds);
+    }
+
     public ArrayList<Object[]> getMostDeliveredMeal()
     {
         return deliveryDAO.getMostDeliveredMeal();
@@ -108,5 +118,6 @@ public class DeliveryController
         return deliveryDAO.getDeliveriesPerLocationWithFloodData();
     }
 }
+
 
 // junction tables pa
