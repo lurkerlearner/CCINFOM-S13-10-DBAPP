@@ -1,3 +1,6 @@
+package DAO;
+
+import model.*;
 import java.sql.*;
 import java.util.ArrayList;
 

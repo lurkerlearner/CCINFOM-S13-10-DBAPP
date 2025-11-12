@@ -1,3 +1,5 @@
+package model;
+
 public class FloodData
 {
     private int flood_id;

@@ -1,4 +1,6 @@
-public enum PaymentStatus 
+package model;
+
+public enum PaymentStatus
 {
     PAID("Paid"), 
     PENDING("Pending"), 

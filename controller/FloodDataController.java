@@ -1,7 +1,7 @@
 package controller;
 
-import model.FloodData;
-import DAO.FloodDataDAO;
+import model.*;
+import DAO.*;
 
 import java.util.ArrayList;
 

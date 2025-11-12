@@ -5,23 +5,71 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/view/AccountManagementScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/ClientMainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/ClientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/DietPreferenceDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/DietPreferenceDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/DietPreferenceDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/DietPreferenceDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/LocationDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/LocationDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Location.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Location.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AdminLoginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AdminLoginScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LoginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LoginScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/AdminLoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/AdminLoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/RegisterScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/RegisterScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/DeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/DeliveryDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/FloodDataDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/FloodDataDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/RiderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/RiderDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/DeliveryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/DeliveryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/FloodDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/FloodDataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/RiderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/RiderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/AltDeliveryMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/AltDeliveryMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Delivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/DeliveryMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/DeliveryMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/DeliveryStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/DeliveryStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/FloodData.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/FloodData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/FloodFactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/FloodFactor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PaymentMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/PaymentMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PaymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/PaymentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/RoadCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/RoadCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/AltDeliveryMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/DietPreferenceDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/IngredientDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/LocationDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/MealDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/MealMealPlanDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/MealPlanDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/SupplierDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/Delivery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DeliveryDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DeliveryMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DeliveryStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/FloodData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/FloodDataDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/FloodFactor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/PaymentMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/PaymentStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/Rider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/RiderDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/RoadCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/DBConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/ClientController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/DietPreferenceController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/MealController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/MealPlanController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/DietPreference.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Ingredient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Location.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Meal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/MealMealPlan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/MealPlan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Measurement_unit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Restock_status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Storage_type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/Supplier.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AccountManagementScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/AdminLoginScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ClientMainMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/FloodPandaWelcome.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LoginScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen$LocationItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/RegisterScreen.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,22 +106,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/faith/Downloads/CCINFOM",
-    "settings.editor.selected.configurable": "discord-application"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/faith/Downloads/CCINFOM&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JAVA"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JAVA&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app" />

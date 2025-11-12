@@ -1,4 +1,6 @@
-public enum DeliveryMethod 
+package model;
+
+public enum DeliveryMethod
 {
     MOTORCYCLE("Motorcycle"), 
     TIKLING_TRICYCLE("Tikling Tricycle"), 

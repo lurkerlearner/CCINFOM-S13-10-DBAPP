@@ -1,4 +1,6 @@
-public enum DeliveryStatus 
+package model;
+
+public enum DeliveryStatus
 {
     ON_TIME("On-Time"), 
     DELAYED("Delayed"), 

@@ -1,4 +1,6 @@
-public enum PaymentMode 
+package model;
+
+public enum PaymentMode
 {
     BANK("Bank"), 
     GCASH("GCash"), 

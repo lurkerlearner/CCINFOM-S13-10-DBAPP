@@ -1,4 +1,6 @@
-public enum RoadCondition 
+package model;
+
+public enum RoadCondition
 {
     ACCESSIBLE("Accessible"),
     PARTIALLY_FLOODED("Partially Flooded"),

@@ -1,4 +1,6 @@
-public enum AltDeliveryMethod 
+package model;
+
+public enum AltDeliveryMethod
 {
     MOTORCYCLE("Motorcycle"), 
     TIKLING_TRICYCLE("Tikling Tricycle"), 
