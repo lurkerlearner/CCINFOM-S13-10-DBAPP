@@ -104,4 +104,18 @@ public class FloodData
     {
         this.special_packaging = special_packaging;
     }
+
+    @Override
+    public String toString() 
+    {
+        return  "Flood ID: " + flood_id + "\n" +
+                "Flood Factor: " + flood_factor + "\n" +
+                "Average Water Level: " + avg_water_level + "\n" +
+                "Affected Households: " + affected_households + "\n" +
+                "Road Condition: " + road_condition + "\n" +
+                "Special Packaging: " + special_packaging + "\n" +
+                "Alt Delivery Method: " + alt_delivery_method + "\n" +
+                "Location ID: " + location_id;
+    }
+
 }
