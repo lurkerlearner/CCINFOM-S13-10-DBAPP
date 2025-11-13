@@ -98,7 +98,7 @@ public class AdminLoginScreen extends JFrame {
             if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
                 JOptionPane.showMessageDialog(this, "Welcome, Admin!");
                 dispose();
-                // new AdminMainMenu();
+                new AdminMainMenu();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid admin credentials.");
             }

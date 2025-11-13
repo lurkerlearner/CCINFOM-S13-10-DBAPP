@@ -1,19 +1,24 @@
 package view;
 
-import java.awt.EventQueue;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class AdminMainMenu extends JFrame {
+import model.*;
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	/**
-	 * Create the frame.
-	 */
-	public AdminMainMenu() {
-		setTitle("FloodPanda - Admin Main Menu");
+public class ClientMainMenu extends JFrame {
+
+    private Client client;
+    private Location location;
+
+    public ClientMainMenu(Client client, Location location) {
+        this.client = client;
+        this.location = location;
+
+        setTitle("FloodPanda - Client Main Menu");
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -37,10 +42,20 @@ public class AdminMainMenu extends JFrame {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(30, 60, 30, 60));
 
-        JLabel welcomeLabel = new JLabel("Welcome, Admin!");
+        JLabel welcomeLabel = new JLabel("Welcome, " + client.getName() + "! What are you craving today?");
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 22));
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setForeground(new Color(51, 51, 51));
+
+        String fullAddress = client.getUnitDetails();
+        if (location != null) {
+            fullAddress += ", " + location.getStreet() + ", " + location.getCity();
+        }
+
+        JLabel locationLabel = new JLabel("Location: " + fullAddress);
+        locationLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        locationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
         String today = new SimpleDateFormat("MMMM dd, yyyy").format(new Date());
         JLabel dateLabel = new JLabel("Date Today: " + today);
@@ -49,17 +64,19 @@ public class AdminMainMenu extends JFrame {
 
         centerPanel.add(welcomeLabel);
         centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(dateLabel);
+        centerPanel.add(locationLabel);
         centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(dateLabel);
+        centerPanel.add(Box.createVerticalStrut(40));
 
         //==PLACEHOLDER BUTTONS PANG ORDER AND DELIVERY AND VIEW SHIT
-        JButton manageRecordsBtn = new JButton("Manage records");
-        JButton makeTransactionBtn = new JButton("Make a transaction");
-        JButton generateReportBtn = new JButton("Generate a report");
+        JButton viewCatalogueBtn = new JButton("View Meal Catalogue");
+        JButton orderNowBtn = new JButton("Order Now");
+        JButton accountMgmtBtn = new JButton("Account Management");
 
         //==PAM PA DESIGN SA BUTTONS
         Dimension btnSize = new Dimension(250, 50);
-        for (JButton btn : new JButton[]{manageRecordsBtn, makeTransactionBtn, generateReportBtn}) {
+        for (JButton btn : new JButton[]{viewCatalogueBtn, orderNowBtn, accountMgmtBtn}) {
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
             btn.setPreferredSize(btnSize);
             btn.setMaximumSize(btnSize);
@@ -76,6 +93,7 @@ public class AdminMainMenu extends JFrame {
             centerPanel.add(Box.createVerticalStrut(15));
         }
 
+
         add(centerPanel, BorderLayout.CENTER);
 
         //==LOGOUT SOUTH PANEL
@@ -90,22 +108,20 @@ public class AdminMainMenu extends JFrame {
         //THE ONLY THING THAT'S MINE IS ACCOUNT MANAGEMENT - ELISHA
 
         //==ACTION LISTENERS
-        manageRecordsBtn.addActionListener(e -> {
-			// TODO: implement whatever
-			JOptionPane.showMessageDialog(this, "Manage Records clicked."); // just to test if button works
-            /* this.dispose();
-            new AccountManagementScreen(client).setVisible(true); */
+        accountMgmtBtn.addActionListener(e -> {
+            this.dispose();
+            new AccountManagementScreen(client).setVisible(true); // --elishas
         });
 
-        makeTransactionBtn.addActionListener(e -> {
+        viewCatalogueBtn.addActionListener(e -> {
             // TODO: implement whatever
-            JOptionPane.showMessageDialog(this, "Make a transaction clicked."); // just to test if button works
+            JOptionPane.showMessageDialog(this, "View Meal Catalogue clicked."); // just to test if button works
         });
 
 
-        generateReportBtn.addActionListener(e -> {
+        orderNowBtn.addActionListener(e -> {
             // TODO: implement whatever
-            JOptionPane.showMessageDialog(this, "Generate a report clicked."); // just to test if button works
+            JOptionPane.showMessageDialog(this, "Order Now clicked."); // just to test if button works
         });
 
 
@@ -123,6 +139,6 @@ public class AdminMainMenu extends JFrame {
         });
 
         setVisible(true);
-	}
-
+    }
 }
+
