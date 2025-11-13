@@ -70,6 +70,7 @@ public class MealIngredientDAO {
     }
 
     // TO MODIFY, must be updated depending on checked out or delivered meals!!!!
+    // call this method when a delivery is made
     public boolean updateStockQuantityBasedOnMeal(int mealId) {
         String sqlQuery = """
             UPDATE INGREDIENT i
