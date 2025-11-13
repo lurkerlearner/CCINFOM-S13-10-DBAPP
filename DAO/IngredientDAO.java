@@ -331,4 +331,41 @@ public class IngredientDAO {
         return ingredients;
     }
 
+    public ArrayList<Ingredient> getOutOfStockIngredients() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM INGREDIENT WHERE stock_quantity <= 0";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            try(ResultSet rs = stmt.executeQuery())
+            {
+                // go thru each row and add it to the arraylist    
+                while (rs.next()) 
+                {
+                    Ingredient ingredient = new Ingredient(
+                        rs.getInt("ingredient_id"),
+                        rs.getInt("batch_no"),
+                        rs.getString("ingredient_name"),
+                        Category.valueOf(rs.getString("category")),
+                        Storage_type.valueOf(rs.getString("storage_type")),
+                        Measurement_unit.valueOf(rs.getString("measurement_unit")),
+                        rs.getDouble("stock_quantity"),
+                        rs.getDate("expiry_date"),
+                        Restock_status.valueOf(rs.getString("restock_status")),
+                        rs.getInt("supplier_id")
+                    );
+                    ingredients.add(ingredient);
+                }
+            }
+        } 
+
+        catch (SQLException e) 
+        {
+            System.err.println("Error fetching ingredients: " + e.getMessage());
+        }
+
+        return ingredients;
+    }
+
 }
