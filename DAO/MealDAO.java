@@ -8,10 +8,6 @@ import java.util.List;
 
 public class MealDAO {
 
-    /**
-     * Retrieves all meals from the database.
-     * @return A List of Meal objects, or an empty list if none are found.
-     */
     public List<Meal> getAllMeals() {
         List<Meal> meals = new ArrayList<>();
     String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal";
@@ -31,11 +27,6 @@ public class MealDAO {
         return meals;
     }
 
-    /**
-     * Retrieves a single meal by its ID.
-     * @param mealId The ID of the meal to retrieve.
-     * @return The Meal object, or null if not found.
-     */
     public Meal getMealById(int mealId) {
         Meal meal = null;
     String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal WHERE meal_id = ?";
@@ -66,12 +57,11 @@ public class MealDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) 
         {
 
-            // Set the value for the placeholder (the '?' in the query)
+  
             preparedStatement.setInt(1, dietPreferenceId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery())
             {
-                // Iterate over the result set and map each row to a Meal object
                 while (resultSet.next())
                 {
                     Meal meal = mapResultSetToMeal(resultSet);
@@ -101,7 +91,6 @@ public class MealDAO {
                 preparedStatement.setString(6, meal.getNutrients());
                 preparedStatement.setString(7, meal.getDate_added()); // Consider using Date/Timestamp for robustness
                 preparedStatement.setInt(8, meal.getDiet_preference_id());
-                preparedStatement.setInt(9, meal.getIngredient_id());
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -127,8 +116,7 @@ public class MealDAO {
             preparedStatement.setString(6, meal.getNutrients());
             preparedStatement.setString(7, meal.getDate_added());
             preparedStatement.setInt(8, meal.getDiet_preference_id());
-            preparedStatement.setInt(9, meal.getIngredient_id());
-            preparedStatement.setInt(10, meal.getMeal_id()); // WHERE clause
+            preparedStatement.setInt(9, meal.getMeal_id()); // WHERE clause
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -238,8 +226,7 @@ public class MealDAO {
                 resultSet.getInt("calories"),
                 resultSet.getString("nutrients"),
                 resultSet.getString("date_added"),
-                resultSet.getInt("diet_preference_id"),
-                resultSet.getInt("ingredient_id")
+                resultSet.getInt("diet_preference_id")
         );
     }
 
