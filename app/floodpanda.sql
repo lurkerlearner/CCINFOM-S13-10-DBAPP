@@ -156,14 +156,6 @@ CREATE TABLE IF NOT EXISTS CLIENT_DIET_PREFERENCE (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS CLIENT_AUTH (
-    auth_id INT AUTO_INCREMENT PRIMARY KEY,
-    client_id INT,
-    username VARCHAR(50) UNIQUE,
-    password VARCHAR(255),
-    FOREIGN KEY (client_id) REFERENCES client(client_id)
-);
-
 INSERT INTO diet_preference (diet_preference_id,diet_name, description)
 VALUES (1, 'Standard Diet', 'Default diet preference for new users')
 ON DUPLICATE KEY UPDATE diet_name = diet_name;

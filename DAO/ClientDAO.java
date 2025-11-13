@@ -33,6 +33,37 @@ public class ClientDAO {
         return -1;
     }
 
+    public Client getClientById(int id) {
+        String sql = "SELECT * FROM CLIENT WHERE client_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            System.out.println("Looking for client ID: " + id); //debugging
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Client c = new Client(
+                        rs.getInt("client_id"),
+                        rs.getString("name"),
+                        rs.getString("contact_no"),
+                        rs.getString("password"),
+                        rs.getString("unit_details"),
+                        rs.getDate("registration_date").toLocalDate(),
+                        rs.getInt("location_id"),
+                        rs.getInt("plan_id"),
+                        rs.getInt("dietPreference_ID")
+                );
+                return c;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public Client login(String contact, String password) {
         String sql = "SELECT * FROM client WHERE contact_no = ? AND password = ?";
 
@@ -65,7 +96,6 @@ public class ClientDAO {
         return null;
     }
 
-
     //FINDING DUPLICATES
     public boolean isContactExists(String contactNo) {
         String sql = "SELECT client_id FROM client WHERE contact_no = ?";
@@ -84,16 +114,15 @@ public class ClientDAO {
     }
 
     public boolean updateClient(Client c) {
-        String sql = "UPDATE CLIENT SET name = ?, contact_no = ?, location_id = ?, diet_preference_id = ? " +
-                "WHERE client_id = ?";
+        String sql = "UPDATE CLIENT SET name = ?, contact_no = ?, unit_details = ?, location_id = ? WHERE client_id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, c.getName());
             ps.setString(2, c.getContactNo());
-            ps.setInt(3, c.getLocationID());
-            ps.setInt(4, c.getDietPreferenceID());
+            ps.setString(3, c.getUnitDetails());
+            ps.setInt(4, c.getLocationID());
             ps.setInt(5, c.getClientID());
 
             int rowsAffected = ps.executeUpdate();
@@ -105,5 +134,6 @@ public class ClientDAO {
 
         return false;
     }
+
 
 }

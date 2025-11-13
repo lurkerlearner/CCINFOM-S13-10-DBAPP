@@ -5,6 +5,13 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
+            "mainClass": "app.Main",
+            "projectName": "CCINFOM"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
             "mainClass": "src.Main",
             "projectName": "CCINFOM"
         },

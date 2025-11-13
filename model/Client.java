@@ -28,7 +28,20 @@ public class Client {
         this.dietPreferenceID = dietPreferenceID;
     }
 
-    // getters + setters (full set)
+    public Client(int clientID, String name, String contactNo, String password,
+                  String unitDetails, LocalDate dateCreated, int locationID, int planID, int dietPreferenceID) {
+        this.clientID = clientID;
+        this.name = name;
+        this.contactNo = contactNo;
+        this.password = password;
+        this.unitDetails = unitDetails;
+        this.dateCreated = dateCreated;
+        this.locationID = locationID;
+        this.planID = planID;
+        this.dietPreferenceID = dietPreferenceID;
+    }
+
+
     public int getClientID() { return clientID; }
     public void setClientID(int clientID) { this.clientID = clientID; }
 

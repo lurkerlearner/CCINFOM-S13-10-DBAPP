@@ -86,7 +86,6 @@ public class LoginScreen extends JFrame {
 
         // --- ACTION LISTENERS ---
 
-        // Show/hide password
         showPassword.addActionListener(e -> {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
@@ -107,7 +106,6 @@ public class LoginScreen extends JFrame {
                 return;
             }
 
-            // safe to access location now
             Location l = locationDAO.getLocationById(c.getLocationID());
             if (l == null) {
                 JOptionPane.showMessageDialog(this, "Client location not found.");

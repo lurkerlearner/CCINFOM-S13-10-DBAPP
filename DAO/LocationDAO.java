@@ -34,7 +34,7 @@ public class LocationDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            System.out.println("Looking for location ID: " + id);
+            System.out.println("Looking for location ID: " + id); //debugging
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
