@@ -47,6 +47,10 @@ public class Ingredient {
         this.supplier_id = supplier_id;
     }
 
+    public Ingredient() {
+        // Default constructor
+    }
+
     public int getIngredient_id() {
         return ingredient_id;
     }
