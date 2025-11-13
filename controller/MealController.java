@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import DAO.MealDAO;
+import DAO.IngredientDAO;
+import DAO.MealIngredientDAO;
 import DAO.MealMealPlanDAO;
 import java.util.List;
 
@@ -9,12 +11,33 @@ public class MealController {
 
     private final MealDAO mealDAO;
     private final MealMealPlanDAO mealMealPlanDAO;
+    private final IngredientDAO ingredientDAO;
+    private final MealIngredientDAO mealIngredientDAO;
 
-    //paadd nalang akez nung ingredient DAO
     public MealController() {
         this.mealDAO = new MealDAO();
         this.mealMealPlanDAO = new MealMealPlanDAO();
-        // Initialize other necessary DAOs here
+        this.ingredientDAO = new IngredientDAO();
+        this.mealIngredientDAO = new MealIngredientDAO();
+        
+    }
+
+    public String addMeal(String name, float price, float cost, int prepTime,
+                           int calories, String nutrients, String dateAdded,
+                           int dietPreferenceId) {
+        
+        Meal meal = new Meal();
+        meal.setMeal_name(name);
+        meal.setPrice(price);
+        meal.setCost(cost);
+        meal.setPreparation_time(prepTime);
+        meal.setCalories(calories);
+        meal.setNutrients(nutrients);
+        meal.setDate_added(dateAdded);
+        meal.setDiet_preference_id(dietPreferenceId);
+
+        boolean added = mealDAO.addMeal(meal);
+        return added ? "SUCCESS: Meal added." : "FAILURE: Could not add meal.";
     }
 
 
@@ -65,7 +88,14 @@ public class MealController {
             return "FAILURE: Database error occurred while adding the meal record.";
         }
     }
-
+    
+    public List<Meal> getMealsForClient(int clientId) {
+        List<Meal> meals = mealDAO.getMealsForClient(clientId);
+        if (meals == null || meals.isEmpty()) {
+            meals = mealDAO.getAllMeals();
+        }
+        return meals;
+    }
 
 
 }
