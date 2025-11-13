@@ -139,6 +139,72 @@ public class MealDAO {
             return false;
         }
     }
+
+
+    public List<Meal> getMealsForClient(int clientId){
+        List<Meal> meals = new ArrayList<>();
+        String query = "SELECT diet_preference_id FROM client WHERE client_id = ?";
+                try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) 
+        {
+            preparedStatement.setInt(1, clientId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    int dietPreferenceId = resultSet.getInt("diet_preference_id");
+                    meals = getMealsByDietPreference(dietPreferenceId);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving diet preferences by client ID (" + clientId + "): " + e.getMessage());
+            e.printStackTrace();
+        }
+        return meals;
+    }
+
+     public List<MealPerformance> getMealPerformanceReport(int year, int month){
+        List<MealPerformance> report = new ArrayList<>();
+        String query = "SELECT m.meal_id, m.meal_name, COUNT(md.transaction_id) AS TimesOrdered, " +
+                       " (COUNT(md.transaction_id) * m.price) AS TotalRevenue, " +
+                       " COUNT(DISTINCT c.location_id) AS DistinctLocations " +
+                       " FROM meal m " +
+                       " JOIN meal_delivery md ON m.meal_id = md.meal_id " +
+                       " JOIN delivery d ON md.transaction_id = d.transaction_id " +
+                       " JOIN client c ON d.client_id = c.client_id " +
+                       " WHERE YEAR(d.order_date) = ? AND MONTH(d.order_date) = ? " +
+                       " GROUP BY m.meal_id, m.meal_name " +
+                       " ORDER BY TotalRevenue DESC";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) 
+        {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    MealPerformance performance = new MealPerformance(
+                        resultSet.getInt("meal_id"),
+                        resultSet.getString("meal_name"),
+                        resultSet.getInt("TimesOrdered"),
+                        resultSet.getFloat("TotalRevenue"),
+                        resultSet.getInt("DistinctLocations")
+                    );
+                    report.add(performance);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating meal performance report for " + year  +  "/" + month + ":" + e.getMessage());
+            e.printStackTrace();
+        }
+        return report;
+    }  
+    
+
+
     public boolean deleteMeal(int mealId) {
         String query = "DELETE FROM meal WHERE meal_id = ?";
 
@@ -152,12 +218,12 @@ public class MealDAO {
 
         } catch (SQLException e) {
             System.err.println("Error deleting meal: " + e.getMessage());
-            // NOTE: If this meal is referenced by other tables (like meal_delivery),
-            // a foreign key violation will occur. This logic should be handled by the business layer.
+         
             e.printStackTrace();
             return false;
         }
     }
+
 
     /**
      * Helper method to map a ResultSet row to a Meal object.
