@@ -35,6 +35,10 @@ public class MealIngredient {
         return quantity;
     }
 
+    private String getIngredient_name() {
+        return ingredient_name;
+    }
+    
     public void setMeal_id(int meal_id) {
         this.meal_id = meal_id;
     }
@@ -47,5 +51,8 @@ public class MealIngredient {
         this.quantity = quantity;
     }
 
+    private void setIngredient_name(String ingredient_name) {
+        this.ingredient_name = ingredient_name;
+    }
     
 }

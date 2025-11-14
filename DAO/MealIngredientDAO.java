@@ -71,12 +71,12 @@ public class MealIngredientDAO {
 
     // TO MODIFY, must be updated depending on checked out or delivered meals!!!!
     // call this method when a delivery is made
-    public boolean updateStockQuantityBasedOnMeal(int mealId) {
+    public boolean updateStockQuantityBasedOnMealDelivery(int mealId) {
         String sqlQuery = """
             UPDATE INGREDIENT i
             JOIN MEAL_INGREDIENT mi ON i.ingredient_id = mi.ingredient_id
             SET i.stock_quantity = i.stock_quantity - mi.quantity
-            WHERE mi.MealID = ?
+            WHERE mi.meal_id = ?
         """;
 
         try (Connection conn = DBConnection.getConnection();
@@ -84,7 +84,6 @@ public class MealIngredientDAO {
         {
 
             stmt.setInt(1, mealId);
-            stmt.setInt(2, mealId);
 
             int affectedRows = stmt.executeUpdate();
         
@@ -136,10 +135,90 @@ public class MealIngredientDAO {
         }
     }
 
+    public ArrayList<MealIngredient> getAllMealIngredients() {
+        ArrayList<MealIngredient> mealIngredients = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM MEAL_INGREDIENT";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    MealIngredient mealIngredient = new MealIngredient(
+                        rs.getInt("meal_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getDouble("quantity")
+                    );
+                    mealIngredients.add(mealIngredient);
+                }
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.err.println("Error retrieving meal ingredients " + e.getMessage());
+        }
+        return mealIngredients;
+    }
+
+    // maybe modify eventually to return Meal objects instead of just meal IDs
+    public ArrayList<MealIngredient> getMealsHavingIngredient(int ingredientId) {
+        ArrayList<MealIngredient> mealIngredients = new ArrayList<>();
+
+        String sqlQuery = "SELECT * FROM MEAL_INGREDIENT WHERE ingredient_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    MealIngredient mealIngredient = new MealIngredient(
+                        rs.getInt("meal_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getDouble("quantity")
+                    );
+                    mealIngredients.add(mealIngredient);
+                }
+            }
+        } 
+        catch (SQLException e) {
+            System.err.println("Error checking meals having ingredient " + ingredientId + ": " + e.getMessage());
+        }
+
+        return mealIngredients;
+    }
+
+    public ArrayList<MealIngredient> getIngredientsInMeal(int mealId) {
+        ArrayList<MealIngredient> mealIngredients = new ArrayList<>();
+
+        String sqlQuery = "SELECT * FROM MEAL_INGREDIENT WHERE meal_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    MealIngredient mealIngredient = new MealIngredient(
+                        rs.getInt("meal_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getDouble("quantity")
+                    );
+                    mealIngredients.add(mealIngredient);
+                }
+            }
+        } 
+        catch (SQLException e) {
+            System.err.println("Error checking ingredients in meal " + mealId + ": " + e.getMessage());
+        }
+
+        return mealIngredients;
+    }
+
+    // baka tanggalin later, difference neto from the getIngredientsInMeal 
+    // is this one joins with INGREDIENT table to get ingredient name
     public ArrayList<MealIngredient> getIngredientsByMealId(int mealId) {
         ArrayList<MealIngredient> ingredients = new ArrayList<>();
         String sqlQuery = """
-        SELECT i.ingredient_id, i.ingredient_name, mi.quantity 
+        SELECT mi.meal_id, i.ingredient_id, i.ingredient_name, mi.quantity 
         FROM MEAL_INGREDIENT mi JOIN INGREDIENT i ON mi.ingredient_id = i.ingredient_id
         WHERE mi.meal_id = ?      
         """;
