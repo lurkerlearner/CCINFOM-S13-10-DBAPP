@@ -3,6 +3,7 @@ package controller;
 import java.sql.Date;
 
 import DAO.IngredientDAO;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import model.*;
 
@@ -28,6 +29,10 @@ public class IngredientController {
         ingredient.setSupplier_id(supplier_id);
 
         return ingredientDAO.addIngredient(ingredient);
+    }
+
+    public Ingredient getIngredientByID(int ingredientId) {
+        return ingredientDAO.getIngredientById(ingredientId);
     }
 
     public ArrayList<Ingredient> getAllIngredients() {
