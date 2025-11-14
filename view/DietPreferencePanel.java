@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DietPanel extends JPanel 
+public class DietPreferencePanel extends JPanel 
 {
     private DietPreferenceController controller;
     
