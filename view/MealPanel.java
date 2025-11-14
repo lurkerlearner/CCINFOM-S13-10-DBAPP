@@ -35,6 +35,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.MealController;
 import model.Meal;
 
+
 public class MealPanel  extends JPanel {
     
     private final MealController controller;
@@ -100,7 +101,7 @@ public class MealPanel  extends JPanel {
         JPanel formPanel = new JPanel();
         addPanel.setLayout(new GridBagLayout());
         addPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-GridBagConstraints
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -197,17 +198,13 @@ GridBagConstraints
             int prepTime = Integer.parseInt(this.prep_time.getText().trim());
             int calories = Integer.parseInt(this.calories.getText().trim());
             String nutrients = this.nutrients.getText().trim();
-            String dateAddedStr = dateAdded.getText().trim();
-            java.sql.Date dateAddedSQL = java.sql.Date.valueOf(dateAddedStr);
-
-
-            String selectedPred = (String) diet_preference_id.getSelectedItem();
+            String dateAdded = this.date_added.getText().trim();
             int dietPrefId = Integer.parseInt(this.diet_preference_id.getText().trim());
 
-            String result = controller.addMeal(name, price, cost, prepTime, calories, nutrients, dateAddedSQL, dietPrefId);
+            String result = controller.addMeal(name, price, cost, prepTime, calories, nutrients, dateAdded, dietPrefId);
 
             if(result.equals("SUCCESS")){
-                JOptinPane.showMessageDialog(this, "Meal added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Meal added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 clearAddFields();
                 refreshMealTable();
             }
@@ -228,7 +225,7 @@ GridBagConstraints
         }
 
     private void createViewPanel() {
-        viewPanel = new ViewMealPanel(controller);
+        viewPanel = new JPanel();
         viewPanel.setLayout(new BorderLayout());
         
         String[] columnNames = {"Meal ID", "Name", "Price", "Cost", "Nutrients",
@@ -251,6 +248,25 @@ GridBagConstraints
         viewPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         loadAllMeals();
+    }
+    private void loadAllMeals(){
+        tableModel.setRowCount(0); 
+        List<Meal> meals = controller.getAllMeals();
+        for(Meal meal: meals)
+        {
+            Object[] row = new Object[]{
+                meal.getMeal_id(),
+                meal.getMeal_name(),
+                meal.getPrice(),
+                meal.getCost(),
+                meal.getNutrients(),
+                meal.getCalories(),
+                meal.getPreparation_time(),
+                meal.getDate_added(),
+                meal.getDiet_preference_id()
+            };
+            tableModel.addRow(row);
+        }
     }
 
 
@@ -305,7 +321,7 @@ GridBagConstraints
         mealName.setText("");
         price.setText("");
         cost.setText("");
-        preparation_time.setText("");
+        prep_time.setText("");
         calories.setText("");
         nutrients.setText("");
         date_added.setText("");
@@ -321,7 +337,7 @@ GridBagConstraints
         {
             Object[] row = new Object[]{
                 meal.getMeal_id(),
-                meal.getName(),
+                meal.getMeal_name(),
                 meal.getPrice(),
                 meal.getCost(),
                 meal.getNutrients(),
@@ -336,37 +352,10 @@ GridBagConstraints
 
     }
 
-    private void showMealDetails(){
-
-        int selectedRow = searchResultTable.getSelectedRow();
-
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a meal from the search results.", "No Selection", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int mealId = (int) searchTableModel.getValueAt(selectedRow, 0);
-        Meal meal = controller.getMealDetails(mealId);
-
-        if(meal != null){
-
-            JTextArea textArea = new JTextArea(meal.toString());
-            textArea.setEditable(false);
-            textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(400, 300));
-
-            JOptionPane.showMessageDialog(this, scrollPane, "Meal Details", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-
     private void searchMeal(){
 
         String searchType = (String) searchTypeComboBox.getSelectedItem();
         String searchText = searchField.getText().trim();
-        String query = searchField.getText().trim();
         List<Meal> results = new ArrayList<>();
 
         try {
@@ -405,7 +394,7 @@ GridBagConstraints
         {
             Object[] row = new Object[]{
                 meal.getMeal_id(),
-                meal.getName(),
+                meal.getMeal_name(),
                 meal.getPrice(),
                 meal.getCost(),
                 meal.getNutrients(),
