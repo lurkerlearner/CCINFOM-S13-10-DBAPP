@@ -89,10 +89,8 @@ public class AdminMainMenu extends JFrame {
 
         //==ACTION LISTENERS
         manageRecordsBtn.addActionListener(e -> {
-			// TODO: implement whatever
-			JOptionPane.showMessageDialog(this, "Manage Records clicked."); // just to test if button works
-            /* this.dispose();
-            new AccountManagementScreen(client).setVisible(true); */
+            this.dispose();
+            new ManageRecordsFrame().setVisible(true);
         });
 
         makeTransactionBtn.addActionListener(e -> {
