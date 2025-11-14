@@ -90,7 +90,7 @@ public class LoginScreen extends JFrame {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
             } else {
-                passwordField.setEchoChar('•');
+                passwordField.setEchoChar('*');
             }
         });
 

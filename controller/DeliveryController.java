@@ -2,7 +2,9 @@ package controller;
 
 import model.*;
 import DAO.*;
+import app.DBConnection;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -147,7 +149,7 @@ public class DeliveryController
         FloodDataDAO floodDataDAO = new FloodDataDAO(c);
 
         Meal order = mealDAO.getMealById(mealID);
-        Client client = clientDAO.getClientByID(clientID);
+        Client client = clientDAO.getClientById(clientID);
 
         // if meal does not exist
         if (order == null)

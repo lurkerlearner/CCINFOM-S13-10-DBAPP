@@ -177,8 +177,7 @@ public List<Meal> getMealsInPlan(int mealPlanId) {
                 resultSet.getInt("calories"),
                 resultSet.getString("nutrients"),
                 resultSet.getString("date_added"),
-                resultSet.getInt("diet_preference_id"),
-                resultSet.getInt("ingredient_id")
+                resultSet.getInt("diet_preference_id")
         );
     }
 }

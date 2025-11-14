@@ -92,8 +92,8 @@ public class RegisterScreen extends JFrame {
                 passwordField.setEchoChar((char) 0);
                 confirmPasswordField.setEchoChar((char) 0);
             } else {
-                passwordField.setEchoChar('•');
-                confirmPasswordField.setEchoChar('•');
+                passwordField.setEchoChar('*');
+                confirmPasswordField.setEchoChar('*');
             }
         });
 

@@ -1,7 +1,10 @@
 package controller;
 
+import model.Meal;
 import model.MealPlan;
 import DAO.MealPlanDAO;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +29,9 @@ public class MealPlanController {
     public MealPlan getPlanByName(String name){
         return mealPlanDAO.getMealPlanByName(name);
     }
-
+    public MealPlanDAO getMealPlanDAO() {
+        return mealPlanDAO;
+    }
     public boolean createNewMealPlan(MealPlan plan) {
         if (plan == null || plan.getPlan_name() == null || plan.getPlan_name().trim().isEmpty()) {
             System.err.println("Validation Error: Plan name cannot be empty.");
@@ -40,7 +45,13 @@ public class MealPlanController {
         }
         return mealPlanDAO.addMealPlan(plan);
     }
-    
+    public List<Meal> getMealsForPlan(int planId) {
+        if (planId <= 0) {
+            System.err.println("Validation Error: Invalid plan id for meal lookup.");
+            return new ArrayList<>();
+        }
+        return mealPlanDAO.getMealsInPlan(planId);
+    }
 
 
     public boolean updateMealPlan(MealPlan plan) {
