@@ -44,6 +44,8 @@ public class ClientMainMenu extends JFrame {
         this.fdDAO = new FloodDataDAO(DBConnection.getConnection());
         this.rDAO = new RiderDAO(DBConnection.getConnection());
 
+        this.dc = new DeliveryController(delDAO);
+
         setTitle("FloodPanda - Client Main Menu");
         setSize(800, 600);
         setLocationRelativeTo(null);
