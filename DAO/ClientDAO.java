@@ -50,7 +50,7 @@ public class ClientDAO {
                         rs.getString("contact_no"),
                         rs.getString("password"),
                         rs.getString("unit_details"),
-                        rs.getDate("registration_date").toLocalDate(),
+                        rs.getDate("date_created").toLocalDate(),
                         rs.getInt("location_id"),
                         rs.getInt("plan_id"),
                         rs.getInt("dietPreference_ID")
