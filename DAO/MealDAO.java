@@ -10,7 +10,7 @@ public class MealDAO {
 
     public List<Meal> getAllMeals() {
         List<Meal> meals = new ArrayList<>();
-    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal";
+    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id FROM meal";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -29,7 +29,7 @@ public class MealDAO {
 
     public Meal getMealById(int mealId) {
         Meal meal = null;
-    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal WHERE meal_id = ?";
+    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id FROM meal WHERE meal_id = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query))
@@ -52,7 +52,7 @@ public class MealDAO {
 
     public List<Meal> getMealsByDietPreference(int dietPreferenceId){
         List<Meal> meals = new ArrayList<>();
-    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal WHERE diet_preference_id = ?";
+    String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id FROM meal WHERE diet_preference_id = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) 
         {
@@ -78,7 +78,7 @@ public class MealDAO {
 
     public List<Meal> getMealsSortedByPriceAscending() {
         List<Meal> meals = new ArrayList<>();
-        String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal ORDER BY price ASC";
+        String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id FROM meal ORDER BY price ASC";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -97,7 +97,7 @@ public class MealDAO {
 
     public List<Meal> getMealsSortedByPriceDescending() {
         List<Meal> meals = new ArrayList<>();
-        String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id FROM meal ORDER BY price DESC";
+        String query = "SELECT meal_id, meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id FROM meal ORDER BY price DESC";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -115,7 +115,7 @@ public class MealDAO {
     }
 
     public boolean addMeal(Meal meal) {
-    String query = "INSERT INTO meal (meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id, ingredient_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String query = "INSERT INTO meal (meal_name, price, cost, preparation_time, calories, nutrients, date_added, diet_preference_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) 
@@ -141,7 +141,7 @@ public class MealDAO {
     }
 
     public boolean updateMeal(Meal meal) {
-    String query = "UPDATE meal SET meal_name = ?, price = ?, cost = ?, preparation_time = ?, calories = ?, nutrients = ?, date_added = ?, diet_preference_id = ?, ingredient_id = ? WHERE meal_id = ?";
+    String query = "UPDATE meal SET meal_name = ?, price = ?, cost = ?, preparation_time = ?, calories = ?, nutrients = ?, date_added = ?, diet_preference_id = ? WHERE meal_id = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
