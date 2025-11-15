@@ -8,6 +8,8 @@ import model.MealIngredient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class MealDetailsScreen extends JFrame {
@@ -52,33 +54,116 @@ public class MealDetailsScreen extends JFrame {
     }
 
     private void createDetailsPanel() {
-        // Use a 2-column layout for the image/button and the text details
+
         JPanel mainContent = new JPanel(new GridLayout(1, 2, 20, 0));
         mainContent.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        // --- LEFT COLUMN: Image and Meal Name Button ---
+
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Placeholder for the image
-        JLabel imagePlaceholder = new JLabel("Image of meal", SwingConstants.CENTER);
-        imagePlaceholder.setPreferredSize(new Dimension(300, 300));
-        imagePlaceholder.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        imagePlaceholder.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Dimension imageSize= new Dimension(300, 300);
+        String imageName = "default_meal.jpg";
+
+
+
+        switch ((meal.getMeal_name().toLowerCase())) {
+            case "vegan salad": 
+                imageName = "vegan_salad.jpg";
+                break;
+            case "grilled chicken":
+                imageName = "grilled_chicken.jpg";
+                break;
+            case "salmon bowl":
+                imageName = "salmon_bowl.jpg";
+                break;
+            case "beef stir fry":
+                imageName = "beef_stirfry.jpg";
+                break;   
+            case "quinoa veggie":
+                imageName = "quinoa_veggie.jpg";
+                break;    
+            case "keto omelette":
+                imageName = "keto_omelette.jpg";
+                break;    
+            case "gluten-free pasta":
+                imageName = "gluten_free_pasta.jpg";
+                break;    
+            case "mediterranean bowl":
+                imageName = "mediterranean_bowl.jpg";
+                break;    
+            case "vegetarian pizza":
+                imageName = "vegetarian_pizza.jpg";
+                break;    
+            case "diabetic salad":
+                imageName = "diabetic_salad.jpg";
+                break;    
+            case "protein shake":
+                imageName = "protein_shake.jpg";
+                break;    
+            default:
+                imageName = "default_meal.jpg";
+                break;
+        }
+
+        String imagePath = "resources/" + imageName;
+
+            JLabel imageLabel; 
+        
+        try{
+            File imgFile = new File(imagePath);
+            if (!imgFile.exists()) {
+                throw new FileNotFoundException("Image file not found at path: " + imagePath);
+            }
+
+            ImageIcon originalIcon = new ImageIcon(imagePath);
+            Image originalImage = originalIcon.getImage();
+
+            Image scaledImage = originalImage.getScaledInstance(
+                imageSize.width, 
+                imageSize.height, 
+                Image.SCALE_SMOOTH
+            );
+
+            // 4. Create the final JLabel with the scaled image
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            imageLabel = new JLabel(scaledIcon, SwingConstants.CENTER);
+
+        } catch(Exception e){
+            // Fallback for any error (FileNotFound or general I/O error)
+            imageLabel = new JLabel("Image Not Available", SwingConstants.CENTER);
+            imageLabel.setForeground(Color.RED);
+            System.err.println("Error loading image for " + meal.getMeal_name() + ": " + e.getMessage());
+        }
+
+        imageLabel.setPreferredSize(imageSize);
+        imageLabel.setMaximumSize(imageSize);
+        imageLabel.setMinimumSize(imageSize);
+        imageLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Meal Name Button (styled like the meal catalogue button)
-        JButton mealNameButton = new JButton(meal.getMeal_name());
+        JLabel mealNameLabel = new JLabel(meal.getMeal_name());
         Color appColor = new Color(220, 31, 127);
-        mealNameButton.setPreferredSize(new Dimension(200, 40));
-        mealNameButton.setBackground(new Color(240, 240, 240));
-        mealNameButton.setBorder(BorderFactory.createLineBorder(appColor, 2));
-        mealNameButton.setFont(new Font("Arial", Font.BOLD, 16));
-        mealNameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // mealNameLabel.setPreferredSize(new Dimension(200, 40));
+        // mealNameLabel.setBackground(new Color(240, 240, 240));
+        // mealNameLabel.setBorder(BorderFactory.createLineBorder(appColor, 2));
+        // mealNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        // mealNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        leftPanel.add(imagePlaceholder);
+
+        mealNameLabel.setPreferredSize(new Dimension(200,60));
+        mealNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mealNameLabel.setBackground(new Color(255, 214, 221));
+        mealNameLabel.setOpaque(true);
+        mealNameLabel.setBorder(BorderFactory.createLineBorder(Color.PINK, 2));
+        mealNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        leftPanel.add(imageLabel);
         leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(mealNameButton);
+        leftPanel.add(mealNameLabel);
 
         // --- RIGHT COLUMN: Meal Information and Ingredients ---
         JPanel rightPanel = new JPanel(new BorderLayout());
