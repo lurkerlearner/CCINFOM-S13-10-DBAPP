@@ -5,47 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/model/ClientEngagementReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/MealDeliveryDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/MealIngredientDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/IngredientController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/LocationController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/controller/SupplierController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/FloodImpactReport.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/MealDelivery.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/MealIngredient.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/MealPerformance.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ClientPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/DietPreferencePanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/DietPreferencePanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/DietPreferencePanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/IngredientPanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/IngredientPanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/IngredientPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LocationPanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LocationPanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/LocationPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ManageRecordsFrame.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealDetailsScreen.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPlanPanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPlanPanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/MealPlanPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/SupplierPanel$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/SupplierPanel$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/SupplierPanel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/ClientPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/LocationPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/ClientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LocationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/ManageRecordsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ManageRecordsFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/MealPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/MealPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
