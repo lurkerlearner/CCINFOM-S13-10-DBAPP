@@ -98,8 +98,7 @@ public class MealPanel  extends JPanel {
         addPanel = new JPanel();
         addPanel.setLayout(new BorderLayout());
 
-        JPanel formPanel = new JPanel();
-        addPanel.setLayout(new GridBagLayout());
+        JPanel formPanel = new JPanel(new GridBagLayout());
         addPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         GridBagConstraints gbc = new GridBagConstraints();

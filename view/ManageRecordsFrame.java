@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import DAO.*;
+import app.DBConnection;
 import model.*;
 import controller.*;
 
@@ -46,7 +48,7 @@ public class ManageRecordsFrame extends JFrame {
     private JButton dietPreferenceBtn;
     private JButton supplierBtn;
     private JButton riderBtn;
-
+    
     public ManageRecordsFrame() {
         setTitle("FloodPanda - Admin / Manage Records");
         setSize(800, 600);
@@ -67,6 +69,19 @@ public class ManageRecordsFrame extends JFrame {
         // Create the navigation panel
         createNavPanel();
         mainPanel.add(navPanel, BorderLayout.WEST);
+
+        // Instantiate controllers
+        clientController = new ClientController();
+        mealController = new MealController();
+        deliveryController = new DeliveryController(new DeliveryDAO(DBConnection.getConnection()));
+        ingredientController = new IngredientController(new IngredientDAO());
+        floodDataController = new FloodDataController(new FloodDataDAO(DBConnection.getConnection()));
+        locationController = new LocationController();
+        mealPlanController = new MealPlanController();
+        dietPreferenceController = new DietPreferenceController();
+        supplierController = new SupplierController(new SupplierDAO());
+        riderController = new RiderController(new RiderDAO(DBConnection.getConnection()));
+
 
         // Initialize each record panel
         clientPanel = new ClientPanel(clientController);
@@ -120,6 +135,7 @@ public class ManageRecordsFrame extends JFrame {
         dietPreferenceBtn = createNavButton("Diet Preference", e -> switchToPanel(dietPreferencePanel));
         supplierBtn = createNavButton("Supplier", e -> switchToPanel(supplierPanel));       
         riderBtn = createNavButton("Rider", e -> switchToPanel(riderPanel));
+
 
         // Add buttons to navigation panel
         navPanel.add(clientBtn);

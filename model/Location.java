@@ -26,6 +26,14 @@ public class Location {
     public String getCity() { return city; }
     public String getZip() { return zip; }
 
+    public void setLocationId(int locationId) { this.locationId = locationId;}
+
+    public void setCity(String city) {this.city = city;}
+
+    public void setStreet(String street) {this.street = street;}
+
+    public void setZip(String zip) {this.zip = zip;}
+
     @Override
     public String toString() {
         return street + ", " + city;

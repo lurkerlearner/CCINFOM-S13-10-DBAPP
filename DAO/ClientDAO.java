@@ -3,6 +3,7 @@ package DAO;
 import java.sql.*;
 import model.*;
 import app.*;
+import java.util.*;
 
 public class ClientDAO {
 
@@ -133,6 +134,76 @@ public class ClientDAO {
         }
 
         return false;
+    }
+
+    public List<Client> getAllClients() {
+        List<Client> clients = new ArrayList<>();
+        String sql = "SELECT * FROM client ORDER BY client_id";
+
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                clients.add(mapResultSetToClient(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clients;
+    }
+
+    public List<Client> searchClients(String type, Object value) {
+        List<Client> clients = new ArrayList<>();
+        String sql = "";
+
+        switch (type.toLowerCase()) {
+            case "id":
+                sql = "SELECT * FROM client WHERE client_id = ?";
+                break;
+            case "name":
+                sql = "SELECT * FROM client WHERE name LIKE ?";
+                break;
+            case "contact":
+                sql = "SELECT * FROM client WHERE contact_no LIKE ?";
+                break;
+            default:
+                return clients;
+        }
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (type.equalsIgnoreCase("name") || type.equalsIgnoreCase("contact")) {
+                ps.setString(1, "%" + value + "%"); // partial match
+            } else {
+                ps.setInt(1, (int) value);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    clients.add(mapResultSetToClient(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clients;
+    }
+
+    private Client mapResultSetToClient(ResultSet rs) throws SQLException {
+        Client c = new Client();
+        c.setClientID(rs.getInt("client_id"));
+        c.setName(rs.getString("name"));
+        c.setContactNo(rs.getString("contact_no"));
+        c.setPlanID(rs.getInt("plan_id"));
+        c.setDietPreferenceID(rs.getInt("diet_preference_id"));
+        c.setLocationID(rs.getInt("location_id"));
+        c.setDateCreated(rs.getDate("date_created").toLocalDate());
+        return c;
     }
 
 
