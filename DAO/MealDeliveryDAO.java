@@ -17,7 +17,7 @@ public class MealDeliveryDAO
     }
 
     // Insert a new meal_delivery record into the table
-    public void addMealDelivery(MealDelivery md) 
+    public boolean addMealDelivery(MealDelivery md) 
     {
         String sql = "INSERT INTO meal_delivery (meal_id, transaction_id, remarks) " +
                      "VALUES (?, ?, ?)";
@@ -29,10 +29,12 @@ public class MealDeliveryDAO
             stmt.setString(3, md.getRemarks());
             
             stmt.executeUpdate();
+            return true;
         } 
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -107,4 +109,5 @@ public class MealDeliveryDAO
 
         return 0;
     }
+
 }
