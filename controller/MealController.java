@@ -5,7 +5,9 @@ import DAO.MealDAO;
 import DAO.IngredientDAO;
 import DAO.MealIngredientDAO;
 import DAO.MealMealPlanDAO;
+import DAO.DietPreferenceDAO;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MealController {
 
@@ -13,12 +15,14 @@ public class MealController {
     private final MealMealPlanDAO mealMealPlanDAO;
     private final IngredientDAO ingredientDAO;
     private final MealIngredientDAO mealIngredientDAO;
+    private final DietPreferenceDAO dietPreferenceDAO;
 
     public MealController() {
         this.mealDAO = new MealDAO();
         this.mealMealPlanDAO = new MealMealPlanDAO();
         this.ingredientDAO = new IngredientDAO();
         this.mealIngredientDAO = new MealIngredientDAO();
+        this.dietPreferenceDAO = new DietPreferenceDAO();
         
     }
 
@@ -41,8 +45,42 @@ public class MealController {
     }
 
 
-    public List<Meal> getFilteredMeals(int dietPreferenceId) {
-        return mealDAO.getMealsByDietPreference(dietPreferenceId);
+public List<Meal> getFilteredAndSortedMeals(String searchTerm, String sortOrder, String dietPreferenceName) {
+        
+        List<Meal> meals;
+        
+  
+        if (dietPreferenceName != null && !"All".equalsIgnoreCase(dietPreferenceName)) {
+            DietPreference pref = dietPreferenceDAO.getDietPreferenceByName(dietPreferenceName);
+            
+            if (pref != null) {
+                meals = mealDAO.getMealsByDietPreference(pref.getDiet_preference_id());
+            } else {
+
+                meals = mealDAO.getAllMeals();
+            }
+        } else {
+            meals = mealDAO.getAllMeals();
+        }
+        
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            String lowerCaseTerm = searchTerm.trim().toLowerCase();
+            meals = meals.stream()
+                .filter(meal -> meal.getMeal_name().toLowerCase().contains(lowerCaseTerm))
+                .collect(Collectors.toList());
+        }
+        
+        if ("Low to High".equalsIgnoreCase(sortOrder)) {
+            return meals.stream()
+                .sorted((m1, m2) -> Float.compare(m1.getPrice(), m2.getPrice()))
+                .collect(Collectors.toList());
+        } else if ("High to Low".equalsIgnoreCase(sortOrder)) {
+            return meals.stream()
+                .sorted((m1, m2) -> Float.compare(m2.getPrice(), m1.getPrice()))
+                .collect(Collectors.toList());
+        }
+        
+        return meals; 
     }
 
     public Meal getMealDetails(int mealId) {

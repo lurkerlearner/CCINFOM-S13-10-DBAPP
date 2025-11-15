@@ -10,6 +10,8 @@ import java.util.Date;
 import view.ViewMealCatalogueScreen;
 import DAO.MealIngredientDAO;
 import DAO.IngredientDAO;
+import DAO.DietPreferenceDAO;
+
 
 public class ClientMainMenu extends JFrame {
 
@@ -17,6 +19,8 @@ public class ClientMainMenu extends JFrame {
     private Location location;
     private DAO.MealIngredientDAO mealIngredientDAO;
     private DAO.IngredientDAO ingredientDAO;
+    private DAO.LocationDAO locationDAO;
+    private DAO.DietPreferenceDAO dietPreferenceDAO;
 
     public ClientMainMenu(Client client, Location location) {
         this.client = client;
@@ -24,6 +28,8 @@ public class ClientMainMenu extends JFrame {
 
         this.mealIngredientDAO = new DAO.MealIngredientDAO();
         this.ingredientDAO = new DAO.IngredientDAO();
+        this.locationDAO = new DAO.LocationDAO();
+        this.dietPreferenceDAO = new DAO.DietPreferenceDAO();
 
         setTitle("FloodPanda - Client Main Menu");
         setSize(800, 600);
@@ -128,7 +134,7 @@ public class ClientMainMenu extends JFrame {
 
         viewCatalogueBtn.addActionListener(e -> {
             this.dispose();
-            new ViewMealCatalogueScreen(mealController, mealIngredientDAO, ingredientDAO).setVisible(true); // Theo
+            new ViewMealCatalogueScreen(mealController, mealIngredientDAO, ingredientDAO,client,locationDAO, dietPreferenceDAO).setVisible(true); // Theo
         });
 
 
