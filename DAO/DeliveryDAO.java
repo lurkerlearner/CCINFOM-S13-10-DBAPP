@@ -17,7 +17,7 @@ public class DeliveryDAO
     // MAIN OPERATIONS (create, select by pk, select all, delete)
 
     // Insert a new delivery record into the table
-    public void addDelivery(Delivery d)
+    public boolean addDelivery(Delivery d)
     {
         String sql = "INSERT INTO delivery (order_date, time_ordered, time_delivered, " +
                      "payment_mode, payment_status, delivery_method, delivery_status, " +
@@ -53,12 +53,16 @@ public class DeliveryDAO
             {
                 int generatedID = rs.getInt(1);
                 d.setTransactionID(generatedID);
+                return true;
             }
         } 
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
+
+        return false;
     }
 
     // HELPER METHOD (for building deliveries in methods)
@@ -601,4 +605,5 @@ public class DeliveryDAO
         }
         return result;
     }
+
 }
