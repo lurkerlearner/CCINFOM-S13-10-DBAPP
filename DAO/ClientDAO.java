@@ -53,7 +53,7 @@ public class ClientDAO {
                         rs.getDate("date_created").toLocalDate(),
                         rs.getInt("location_id"),
                         rs.getInt("plan_id"),
-                        rs.getInt("dietPreference_ID")
+                        rs.getInt("diet_preference_id")
                 );
                 return c;
             }
