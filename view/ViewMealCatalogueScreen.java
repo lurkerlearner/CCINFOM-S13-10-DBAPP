@@ -61,7 +61,9 @@ private JPanel mealDisplayPanel;
         
 
         JButton backButton = new JButton("Back to Main");
-        backButton.addActionListener(e -> dispose());
+        backButton.addActionListener(e -> {dispose();  
+        clientMainMenu.setVisible(true);   
+        });
         topPanel.add(backButton, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
     }
@@ -83,7 +85,7 @@ private JPanel mealDisplayPanel;
         controlPanel.add(searchInputPanel);
         controlPanel.add(Box.createVerticalStrut(20));
 
-        controlPanel.add(new JLabel("Sort By PriceL: "));
+        controlPanel.add(new JLabel("Sort By Price: "));
         sortComboBox = new JComboBox<>(new String[]{"Low to High", "High to Low"});
         controlPanel.add(sortComboBox);
         controlPanel.add(Box.createVerticalStrut(20));
