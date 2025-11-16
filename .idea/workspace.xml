@@ -5,7 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/model/DeliveryAssignment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/model/ClientDietPreference.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/beef_stirfry.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/broccoli_salad.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/default_meal.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/gluten_free_pasta.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/grilled_chicken.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/keto_omelette.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/mediterranean_bowl.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/protein_shake.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/quinoa_veggie.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/salmon_bowl.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/vegan_salad.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/vegetarian_pizza.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/ClientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/floodpanda.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/floodpanda.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ClientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ClientDietPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/ClientDietPreference.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ClientEngagementReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/ClientEngagementReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/floodpanda.sql" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/floodpanda.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/ClientPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ClientPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

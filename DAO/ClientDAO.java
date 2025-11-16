@@ -199,10 +199,14 @@ public class ClientDAO {
         c.setClientID(rs.getInt("client_id"));
         c.setName(rs.getString("name"));
         c.setContactNo(rs.getString("contact_no"));
+        c.setPassword(rs.getString("password"));
+        c.setUnitDetails(rs.getString("unit_details"));
+        c.setDateCreated(rs.getDate("date_created").toLocalDate());
+        c.setLocationID(rs.getInt("location_id"));
         c.setPlanID(rs.getInt("plan_id"));
         c.setDietPreferenceID(rs.getInt("diet_preference_id"));
-        c.setLocationID(rs.getInt("location_id"));
-        c.setDateCreated(rs.getDate("date_created").toLocalDate());
+
+
         return c;
     }
 

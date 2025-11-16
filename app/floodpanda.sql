@@ -221,3 +221,212 @@ ALTER TABLE client
 ADD COLUMN unit_details VARCHAR(50) NULL;
 
 SELECT * FROM CLIENT;
+
+INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
+('Vegan Starter','A starter vegan meal plan',500),
+('High Protein Plan','Protein-packed meals',1200),
+('Low Carb Plan','Low carbohydrate meals',1000),
+('Family Plan','Meals for 4 people',2000),
+('Gluten-Free Plan','Gluten-free meals',1100),
+('Keto Delight','Keto-friendly meals',1300),
+('Mediterranean Mix','Balanced Mediterranean diet',1400),
+('Vegetarian Combo','Vegetarian meals',900),
+('Diabetic-Friendly','Low sugar meals',950),
+('Quick Meals Plan','Fast-prep meals',800);
+
+SELECT * FROM MEAL_PLAN;
+
+INSERT INTO MEAL (meal_name, price, cost, nutrients, calories, preparation_time, diet_preference_id) VALUES
+('Vegan Salad',150,50,'Vitamin A, C',200,10,1),
+('Grilled Chicken',250,120,'Protein',450,20,8),
+('Salmon Bowl',300,150,'Omega 3, Protein',500,25,3),
+('Beef Stir Fry',280,130,'Protein, Iron',550,30,8),
+('Quinoa Veggie',180,70,'Protein, Fiber',300,15,1),
+('Keto Omelette',200,90,'Protein, Fat',350,12,3),
+('Gluten-Free Pasta',220,100,'Carbs, Fiber',400,20,6),
+('Mediterranean Bowl',250,120,'Protein, Fiber',420,18,5),
+('Vegetarian Pizza',230,110,'Carbs, Fat',450,25,2),
+('Diabetic Salad',160,60,'Fiber, Low Sugar',220,10,9),
+('Protein Shake',180,80,'Protein',250,5,8);
+
+SELECT * FROM MEAL;
+
+INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, restock_status, supplier_id) VALUES
+(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31','Available',3),
+(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30','Low Stock',3),
+(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20','Available',2),
+(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18','Low Stock',6),
+(105,'Olive Oil','Fat','Dry','litres',100,'2026-01-31','Available',5),
+(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15','Available',4),
+(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31','Available',5),
+(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28','Available',9),
+(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25','Available',2),
+(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31','Available',4),
+(111, 'Beef Sirloin', 'Protein', 'Refrigerated', 'grams', 4000, '2025-12-15', 'Available', 3);
+
+INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
+('Vegan','No animal products'),
+('Vegetarian','No meat'),
+('Keto','Low carb, high fat'),
+('Paleo','Whole foods, no processed'),
+('Mediterranean','Balanced diet with olive oil'),
+('Gluten-Free','No gluten products'),
+('Low Sodium','Reduced salt intake'),
+('High Protein','Protein-focused diet'),
+('Diabetic-Friendly','Low sugar'),
+('Low Fat','Reduced fat intake');
+
+INSERT INTO SUPPLIER (supplier_name, contact_no, alt_contact_no, location_id) VALUES
+('Fresh Farm','09171234567','09181234567',5),
+('Green Grocers','09172223344','09173334455',2),
+('Protein Plus','09174445566',NULL,3),
+('Dairy Delight','09175556677','09176667788',4),
+('Grain Masters','09177778899',NULL,6),
+('Veggie World','09178889900','09179990011',7),
+('Fruitopia','09170001122',NULL,8),
+('Healthy Harvest','09171112233','09172223344',9),
+('NutriSource','09173334455',NULL,1),
+('Organic Supplies','09174445566','09175556677',10);
+
+INSERT INTO MEAL_INGREDIENT (meal_id, ingredient_id, quantity) VALUES
+-- 1. Vegan Salad
+(1, 3, 150),   -- Broccoli
+(1, 4, 50),    -- Spinach
+(1, 9, 50),    -- Tomatoes
+(1, 8, 30),    -- Almonds
+-- 2. Grilled Chicken
+(2, 1, 200),   -- Chicken Breast
+(2, 5, 10),    -- Olive Oil
+(2, 9, 50),    -- Tomatoes
+-- 3. Salmon Bowl
+(3, 2, 200),   -- Salmon Fillet
+(3, 5, 10),    -- Olive Oil
+(3, 3, 50),    -- Broccoli
+-- 4. Beef Stir Fry
+(4, 11, 200),  -- Beef Sirloin 
+(4, 3, 50),    -- Broccoli
+(4, 5, 10),    -- Olive Oil
+-- 5. Quinoa Veggie
+(5, 7, 100),   -- Brown Rice
+(5, 3, 50),    -- Broccoli
+(5, 8, 30),    -- Almonds
+-- 6. Keto Omelette
+(6, 10, 100),  -- Eggs
+(6, 1, 50),    -- Chicken Breast
+(6, 6, 20),    -- Cheddar Cheese
+-- 7. Gluten-Free Pasta
+(7, 7, 150),   -- Brown Rice (used as gluten-free base)
+(7, 6, 50),    -- Cheddar Cheese
+(7, 5, 10),    -- Olive Oil
+-- 8. Mediterranean Bowl
+(8, 2, 150),   -- Salmon Fillet
+(8, 3, 50),    -- Broccoli
+(8, 5, 10),    -- Olive Oil
+-- 9. Vegetarian Pizza
+(9, 7, 100),   -- Brown Rice crust substitute
+(9, 6, 50),    -- Cheddar Cheese
+(9, 8, 20),    -- Almonds
+-- 10. Diabetic Salad
+(10, 3, 100),  -- Broccoli
+(10, 9, 50),   -- Tomatoes
+(10, 8, 20),   -- Almonds
+-- 11. Protein Shake
+(11, 8, 50),   -- Almonds
+(11, 10, 30);  -- Eggs
+
+
+SELECT * FROM SUPPLIER;
+SELECT * FROM INGREDIENT;
+SELECT * FROM MEAL_PLAN;
+SELECT * FROM MEAL;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE meal_ingredient;
+TRUNCATE TABLE ingredient;
+ALTER TABLE ingredient AUTO_INCREMENT = 1;
+
+TRUNCATE TABLE supplier;
+ALTER TABLE supplier AUTO_INCREMENT = 1;
+
+-- Truncate other dependent tables if needed
+TRUNCATE TABLE meal;
+ALTER TABLE meal AUTO_INCREMENT = 1;
+
+TRUNCATE TABLE delivery;
+ALTER TABLE delivery AUTO_INCREMENT = 1;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+SELECT * FROM MEAL_INGREDIENT;
+
+-- -------------------
+-- DELIVERY
+-- -------------------
+INSERT INTO delivery (
+    order_date, time_ordered, time_delivered, 
+    payment_mode, payment_status, delivery_method, delivery_status, 
+    client_id, meal_id, rider_id
+) VALUES
+('2025-11-01', '08:15:00', '08:50:00', 'Cash on Delivery', 'Paid', 'Motorcycle', 'On-Time', 1, 5, 3),
+('2025-11-01', '09:30:00', '10:05:00', 'GCash', 'Paid', 'Truck', 'Delayed', 3, 2, 6),
+('2025-11-02', '10:05:00', '10:40:00', 'Bank', 'Paid', 'Drone', 'On-Time', 2, 7, 2),
+('2025-11-02', '11:20:00', '12:00:00', 'Cash on Delivery', 'Pending', 'Motorcycle', 'Delayed', 1, 1, 5),
+('2025-11-03', '12:00:00', '12:35:00', 'GCash', 'Paid', 'Boat', 'On-Time', 5, 3, 1),
+('2025-11-03', '13:10:00', '13:45:00', 'Bank', 'Failed', 'Truck', 'Cancelled', 4, 9, 8),
+('2025-11-04', '14:15:00', '14:55:00', 'Cash on Delivery', 'Paid', 'Drone', 'On-Time', 6, 4, 4),
+('2025-11-04', '15:00:00', '15:35:00', 'GCash', 'Paid', 'Motorcycle', 'On-Time', 7, 8, 10),
+('2025-11-05', '16:20:00', '16:55:00', 'Bank', 'Paid', 'Truck', 'Delayed', 8, 6, 7),
+('2025-11-05', '17:10:00', '17:50:00', 'Cash on Delivery', 'Pending', 'Tikling Tricycle', 'On-Time', 3, 11, 9),
+('2025-11-06', '08:05:00', '08:40:00', 'GCash', 'Paid', 'Motorcycle', 'On-Time', 2, 2, 2),
+('2025-11-06', '09:50:00', '10:25:00', 'Bank', 'Paid', 'Boat', 'Delayed', 5, 5, 3),
+('2025-11-07', '10:30:00', '11:00:00', 'Cash on Delivery', 'Paid', 'Drone', 'On-Time', 6, 7, 6),
+('2025-11-07', '11:45:00', '12:25:00', 'GCash', 'Pending', 'Truck', 'Delayed', 7, 1, 1),
+('2025-11-08', '12:15:00', '12:50:00', 'Bank', 'Paid', 'Motorcycle', 'On-Time', 8, 9, 5),
+('2025-11-08', '13:40:00', '14:15:00', 'Cash on Delivery', 'Paid', 'Boat', 'On-Time', 9, 4, 4),
+('2025-11-09', '14:20:00', '14:55:00', 'GCash', 'Paid', 'Drone', 'Delayed', 10, 8, 6),
+('2025-11-09', '15:35:00', '16:10:00', 'Bank', 'Paid', 'Truck', 'On-Time', 11, 6, 2),
+('2025-11-10', '16:05:00', '16:45:00', 'Cash on Delivery', 'Pending', 'Motorcycle', 'Delayed', 12, 3, 9),
+('2025-11-10', '17:15:00', '17:50:00', 'GCash', 'Paid', 'Boat', 'On-Time', 1, 10, 7);
+
+SELECT * FROM delivery;
+
+-- -------------------
+-- RIDER
+-- -------------------
+INSERT INTO RIDER (rider_name, hire_date, contact_no) VALUES
+('Rider A','2024-01-01','09170000001'),
+('Rider B','2024-02-01','09170000002'),
+('Rider C','2024-03-01','09170000003'),
+('Rider D','2024-04-01','09170000004'),
+('Rider E','2024-05-01','09170000005'),
+('Rider F','2024-06-01','09170000006'),
+('Rider G','2024-07-01','09170000007'),
+('Rider H','2024-08-01','09170000008'),
+('Rider I','2024-09-01','09170000009'),
+('Rider J','2024-10-01','09170000010');
+
+INSERT INTO flood_data (flood_factor, avg_water_level, affected_households, road_condition, special_packaging, alt_delivery_method, location_id) VALUES
+('LOW', 0.45, 12, 'Accessible', FALSE, 'Motorcycle', 3),
+('MODERATE', 1.20, 60, 'Partially Flooded', TRUE, 'Drone', 1),
+('HIGH', 2.50, 120, 'Not Accessible', TRUE, 'Boat', 7),
+('SEVERE', 3.10, 250, 'Not Accessible', TRUE, 'Truck', 4),
+('LOW', 0.55, 15, 'Accessible', FALSE, 'Tikling Tricycle', 2),
+('MODERATE', 1.10, 50, 'Partially Flooded', TRUE, 'Drone', 6),
+('HIGH', 2.70, 140, 'Not Accessible', TRUE, 'Boat', 3),
+('SEVERE', 3.00, 180, 'Not Accessible', TRUE, 'Truck', 8),
+('LOW', 0.35, 10, 'Accessible', FALSE, 'Motorcycle', 5),
+('MODERATE', 1.50, 70, 'Partially Flooded', TRUE, 'Drone', 3),
+('HIGH', 2.20, 110, 'Not Accessible', TRUE, 'Boat', 9),
+('MODERATE', 1.35, 55, 'Partially Flooded', FALSE, 'Tikling Tricycle', 2),
+('LOW', 0.30, 8, 'Accessible', FALSE, 'Motorcycle', 7),
+('HIGH', 2.90, 150, 'Not Accessible', TRUE, 'Boat', 6),
+('SEVERE', 3.50, 220, 'Not Accessible', TRUE, 'Truck', 10),
+('MODERATE', 1.40, 65, 'Partially Flooded', TRUE, 'Drone', 1),
+('LOW', 0.50, 20, 'Accessible', FALSE, 'Motorcycle', 5),
+('HIGH', 2.60, 130, 'Not Accessible', TRUE, 'Boat', 4),
+('SEVERE', 3.20, 200, 'Not Accessible', TRUE, 'Truck', 2),
+('MODERATE', 1.25, 45, 'Partially Flooded', TRUE, 'Tikling Tricycle', 9);
+
+SELECT * FROM flood_data;
+

@@ -13,199 +13,160 @@ public class ClientPanel extends JPanel {
 
     private ClientController controller;
 
-    // Fields for Add Client
+
     private JTextField nameField, contactField, unitField, locationIdField, planIdField, dietIdField;
     private JPasswordField passwordField;
     private JButton addClientBtn;
+    private JButton refreshBtn;
 
-    // Table and models
+
     private JTable clientTable;
     private DefaultTableModel clientTableModel;
 
-    // Search
+
     private JComboBox<String> searchTypeDropdown;
     private JTextField searchField;
     private JTable searchTable;
     private DefaultTableModel searchTableModel;
     private JButton searchBtn;
+    private JButton searchDetailsBtn;
+
 
     private JTabbedPane tabbedPane;
+
+    private JPanel addPanel;
+    private JPanel viewPanel;
+    private JPanel searchPanel;
 
     // button to return to main menu
     private JButton mainMenuButton;
 
-    public ClientPanel(ClientController clientController) {
-        this.controller = clientController; // correctly assign passed controller
+   public ClientPanel(ClientController controller){
+       this.controller = controller;
+       setLayout(new BorderLayout());
+       initComponents();
+   }
 
-        setLayout(new BorderLayout());
-        initComponents();
-        createTabs();
-    }
+   private void initComponents(){
+       tabbedPane = new JTabbedPane();
 
-    private void initComponents() {
-        tabbedPane = new JTabbedPane();
-        add(tabbedPane, BorderLayout.CENTER);
-    }
+       createAddPanel();
+       createViewPanel();
+       createSearchPanel();
 
-    private void createTabs() {
-        tabbedPane.addTab("Add Client", createAddPanel());
-        tabbedPane.addTab("View Clients", createViewPanel());
-        tabbedPane.addTab("Search Clients", createSearchPanel());
-    }
+       tabbedPane.addTab("Add Client", addPanel);
+       tabbedPane.addTab("View Clients", viewPanel);
+       tabbedPane.addTab("Search Clients", searchPanel);
 
-    private JPanel createAddPanel() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+       add(tabbedPane, BorderLayout.CENTER);
+
+   }
+
+    private void createAddPanel() {
+        addPanel = new JPanel();
+        addPanel.setLayout(new BorderLayout());
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
 
-        nameField = new JTextField();
-        contactField = new JTextField();
-        passwordField = new JPasswordField();
-        unitField = new JTextField();
-        locationIdField = new JTextField();
-        planIdField = new JTextField();
-        dietIdField = new JTextField();
-        addClientBtn = new JButton("Add Client");
+        nameField = new JTextField(20);
+        contactField = new JTextField(20);
+        passwordField = new JPasswordField(20);
+        unitField = new JTextField(20);
+        locationIdField = new JTextField(5);
+        planIdField = new JTextField(5);
+        dietIdField = new JTextField(5);
+
+        int row = 0;
+        addField(formPanel, gbc, row++, "Name:", nameField);
+        addField(formPanel, gbc, row++, "Contact No:", contactField);
+        addField(formPanel, gbc, row++, "Password:", passwordField);
+        addField(formPanel, gbc, row++, "Unit Details:", unitField);
+        addField(formPanel, gbc, row++, "Location ID:", locationIdField);
+        addField(formPanel, gbc, row++, "Plan ID:", planIdField);
+        addField(formPanel, gbc, row++, "Diet Pref ID:", dietIdField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
         mainMenuButton = new JButton("Return to Main Menu");
         mainMenuButton.addActionListener(e -> {
             SwingUtilities.getWindowAncestor(this).dispose();
             new AdminMainMenu().setVisible(true);
         });
 
-        int row = 0;
-        addLabelAndField(panel, gbc, row++, "Name:", nameField);
-        addLabelAndField(panel, gbc, row++, "Contact No:", contactField);
-        addLabelAndField(panel, gbc, row++, "Password:", passwordField);
-        addLabelAndField(panel, gbc, row++, "Unit Details:", unitField);
-        addLabelAndField(panel, gbc, row++, "Location ID:", locationIdField);
-        addLabelAndField(panel, gbc, row++, "Plan ID:", planIdField);
-        addLabelAndField(panel, gbc, row++, "Diet Pref ID:", dietIdField);
-
-        gbc.gridx = 1;
-        gbc.gridy = row;
-        panel.add(addClientBtn, gbc);
-        gbc.gridx = 0;
-        panel.add(mainMenuButton, gbc);
-
+        addClientBtn = new JButton("Add Client");
         addClientBtn.addActionListener(e -> addClient());
 
-        return panel;
+        buttonPanel.add(mainMenuButton);
+        buttonPanel.add(addClientBtn);
+
+        addPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
+        addPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void addLabelAndField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        panel.add(new JLabel(label), gbc);
-
-        gbc.gridx = 1;
-        panel.add(field, gbc);
-    }
-
-    private void addClient() {
-        try {
-            String name = nameField.getText();
-            String contact = contactField.getText();
-            String password = new String(passwordField.getPassword());
-            String unit = unitField.getText();
-            int locationID = Integer.parseInt(locationIdField.getText());
-            int planID = Integer.parseInt(planIdField.getText());
-            int dietID = Integer.parseInt(dietIdField.getText());
-
-            boolean success = controller.addClient(name, contact, password, planID, dietID, locationID);
-
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Client added successfully!");
-                clearAddFields();
-                refreshClientTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to add client.");
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
-        }
-    }
-
-    private void clearAddFields() {
-        nameField.setText("");
-        contactField.setText("");
-        passwordField.setText("");
-        unitField.setText("");
-        locationIdField.setText("");
-        planIdField.setText("");
-        dietIdField.setText("");
-    }
-
-    private JPanel createViewPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
+    private void createViewPanel() {
+        viewPanel = new JPanel(new BorderLayout());
+        viewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         clientTableModel = new DefaultTableModel(new String[]{
-                "Client ID", "Name", "Contact", "Unit", "Date Created",
+                "Client ID", "Name", "Contact", "Password", "Unit", "Date Created",
                 "Location ID", "Plan ID", "Diet Pref ID"
-        }, 0);
+        }, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
 
         clientTable = new JTable(clientTableModel);
+        clientTable.getTableHeader().setReorderingAllowed(false);
         refreshClientTable();
 
-        panel.add(new JScrollPane(clientTable), BorderLayout.CENTER);
-
-        JPanel bottom = new JPanel();
-        JButton refreshBtn = new JButton("Refresh");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        refreshBtn = new JButton("Refresh");
         refreshBtn.addActionListener(e -> refreshClientTable());
-        bottom.add(refreshBtn);
-        panel.add(bottom, BorderLayout.SOUTH);
+        buttonPanel.add(refreshBtn);
 
-        return panel;
+        viewPanel.add(new JScrollPane(clientTable), BorderLayout.CENTER);
+        viewPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void refreshClientTable() {
-        clientTableModel.setRowCount(0);
+    private void createSearchPanel() {
+        searchPanel = new JPanel(new BorderLayout());
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        List<Client> clients = controller.getAllClients();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        for (Client c : clients) {
-            clientTableModel.addRow(new Object[]{
-                    c.getClientID(),
-                    c.getName(),
-                    c.getContactNo(),
-                    c.getUnitDetails(),
-                    c.getDateCreated().format(formatter),
-                    c.getLocationID(),
-                    c.getPlanID(),
-                    c.getDietPreferenceID()
-            });
-        }
-    }
-
-    private JPanel createSearchPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JPanel top = new JPanel();
         searchTypeDropdown = new JComboBox<>(new String[]{"By Name", "By ID", "By Contact No"});
         searchField = new JTextField(20);
         searchBtn = new JButton("Search");
+        searchBtn.addActionListener(e -> searchClient());
 
+        top.add(new JLabel("Search:"));
         top.add(searchTypeDropdown);
         top.add(searchField);
         top.add(searchBtn);
 
-        panel.add(top, BorderLayout.NORTH);
 
         searchTableModel = new DefaultTableModel(new String[]{
-                "Client ID", "Name", "Contact", "Unit", "Date",
+                "Client ID", "Name", "Contact", "Password", "Unit", "Date",
                 "Location ID", "Plan ID", "Diet Pref ID"
-        }, 0);
+        }, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
 
         searchTable = new JTable(searchTableModel);
-        panel.add(new JScrollPane(searchTable), BorderLayout.CENTER);
+        searchTable.getTableHeader().setReorderingAllowed(false);
 
-        searchBtn.addActionListener(e -> searchClient());
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        searchDetailsBtn = new JButton("View Details");
+        searchDetailsBtn.addActionListener(e -> showSearchDetails());
+        bottom.add(searchDetailsBtn);
 
-        return panel;
+        searchPanel.add(top, BorderLayout.NORTH);
+        searchPanel.add(new JScrollPane(searchTable), BorderLayout.CENTER);
+        searchPanel.add(bottom, BorderLayout.SOUTH);
     }
 
     private void searchClient() {
@@ -228,6 +189,7 @@ public class ClientPanel extends JPanel {
                     c.getClientID(),
                     c.getName(),
                     c.getContactNo(),
+                    c.getPassword(),
                     c.getUnitDetails(),
                     c.getDateCreated().format(formatter),
                     c.getLocationID(),
@@ -236,5 +198,101 @@ public class ClientPanel extends JPanel {
             });
         }
     }
+
+    private void showSearchDetails() {
+        int row = searchTable.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a client.");
+            return;
+        }
+
+        String details =
+                "Client ID: " + searchTableModel.getValueAt(row, 0) + "\n" +
+                        "Name: "      + searchTableModel.getValueAt(row, 1) + "\n" +
+                        "Contact: "   + searchTableModel.getValueAt(row, 2) + "\n" +
+                        "Password: "  + searchTableModel.getValueAt(row, 3) + "\n" +
+                        "Unit: "      + searchTableModel.getValueAt(row, 4) + "\n" +
+                        "Date: "      + searchTableModel.getValueAt(row, 5) + "\n" +
+                        "Location ID: " + searchTableModel.getValueAt(row, 6) + "\n" +
+                        "Plan ID: "     + searchTableModel.getValueAt(row, 7) + "\n" +
+                        "Diet Pref ID: "+ searchTableModel.getValueAt(row, 8) + "\n";
+
+        JTextArea area = new JTextArea(details);
+        area.setEditable(false);
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setPreferredSize(new Dimension(400, 300));
+
+        JOptionPane.showMessageDialog(this, scroll, "Client Details",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+    }
+
+    private void addClient() {
+        try {
+            String name = nameField.getText();
+            String contact = contactField.getText();
+            String password = new String(passwordField.getPassword());
+            String unit = unitField.getText();
+            int locationID = Integer.parseInt(locationIdField.getText());
+            int planID = Integer.parseInt(planIdField.getText());
+            int dietID = Integer.parseInt(dietIdField.getText());
+
+            boolean success = controller.addClient(name, contact, password, unit, planID, dietID, locationID);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Client added successfully!");
+                clearAddFields();
+                refreshClientTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to add client.");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+        }
+    }
+
+    private void refreshClientTable() {
+        clientTableModel.setRowCount(0);
+
+        List<Client> clients = controller.getAllClients();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Client c : clients) {
+            clientTableModel.addRow(new Object[]{
+                    c.getClientID(),
+                    c.getName(),
+                    c.getContactNo(),
+                    c.getPassword(),
+                    c.getUnitDetails(),
+                    c.getDateCreated().format(formatter),
+                    c.getLocationID(),
+                    c.getPlanID(),
+                    c.getDietPreferenceID()
+            });
+        }
+
+    }
+
+    private void clearAddFields() {
+        nameField.setText("");
+        contactField.setText("");
+        passwordField.setText("");
+        unitField.setText("");
+        locationIdField.setText("");
+        planIdField.setText("");
+        dietIdField.setText("");
+    }
+
 }
 

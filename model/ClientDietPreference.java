@@ -11,7 +11,7 @@ public class ClientDietPreference {
         this.clientId = clientId;
         this.dietPreferenceId = dietPreferenceId;
     }
-    
+
     public int getClientId() {
         return clientId;
     }
