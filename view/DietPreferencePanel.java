@@ -5,6 +5,7 @@ import controller.DietPreferenceController;
 import model.DietPreference;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -151,7 +152,8 @@ public class DietPreferencePanel extends JPanel
         tableModel.addTableModelListener(e -> {
             if (e.getType() == javax.swing.event.TableModelEvent.UPDATE) {
                 int row = e.getFirstRow();
-                updateDietPreferenceFromTable(row);
+                int column = e.getColumn();
+                updateDietPreferenceTable(tableModel, row, column);
             }
         });
         
@@ -207,11 +209,21 @@ public class DietPreferencePanel extends JPanel
             @Override
             public boolean isCellEditable(int row, int column)
             {
-                return false;
+                return column != 0;
             }
         };
 
         searchResultTable = new JTable(searchTableModel);
+        searchTableModel.addTableModelListener(e -> {
+            if (e.getType()== TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+
+                if (column != 0) {
+                    updateDietPreferenceTable(tableModel, row, column);
+                }
+            }
+        }); 
         searchResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         searchResultTable.getTableHeader().setReorderingAllowed(false);
         
@@ -262,28 +274,35 @@ public class DietPreferencePanel extends JPanel
         }
     }
     
-    private void updateDietPreferenceFromTable(int row) 
+    private void updateDietPreferenceTable(DefaultTableModel model, int row, int column) 
     {
         try {
             int id = (int) tableModel.getValueAt(row, 0);
-            String newName = tableModel.getValueAt(row, 1).toString().trim();
-            String newDescription = tableModel.getValueAt(row, 2).toString().trim();
+            String newName = (String) tableModel.getValueAt(row, 1).toString();
+            String newDescription = (String) tableModel.getValueAt(row, 2).toString();
+            String result = controller.updateDietPreference(id, newName, newDescription);
             
-            DietPreference updatedPref = new DietPreference(id, newName, newDescription);
-            
-            if (controller.updateDietPreference(updatedPref)) {
-               
+            if ("SUCCESS".equals(result)) {
             } else {
                 
-                JOptionPane.showMessageDialog(this, "Update failed. Check if Diet Name is unique and not empty.",
-                                             "Update Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to update Diet ID:" + dietID, result, JOptionPane.ERROR_MESSAGE);
               
-                refreshDietTable();
+                if (tableModel == this.tableModel) {
+                    refreshDietTable();
+                } else {
+                    searchDietPreference();
+                    
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Invalid data or update error: " + e.getMessage(),
                                          "Error", JOptionPane.ERROR_MESSAGE);
-            refreshDietTable();
+
+              if (tableModel == this.tableModel) {
+                    refreshDietTable();
+                } else {
+                    searchDietPreference();     
+                }            
         }
     }
 

@@ -48,30 +48,18 @@ public class DietPreferenceController {
     /**
      * Update an existing diet preference after validation.
      */
-    public boolean updateDietPreference(DietPreference preference) {
-        if (preference == null || preference.getDiet_preference_id() <= 0) {
-            System.err.println("Validation Error: Invalid preference id.");
-            return false;
-        }
-        if (preference.getDiet_name() == null || preference.getDiet_name().trim().isEmpty()) {
-            System.err.println("Validation Error: Diet name cannot be empty.");
-            return false;
-        }
+    public String updateDietPreference(int diet_preference_id, String diet_name, String description) {
 
-        DietPreference existing = dietPreferenceDAO.getDietPreferenceById(preference.getDiet_preference_id());
-        if (existing == null) {
-            System.err.println("Validation Error: Diet preference not found.");
-            return false;
-        }
 
-        // If name changed, ensure uniqueness
-        DietPreference byName = dietPreferenceDAO.getDietPreferenceByName(preference.getDiet_name());
-        if (byName != null && byName.getDiet_preference_id() != preference.getDiet_preference_id()) {
-            System.err.println("Validation Error: Diet name must be unique.");
-            return false;
+        DietPreference updatedDietPreference = new DietPreference(diet_preference_id, diet_name, description);
+        
+        if (dietPreferenceDAO.updateDietPreference(updatedDietPreference)) 
+        {
+            return "SUCCESS";
+        } else 
+        {
+        return "Failed to update meal in database.";
         }
-
-        return dietPreferenceDAO.updateDietPreference(preference);
     }
 
     /**

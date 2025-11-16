@@ -142,6 +142,17 @@ public List<Meal> getFilteredAndSortedMeals(String searchTerm, String sortOrder,
         }
         return meals;
     }
+public String updateMeal(int mealId, String name, float price, float cost, int prepTime, 
+                         int calories, String nutrients, String dateAdded, int dietPrefId) {
 
+    Meal updatedMeal = new Meal(mealId, name,price,cost,prepTime,calories,nutrients,dateAdded,dietPrefId);
+
+    // 2. Call the DAO method
+    if (mealDAO.updateMeal(updatedMeal)) {
+        return "SUCCESS";
+    } else {
+        return "Failed to update meal in database.";
+    }
+}
 
 }

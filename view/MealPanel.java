@@ -2,6 +2,7 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -214,14 +215,27 @@ public class MealPanel  extends JPanel {
         
         String[] columnNames = {"Meal ID", "Name", "Price", "Cost", "Nutrients",
                                 "Calories", "Preparation Time", "Date Added", "Diet Preference ID"};
-        tableModel = new DefaultTableModel(columnNames, 0) {
+        
+            tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) 
             {
-                return false; 
+                return column !=0; 
             }
     };
         mealTable = new JTable(tableModel);
+
+        tableModel.addTableModelListener(e -> {
+            if (e.getType()== TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+
+                if (column != 0) {
+                    updateMealTable(tableModel, row, column);
+                }
+            }
+        }); 
+
         JScrollPane scrollPane = new JScrollPane(mealTable);
         viewPanel.add(scrollPane, BorderLayout.CENTER);
         
@@ -281,11 +295,22 @@ public class MealPanel  extends JPanel {
             @Override
             public boolean isCellEditable(int row, int column) 
             {
-                return false; 
+                return column !=0; 
             }
         };
 
         searchResultTable = new JTable(searchTableModel);
+        
+        searchTableModel.addTableModelListener(e -> {
+            if (e.getType()== TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+
+                if (column != 0) {
+                    updateMealTable(tableModel, row, column);
+                }
+            }
+        }); 
         searchResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         searchResultTable.getTableHeader().setReorderingAllowed(false);
 
@@ -416,6 +441,43 @@ public class MealPanel  extends JPanel {
             scrollPane.setPreferredSize(new Dimension(400, 300));
 
             JOptionPane.showMessageDialog(this, scrollPane, "Meal Details", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void updateMealTable(DefaultTableModel model, int row, int column) {
+        int mealId = Integer.parseInt(tableModel.getValueAt(row, 0).toString());
+
+        try {
+            String name = (String) tableModel.getValueAt(row, 1);
+            float price = Float.parseFloat(tableModel.getValueAt(row, 2).toString());
+            float cost = Float.parseFloat(tableModel.getValueAt(row, 3).toString());
+            String nutrients = (String) tableModel.getValueAt(row, 4);
+            int calories = Integer.parseInt(tableModel.getValueAt(row, 5).toString());
+            int prepTime = Integer.parseInt(tableModel.getValueAt(row, 6).toString());
+            String dateAdded = (String) tableModel.getValueAt(row, 7);
+            int dietPrefId = Integer.parseInt(tableModel.getValueAt(row, 8).toString());
+
+            String result = controller.updateMeal(mealId, name, price, cost, prepTime, calories, nutrients, dateAdded, dietPrefId);
+    
+           if ("SUCCESS".equals(result)) {
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to update Meal ID " + mealId + ": " + result, "Database Error", JOptionPane.ERROR_MESSAGE);
+                
+                if (tableModel == this.tableModel) {
+                     loadAllMeals(); 
+                } else {
+                     searchMeal(); 
+                }
+            }
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Input Error: Invalid number format for Price, Cost, Calories, Prep Time, or Diet Preference ID.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            
+            if (tableModel == this.tableModel) {
+                 loadAllMeals(); 
+            } else {
+                 searchMeal(); 
+            }
         }
     }
 }
