@@ -43,6 +43,9 @@ public class FloodDataPanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to return to Main Menu
+    private JButton mainMenuButton;
+
     public FloodDataPanel(FloodDataController controller) 
     {
         this.controller = controller;
@@ -159,9 +162,15 @@ public class FloodDataPanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Flood Data");
         addButton.addActionListener(e -> addFloodData());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         // Add panels to the main panel

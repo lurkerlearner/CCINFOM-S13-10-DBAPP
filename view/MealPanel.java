@@ -3,34 +3,13 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import java.awt.GridBagConstraints;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-
-
 import controller.MealController;
 import model.Meal;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+
 import javax.swing.table.DefaultTableModel;
-
-
 
 import controller.MealController;
 import model.Meal;
@@ -62,7 +41,8 @@ public class MealPanel  extends JPanel {
     private JTable mealTable;
     private DefaultTableModel tableModel;
 
-   
+   // return to main menu
+    private JButton mainMenuButton;
 
     public MealPanel(MealController controller) 
     {
@@ -175,10 +155,15 @@ public class MealPanel  extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Meal");
         addButton.addActionListener(e -> addMeal());
 
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         addPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);

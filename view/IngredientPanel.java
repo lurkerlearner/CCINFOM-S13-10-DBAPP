@@ -44,6 +44,9 @@ public class IngredientPanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to go back to main menu
+    private JButton mainMenuButton;
+
     public IngredientPanel(IngredientController ingredientController)
     {
         this.controller = ingredientController;
@@ -154,9 +157,15 @@ public class IngredientPanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Ingredient");
         addButton.addActionListener(e -> addIngredient());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         // Add panels to the main panel

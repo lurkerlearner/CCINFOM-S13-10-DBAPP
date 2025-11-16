@@ -40,6 +40,9 @@ public class RiderPanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to go back to main menu
+    private JButton mainMenuButton;
+
     public RiderPanel(RiderController controller) 
     {
         this.controller = controller;
@@ -112,9 +115,15 @@ public class RiderPanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Rider");
         addButton.addActionListener(e -> addRider());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         // Add panels to the main panel

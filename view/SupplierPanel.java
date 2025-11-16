@@ -40,6 +40,9 @@ public class SupplierPanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to return to main menu
+    private JButton mainMenuButton;
+
     public SupplierPanel (SupplierController supplierController)
     {
         this.controller = supplierController;
@@ -112,9 +115,15 @@ public class SupplierPanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Supplier");
         addButton.addActionListener(e -> addSupplier());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         // Add panels to the main panel

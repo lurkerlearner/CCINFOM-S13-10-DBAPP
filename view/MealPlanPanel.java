@@ -42,6 +42,9 @@ public class MealPlanPanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // button to return to main menu
+    private JButton mainMenuButton;
+
     public MealPlanPanel(MealPlanController controller) 
     {
         this.controller = controller;
@@ -118,9 +121,15 @@ public class MealPlanPanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Meal Plan");
         addButton.addActionListener(e -> addMealPlan());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         addPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);

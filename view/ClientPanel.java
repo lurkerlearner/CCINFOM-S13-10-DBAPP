@@ -31,6 +31,9 @@ public class ClientPanel extends JPanel {
 
     private JTabbedPane tabbedPane;
 
+    // button to return to main menu
+    private JButton mainMenuButton;
+
     public ClientPanel(ClientController clientController) {
         this.controller = clientController; // correctly assign passed controller
 
@@ -66,6 +69,11 @@ public class ClientPanel extends JPanel {
         planIdField = new JTextField();
         dietIdField = new JTextField();
         addClientBtn = new JButton("Add Client");
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
 
         int row = 0;
         addLabelAndField(panel, gbc, row++, "Name:", nameField);
@@ -79,6 +87,8 @@ public class ClientPanel extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = row;
         panel.add(addClientBtn, gbc);
+        gbc.gridx = 0;
+        panel.add(mainMenuButton, gbc);
 
         addClientBtn.addActionListener(e -> addClient());
 

@@ -25,6 +25,9 @@ public class LocationPanel extends JPanel {
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to go back to main menu
+    private JButton mainMenuButton;
+
     public LocationPanel(LocationController controller) {
         this.controller = controller;
         setLayout(new BorderLayout());
@@ -67,6 +70,14 @@ public class LocationPanel extends JPanel {
         addButton = new JButton("Add Location");
         addButton.addActionListener(e -> addLocation());
         gbc.gridx=1; gbc.gridy=y+1; addPanel.add(addButton, gbc);
+
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
+        gbc.gridx=0; gbc.gridy=y+1; addPanel.add(mainMenuButton, gbc);
+
     }
 
     private void addLocation() {

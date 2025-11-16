@@ -40,6 +40,9 @@ public class DietPreferencePanel extends JPanel
     private JTable searchResultTable;
     private DefaultTableModel searchTableModel;
 
+    // Button to go back to main menu
+    private JButton mainMenuButton;
+
     public DietPreferencePanel(DietPreferenceController controller) 
     {
         this.controller = controller;
@@ -106,9 +109,15 @@ public class DietPreferencePanel extends JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
         addButton = new JButton("Add Diet Preference");
         addButton.addActionListener(e -> addDietPreference());
         
+        buttonPanel.add(mainMenuButton);
         buttonPanel.add(addButton);
         
         addPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
