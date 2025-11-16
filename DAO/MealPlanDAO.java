@@ -112,6 +112,7 @@ public List<Meal> getMealsInPlan(int mealPlanId) {
             preparedStatement.setString(1, plan.getPlan_name());
             preparedStatement.setString(2, plan.getDescription());
             preparedStatement.setFloat(3, plan.getTotal_price());
+            preparedStatement.setInt(4, plan.getPlan_id()); //WHERE CLAUSE
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
