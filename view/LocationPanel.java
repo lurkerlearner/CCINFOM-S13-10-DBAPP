@@ -13,7 +13,7 @@ public class LocationPanel extends JPanel {
     private LocationController controller;
 
     private JTabbedPane tabbedPane;
-    private JPanel addPanel, viewPanel, searchPanel;
+    private JPanel addPanel, viewPanel, searchPanel, editPanel;
 
     private JTextField streetField, cityField, zipField;
     private JButton addLocationBtn;
@@ -43,10 +43,12 @@ public class LocationPanel extends JPanel {
         createAddPanel();
         createViewPanel();
         createSearchPanel();
+        createEditPanel();
 
         tabbedPane.addTab("Add Location", addPanel);
         tabbedPane.addTab("View Locations", viewPanel);
         tabbedPane.addTab("Search Locations", searchPanel);
+        tabbedPane.addTab("Edit Locations", editPanel);
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -152,6 +154,13 @@ public class LocationPanel extends JPanel {
         searchPanel.add(top, BorderLayout.NORTH);
         searchPanel.add(new JScrollPane(searchTable), BorderLayout.CENTER);
         searchPanel.add(bottom, BorderLayout.SOUTH);
+    }
+
+    private void createEditPanel(){
+        editPanel = new JPanel(new BorderLayout());
+        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        //todo:IMPLEMENT EDIT
     }
 
     private void addLocation() {

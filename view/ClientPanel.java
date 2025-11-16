@@ -37,6 +37,7 @@ public class ClientPanel extends JPanel {
     private JPanel addPanel;
     private JPanel viewPanel;
     private JPanel searchPanel;
+    private JPanel editPanel;
 
     // button to return to main menu
     private JButton mainMenuButton;
@@ -53,10 +54,12 @@ public class ClientPanel extends JPanel {
        createAddPanel();
        createViewPanel();
        createSearchPanel();
+       createEditPanel();
 
        tabbedPane.addTab("Add Client", addPanel);
        tabbedPane.addTab("View Clients", viewPanel);
        tabbedPane.addTab("Search Clients", searchPanel);
+       tabbedPane.addTab("Edit Clients", editPanel);
 
        add(tabbedPane, BorderLayout.CENTER);
 
@@ -167,6 +170,13 @@ public class ClientPanel extends JPanel {
         searchPanel.add(top, BorderLayout.NORTH);
         searchPanel.add(new JScrollPane(searchTable), BorderLayout.CENTER);
         searchPanel.add(bottom, BorderLayout.SOUTH);
+    }
+
+    private void createEditPanel(){
+        editPanel = new JPanel(new BorderLayout());
+        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        //todo:IMPLEMENT EDIT
     }
 
     private void searchClient() {
