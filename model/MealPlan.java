@@ -43,4 +43,10 @@ public class MealPlan {
     public void setTotal_price(float total_price) {
         this.total_price = total_price;
     }
+
+    @Override
+    public String toString() {
+        return plan_name;
+    }
+
 }

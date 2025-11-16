@@ -6,3 +6,7 @@
 /MealController.class
 /MealPlanController.class
 /RiderController.class
+/SupplierController.class
+/MealIngredientController.class
+/IngredientController.class
+/LocationController.class

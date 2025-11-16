@@ -20,3 +20,8 @@
 /RoadCondition.class
 /Storage_type.class
 /Supplier.class
+/DeliveryAssignment.class
+/ClientDietPreference.class
+/ClientEngagementReport.class
+/MealPerformance.class
+/SalesReport.class

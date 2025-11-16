@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LocationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/LocationPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/LocationPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/controller/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/model/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/DietPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/DietPreference.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/MealPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/MealPlan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/view/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/RegisterScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/RegisterScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

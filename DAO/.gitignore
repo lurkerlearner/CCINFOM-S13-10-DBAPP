@@ -9,3 +9,5 @@
 /MealPlanDAO.class
 /RiderDAO.class
 /SupplierDAO.class
+/MealDeliveryDAO.class
+/MealIngredientDAO.class

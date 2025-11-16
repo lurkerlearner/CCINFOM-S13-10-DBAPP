@@ -1,14 +1,16 @@
 package view;
 
 import app.DBConnection;
-import controller.LoginController;
+import controller.*;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RegisterScreen extends JFrame {
 
-    private LoginController controller = new LoginController();
+    private LoginController loginController = new LoginController();
+    MealPlanController mealPlanController = new MealPlanController();
+    DietPreferenceController dietController = new DietPreferenceController();
 
     public RegisterScreen() {
         setTitle("Create Account - FloodPanda");
@@ -25,7 +27,7 @@ public class RegisterScreen extends JFrame {
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // padding around components
+        gbc.insets = new Insets(8, 8, 8, 8); // padding around components
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
@@ -36,6 +38,12 @@ public class RegisterScreen extends JFrame {
         JTextField unitField = new JTextField();
         JComboBox<LocationItem> locationDrop = new JComboBox<>();
         loadLocations(locationDrop);
+        JComboBox<MealPlanItem> mealPlanDrop = new JComboBox<>();
+        loadMealPlans(mealPlanDrop);
+        JComboBox<DietPreferenceItem> dietDrop = new JComboBox<>();
+        loadDietPreferences(dietDrop);
+
+
 
         JCheckBox showPassword = new JCheckBox("Show Password");
 
@@ -73,6 +81,16 @@ public class RegisterScreen extends JFrame {
         mainPanel.add(new JLabel("Street / Area:"), gbc);
         gbc.gridx = 1;
         mainPanel.add(locationDrop, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 7;
+        mainPanel.add(new JLabel("Meal Plan:"), gbc);
+        gbc.gridx = 1;
+        mainPanel.add(mealPlanDrop, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 8;
+        mainPanel.add(new JLabel("Diet Preference"), gbc);
+        gbc.gridx = 1;
+        mainPanel.add(dietDrop, gbc);
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -122,15 +140,18 @@ public class RegisterScreen extends JFrame {
             }
 
             int locationId = ((LocationItem) locationDrop.getSelectedItem()).id;
+            int mealPlanId = ((MealPlanItem) mealPlanDrop.getSelectedItem()).id;
+            int dietPrefId = ((DietPreferenceItem) dietDrop.getSelectedItem()).id;
 
-            boolean success = controller.register(name, contact, password, unit, locationId);
+
+            boolean success = loginController.register(name, contact, password, unit, locationId,mealPlanId,dietPrefId);
 
             if (success) {
                 JOptionPane.showMessageDialog(this, "Account successfully created!");
                 dispose();
                 new LoginScreen();
             } else {
-                if (controller.getClientDAO().isContactExists(contact)) {
+                if (loginController.getClientDAO().isContactExists(contact)) {
                     JOptionPane.showMessageDialog(this, "This contact number is already registered.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Registration failed.");
@@ -163,11 +184,55 @@ public class RegisterScreen extends JFrame {
         }
     }
 
+    private void loadMealPlans(JComboBox<MealPlanItem> comboBox) {
+        try {
+            var conn = DBConnection.getConnection();
+            var stmt = conn.prepareStatement("SELECT plan_id, plan_name FROM meal_plan");
+            var rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                comboBox.addItem(new MealPlanItem(rs.getInt("plan_id"), rs.getString("plan_name")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadDietPreferences(JComboBox<DietPreferenceItem> comboBox) {
+        try {
+            var conn = DBConnection.getConnection();
+            var stmt = conn.prepareStatement("SELECT diet_preference_id, diet_name FROM diet_preference");
+            var rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                comboBox.addItem(new DietPreferenceItem(rs.getInt("diet_preference_id"), rs.getString("diet_name")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     class LocationItem {
         int id;
         String text;
         public LocationItem(int id, String text) { this.id = id; this.text = text; }
         public String toString() { return text; }
     }
+
+    class MealPlanItem {
+        int id;
+        String name;
+        public MealPlanItem(int id, String name) { this.id = id; this.name = name; }
+        public String toString() { return name; }
+    }
+
+    class DietPreferenceItem {
+        int id;
+        String name;
+        public DietPreferenceItem(int id, String name) { this.id = id; this.name = name; }
+        public String toString() { return name; }
+    }
+
 }
 

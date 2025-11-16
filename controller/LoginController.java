@@ -17,7 +17,9 @@ public class LoginController {
                             String contactNo,
                             String password,
                             String unitDetails,
-                            int locationId) {
+                            int locationId,
+                            int planId,
+                            int dietPrefId) {
 
 
         if (clientDAO.isContactExists(contactNo)) {
@@ -35,8 +37,8 @@ public class LoginController {
                 unitDetails,
                 LocalDate.now(),
                 locationId,
-                defaultPlanId,
-                defaultDietId
+                planId,
+                dietPrefId
         );
 
         int generatedId = clientDAO.addClient(c);
