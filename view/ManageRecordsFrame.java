@@ -58,7 +58,6 @@ public class ManageRecordsFrame extends JFrame {
         initComponents();
 
         setVisible(true);
-
     }
 
     private void initComponents() {
