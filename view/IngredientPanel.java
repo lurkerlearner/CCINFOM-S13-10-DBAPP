@@ -279,12 +279,12 @@ public class IngredientPanel extends JPanel
                 ing.getIngredient_id(),
                 ing.getBatch_no(),
                 ing.getIngredient_name(),
-                ing.getCategory(),
-                ing.getStorage_type(),
-                ing.getMeasurement_unit(),
+                ing.getCategory().getDbValue(),
+                ing.getStorage_type().getDbValue(),
+                ing.getMeasurement_unit().getDbValue(),
                 ing.getStock_quantity(),
                 ing.getExpiry_date(),
-                ing.getRestock_status(),
+                ing.getRestock_status().getDbValue(),
                 ing.getSupplier_id()
             };
 
@@ -435,12 +435,12 @@ public class IngredientPanel extends JPanel
                 ing.getIngredient_id(),
                 ing.getBatch_no(),
                 ing.getIngredient_name(),
-                ing.getCategory(),
-                ing.getStorage_type(),
-                ing.getMeasurement_unit(),
+                ing.getCategory().getDbValue(),
+                ing.getStorage_type().getDbValue(),
+                ing.getMeasurement_unit().getDbValue(),
                 ing.getStock_quantity(),
                 ing.getExpiry_date(),
-                ing.getRestock_status(),
+                ing.getRestock_status().getDbValue(),
                 ing.getSupplier_id()
             };
 
