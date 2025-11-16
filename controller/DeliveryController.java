@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.sql.*;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +131,7 @@ public class DeliveryController
      * TABLES INVOLVED
      * - Delivery
      * - Meal
+     * - Ingredient
      * - Client
      * - MealDelivery
      * - Flood Data
@@ -146,8 +145,63 @@ public class DeliveryController
             // since confirmation is needed before proceeding,
             c.setAutoCommit(false);
 
-            String floodRisk = computeFloodRiskForClient(clientID);
+            // ensure sufficient ingredients are present for the meal before it can be ordered
+            MealIngredientDAO mealIngredientDAO = new MealIngredientDAO();
+            boolean ingredientsSufficient = mealIngredientDAO.hasSufficientIngredientsForMeal(mealID);
+
+            if (!ingredientsSufficient) 
+            {
+                JOptionPane.showMessageDialog(null, 
+                "Insufficient ingredients for the selected meal. " +
+                "Order cannot be placed." +
+                "Choose a different meal or try again later.");
+                c.rollback();
+                return false;
+            }
+            else 
+            {
+                String floodRisk = computeFloodRiskForClient(clientID);
             
+                // inform client of risks and ask for confirmation
+                int option = JOptionPane.showConfirmDialog(
+                    null,
+                    "Flood risk for your area: " + floodRisk + 
+                    "\nNote that the delivery may take longer or " +
+                    "use alternative delivery methods/packaging " +
+                    "if road conditions are not fully accessible." +
+                    "\n\nDo you want to proceed with the order?",
+                    "Confirm Order",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+                if (option != JOptionPane.YES_OPTION) 
+                {
+                    c.rollback();
+                    JOptionPane.showMessageDialog(null, 
+                    "Order cancelled by user.");
+                    return false;
+                }
+                else
+                {
+                    boolean success = placeOrderAfterConfirmation(mealID, pm, clientID);
+                    if (!success) 
+                    {
+                        c.rollback(); // undo any changes if order placing failed
+                        JOptionPane.showMessageDialog(null, 
+                        "Order placing failed!");
+                        return false;
+                    }
+                    else
+                    {
+                        c.commit();
+                        JOptionPane.showMessageDialog(null, 
+                        "Order placed successfully!");
+                        return true;
+                    }
+                }
+            }
+            
+            /*
             // inform client of risks and ask for confirmation
             int option = JOptionPane.showConfirmDialog(
                 null,
@@ -184,7 +238,7 @@ public class DeliveryController
                     "Order placed successfully!");
                     return true;
                 }
-            }
+            }*/
         } 
         catch (SQLException e) 
         {
@@ -237,6 +291,7 @@ public class DeliveryController
         Connection c = DBConnection.getConnection();
 
         MealDAO mealDAO = new MealDAO();
+        MealIngredientDAO mealIngredientDAO = new MealIngredientDAO();
         ClientDAO clientDAO = new ClientDAO();
         RiderDAO riderDAO = new RiderDAO(c);
         MealDeliveryDAO mealdelDAO = new MealDeliveryDAO(c);
@@ -272,6 +327,9 @@ public class DeliveryController
         // insert meal_delivery using generated transaction_id
         MealDelivery md = new MealDelivery(mealID, d.getTransactionID(), "");
         mealdelDAO.addMealDelivery(md);
+
+        // reduce ingredients stock based on meal ordered
+        mealIngredientDAO.updateStockQuantityBasedOnMealDelivery(mealID);
 
         return true;
     }
