@@ -22,6 +22,7 @@ public class ManageRecordsFrame extends JFrame {
     private DietPreferenceController dietPreferenceController;
     private SupplierController supplierController;
     private RiderController riderController;
+    private MealIngredientController mealIngredientController;
 
     // main panel or container, and each record or table's panels/tables
     private JPanel mainPanel;
@@ -35,6 +36,7 @@ public class ManageRecordsFrame extends JFrame {
     private DietPreferencePanel dietPreferencePanel;
     private SupplierPanel supplierPanel;
     private RiderPanel riderPanel;
+    private MealIngredientPanel mealIngredientPanel;
 
     // navigation panel, and buttons to trigger each panel
     private JPanel navPanel;
@@ -48,6 +50,7 @@ public class ManageRecordsFrame extends JFrame {
     private JButton dietPreferenceBtn;
     private JButton supplierBtn;
     private JButton riderBtn;
+    private JButton mealIngredientBtn;
     
     public ManageRecordsFrame() {
         setTitle("FloodPanda - Admin / Manage Records");
@@ -80,6 +83,7 @@ public class ManageRecordsFrame extends JFrame {
         dietPreferenceController = new DietPreferenceController();
         supplierController = new SupplierController(new SupplierDAO());
         riderController = new RiderController(new RiderDAO(DBConnection.getConnection()));
+        mealIngredientController = new MealIngredientController(new MealIngredientDAO());
 
 
         // Initialize each record panel
@@ -93,6 +97,7 @@ public class ManageRecordsFrame extends JFrame {
         dietPreferencePanel = new DietPreferencePanel(dietPreferenceController);
         supplierPanel = new SupplierPanel(supplierController);
         riderPanel = new RiderPanel(riderController);
+        mealIngredientPanel = new MealIngredientPanel(mealIngredientController);
 
         // show the client panel by default
         mainPanel.add(clientPanel, BorderLayout.CENTER);
@@ -134,6 +139,7 @@ public class ManageRecordsFrame extends JFrame {
         dietPreferenceBtn = createNavButton("Diet Preference", e -> switchToPanel(dietPreferencePanel));
         supplierBtn = createNavButton("Supplier", e -> switchToPanel(supplierPanel));       
         riderBtn = createNavButton("Rider", e -> switchToPanel(riderPanel));
+        mealIngredientBtn = createNavButton("Meal Ingredient", e -> switchToPanel(mealIngredientPanel));
 
 
         // Add buttons to navigation panel
@@ -156,6 +162,8 @@ public class ManageRecordsFrame extends JFrame {
         navPanel.add(supplierBtn);
         navPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         navPanel.add(riderBtn);
+        navPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        navPanel.add(mealIngredientBtn);
 
         navPanel.add(Box.createVerticalGlue());
     }

@@ -29,7 +29,6 @@ public class MealIngredientPanel extends JPanel
     private JTable mealIngredientTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
-    private JButton detailsButton;
 
     // Components for searching meals and their ingredients
     private JButton searchButton;
@@ -192,7 +191,6 @@ public class MealIngredientPanel extends JPanel
         // no view details
 
         buttonPanel.add(refreshButton);
-        buttonPanel.add(detailsButton);
         
         viewPanel.add(new JScrollPane(mealIngredientTable), BorderLayout.CENTER);
         viewPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -269,8 +267,6 @@ public class MealIngredientPanel extends JPanel
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
         // no view details
-
-        buttonPanel.add(detailsButton);
 
         searchPanel.add(searchControls, BorderLayout.NORTH);
         searchPanel.add(new JScrollPane(searchResultTable), BorderLayout.CENTER);
