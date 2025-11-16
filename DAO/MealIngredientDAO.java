@@ -70,7 +70,7 @@ public class MealIngredientDAO {
     }
 
     // TO MODIFY, must be updated depending on checked out or delivered meals!!!!
-    // call this method when a delivery is made
+    // call this method when a delivery/order is made
     public boolean updateStockQuantityBasedOnMealDelivery(int mealId) {
         String sqlQuery = """
             UPDATE INGREDIENT i
@@ -158,6 +158,48 @@ public class MealIngredientDAO {
             System.err.println("Error retrieving meal ingredients " + e.getMessage());
         }
         return mealIngredients;
+    }
+
+    // call this method before a delivery/order is made
+    // ensure sufficient ingredients are present for the meal before it can be ordered
+    // checks if stock quantity ng ingredient is sufficient for the meal it will be used in
+    public boolean hasSufficientIngredientsForMeal(int mealId) {
+        String sqlQuery = """
+            SELECT mi.ingredient_id, mi.quantity AS required_qty, 
+                i.stock_quantity AS available_qty, 
+                i.ingredient_name
+            FROM MEAL_INGREDIENT mi
+            JOIN INGREDIENT i ON mi.ingredient_id = i.ingredient_id
+            WHERE mi.meal_id = ?
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setInt(1, mealId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    double required = rs.getDouble("required_qty");
+                    double available = rs.getDouble("available_qty");
+                    String name = rs.getString("ingredient_name");
+
+                    if (available < required) {
+                        System.out.println("Insufficient: " + name +
+                            " (required: " + required + ", available: " + available + ")");
+                        return false;  
+                    }
+                }
+            }
+
+            // pag tapos yung loop, all ingredients are available
+            System.out.println("All ingredients available for meal " + mealId);
+            return true;
+        } 
+        catch (SQLException e) {
+            System.err.println("Error checking ingredient sufficiency: " + e.getMessage());
+            return false;
+        }
     }
 
     // maybe modify eventually to return Meal objects instead of just meal IDs
