@@ -30,6 +30,42 @@ public class IngredientController {
         return ingredientDAO.addIngredient(ingredient);
     }
 
+    public boolean updateIngredient(Ingredient ingredient) {
+        return ingredientDAO.updateIngredientAll(ingredient);
+    }
+
+    public boolean updateIngredientBatchNo(int ingredient_id, int newBatchNo) {
+        return ingredientDAO.updateBatchNo(ingredient_id, newBatchNo);
+    }
+
+    public boolean updateIngredientName(int ingredient_id, String newName) {
+        return ingredientDAO.updateIngredientName(ingredient_id, newName);
+    }
+
+    public boolean updateIngredientCategory(int ingredient_id, Category newCategory) {
+        return ingredientDAO.updateCategory(ingredient_id, newCategory);
+    }
+
+    public boolean updateIngredientStorageType(int ingredient_id, Storage_type newStorageType) {
+        return ingredientDAO.updateStorageType(ingredient_id, newStorageType);
+    }
+
+    public boolean updateIngredientMeasurementUnit(int ingredient_id, Measurement_unit newUnit) {
+        return ingredientDAO.updateMeasurementUnit(ingredient_id, newUnit);
+    }
+
+    public boolean updateIngredientExpiryDate(int ingredient_id, java.sql.Date newExpiryDate) {
+        return ingredientDAO.updateExpiryDate(ingredient_id, newExpiryDate);
+    }
+
+    public boolean updateIngredientStockQuantity(int ingredient_id, double newQuantity) {
+        return ingredientDAO.updateStockQuantity(ingredient_id, newQuantity);
+    }
+
+    public boolean updateIngredientSupplierID(int ingredient_id, int newSupplierID) {
+        return ingredientDAO.updateSupplierId(ingredient_id, newSupplierID);
+    }
+
     public Ingredient getIngredientByID(int ingredientId) {
         return ingredientDAO.getIngredientById(ingredientId);
     }

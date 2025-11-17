@@ -83,9 +83,6 @@ public class AdminMainMenu extends JFrame {
         southPanel.add(logoutBtn);
         add(southPanel, BorderLayout.SOUTH);
 
-        //NGL ALL THE BUTTONS HERE ARE PLACEHOLDERS KASI I DONT WANT TO TOUCH THE ORDER STUFF ANYMORE
-        //THE ONLY THING THAT'S MINE IS ACCOUNT MANAGEMENT - ELISHA
-
         //==ACTION LISTENERS
         manageRecordsBtn.addActionListener(e -> {
             this.dispose();

@@ -19,6 +19,7 @@ public class IngredientPanel extends JPanel
     private JPanel addPanel;
     private JPanel viewPanel;
     private JPanel searchPanel;
+    private JPanel editPanel;
 
     // Components for adding ingredients
     private JTextField batch_no;
@@ -109,7 +110,7 @@ public class IngredientPanel extends JPanel
         storage_type = new JComboBox<>(storageTypes);
         measurement_unit = new JComboBox<>(measurementUnits);
         stock_quantity = new JTextField(8);
-        expiry_date = new JTextField(10);
+        expiry_date = new JTextField("YYYY-MM-DD",10);
         supplier_id = new JTextField(5);
 
         // x and y refer to row and column respectively
@@ -144,7 +145,7 @@ public class IngredientPanel extends JPanel
         formPanel.add(stock_quantity, gbc);
 
         gbc.gridx = 0; gbc.gridy = 6;
-        formPanel.add(new JLabel("Expiry Date (YYYY-MM-DD):"), gbc);
+        formPanel.add(new JLabel("Expiry Date:"), gbc);
         gbc.gridx = 1;
         formPanel.add(expiry_date, gbc);
 

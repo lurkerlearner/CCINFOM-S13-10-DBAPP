@@ -54,7 +54,7 @@ public class IngredientDAO {
         }
     } 
 
-    public boolean updateIngredient(Ingredient ingredient) {
+    public boolean updateIngredientAll(Ingredient ingredient) {
         String sqlQuery = "UPDATE INGREDIENT SET batch_no = ?, ingredient_name = ?, category = ?, " +
         "storage_type = ?, measurement_unit = ?, stock_quantity = ?, expiry_date = ?, " +
         "supplier_id = ? WHERE ingredient_id = ?";
@@ -92,6 +92,159 @@ public class IngredientDAO {
         }
     }
 
+    public boolean updateBatchNo(int ingredient_id, int newBatchNo) {
+        String sqlQuery = "UPDATE INGREDIENT SET batch_no = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setInt(1, newBatchNo);
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating batch number: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateIngredientName(int ingredient_id, String newName) {
+        String sqlQuery = "UPDATE INGREDIENT SET ingredient_name = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newName);
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating ingredient name: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateCategory(int ingredient_id, Category newCategory) {
+        String sqlQuery = "UPDATE INGREDIENT SET category = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newCategory.getDbValue());
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating category: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateStorageType(int ingredient_id, Storage_type newStorageType) {
+        String sqlQuery = "UPDATE INGREDIENT SET storage_type = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newStorageType.getDbValue());
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating storage type: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateMeasurementUnit(int ingredient_id, Measurement_unit newUnit) {
+        String sqlQuery = "UPDATE INGREDIENT SET measurement_unit = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newUnit.getDbValue());
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating measurement unit: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateExpiryDate(int ingredient_id, java.sql.Date newExpiryDate) {
+        String sqlQuery = "UPDATE INGREDIENT SET expiry_date = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setDate(1, newExpiryDate);
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating expiry date: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateStockQuantity(int ingredient_id, double newQuantity) {
+        String sqlQuery = "UPDATE INGREDIENT SET stock_quantity = ?, restock_status = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery))
+        {
+            stmt.setDouble(1, newQuantity);
+            stmt.setString(2, Restock_status.calculateStatus(newQuantity).getDbValue());
+            stmt.setInt(3, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating stock quantity: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateSupplierId(int ingredient_id, int newSupplierId) {
+        String sqlQuery = "UPDATE INGREDIENT SET supplier_id = ? WHERE ingredient_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setInt(1, newSupplierId);
+            stmt.setInt(2, ingredient_id);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+        catch (SQLException e) 
+        {
+            System.err.println("Error updating supplier ID: " + e.getMessage());
+            return false;
+        }
+    }
+
     public boolean deleteIngredient(int ingredient_id) {
         String sqlQuery = "DELETE FROM INGREDIENT WHERE ingredient_id = ?";
         
@@ -116,26 +269,6 @@ public class IngredientDAO {
         catch (SQLException e) 
         {
             System.err.println("Error deleting ingredient: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean updateStockQuantity(int ingredient_id, double newQuantity) {
-        String sqlQuery = "UPDATE INGREDIENT SET stock_quantity = ?, restock_status = ? WHERE ingredient_id = ?";
-        
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sqlQuery))
-        {
-            stmt.setDouble(1, newQuantity);
-            stmt.setString(2, Restock_status.calculateStatus(newQuantity).getDbValue());
-            stmt.setInt(3, ingredient_id);
-
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
-        }
-        catch (SQLException e) 
-        {
-            System.err.println("Error updating stock quantity: " + e.getMessage());
             return false;
         }
     }
