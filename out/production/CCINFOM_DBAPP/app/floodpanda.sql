@@ -408,3 +408,63 @@ SELECT * FROM client_diet_preference;
 SELECT * FROM client;
 
 SELECT * FROM client;
+
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM INGREDIENT;
+ALTER TABLE INGREDIENT AUTO_INCREMENT = 1;
+SET SQL_SAFE_UPDATES = 1;
+
+ALTER TABLE INGREDIENT 
+MODIFY COLUMN measurement_unit ENUM('grams', 'millilitres');
+
+INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, supplier_id) VALUES
+(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31',3),
+(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30',3),
+(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20',2),
+(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18',6),
+(105,'Olive Oil','Fat','Dry','millilitres',100,'2026-01-31',5),
+(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15',4),
+(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31',5),
+(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28',9),
+(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25',2),
+(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31',4),
+(111,'Beef Sirloin','Protein','Refrigerated','grams',4000,'2025-12-15',3);
+
+-- Drop existing triggers if they exist (for clean setup)
+DROP TRIGGER IF EXISTS update_restock_status_before_insert;
+DROP TRIGGER IF EXISTS update_restock_status_before_update;
+
+-- Trigger for INSERT operations
+DELIMITER //
+CREATE TRIGGER update_restock_status_before_insert
+BEFORE INSERT ON INGREDIENT
+FOR EACH ROW
+BEGIN
+    IF NEW.stock_quantity = 0 THEN
+        SET NEW.restock_status = 'Out of Stock';
+    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
+        SET NEW.restock_status = 'Low Stock';
+    ELSE
+        SET NEW.restock_status = 'Available';
+    END IF;
+END//
+DELIMITER ;
+
+-- Trigger for UPDATE operations
+DELIMITER //
+CREATE TRIGGER update_restock_status_before_update
+BEFORE UPDATE ON INGREDIENT
+FOR EACH ROW
+BEGIN
+    IF NEW.stock_quantity = 0 THEN
+        SET NEW.restock_status = 'Out of Stock';
+    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
+        SET NEW.restock_status = 'Low Stock';
+    ELSE
+        SET NEW.restock_status = 'Available';
+    END IF;
+END//
+DELIMITER ;
+
+
+

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -200,12 +201,133 @@ public class ClientPanel extends JPanel {
         searchPanel.add(bottom, BorderLayout.SOUTH);
     }
 
-    private void createEditPanel(){
+    private void createEditPanel() {
         editPanel = new JPanel(new BorderLayout());
-        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        editPanel.setLayout(new BorderLayout());
 
-        //todo:IMPLEMENT EDIT
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+
+        JComboBox<Client> clientDropdown = new JComboBox<>();
+        for (Client c : clientController.getAllClients()) {
+            clientDropdown.addItem(c);
+        }
+        clientDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Client client) {
+                    setText(client.getClientID() + " - " + client.getName());
+                }
+                return this;
+            }
+        });
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Select Client:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(clientDropdown, gbc);
+
+        JTextField editNameField = new JTextField(20);
+        JTextField editContactField = new JTextField(20);
+        JPasswordField editPasswordField = new JPasswordField(20);
+        JTextField editUnitField = new JTextField(20);
+        JTextField editLocationField = new JTextField(5);
+
+        JComboBox<MealPlan> editMealPlanDropdown = new JComboBox<>();
+        for (MealPlan mp : mealPlanController.getAllMealPlans()) editMealPlanDropdown.addItem(mp);
+
+        JList<DietPreference> editDietList = new JList<>(dietController.getAvailableDietPreferences().toArray(new DietPreference[0]));
+        editDietList.setVisibleRowCount(5);
+        editDietList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane dietScroll = new JScrollPane(editDietList);
+        dietScroll.setPreferredSize(new Dimension(200, 100));
+
+        int row = 1;
+        addField(formPanel, gbc, row++, "Name:", editNameField);
+        addField(formPanel, gbc, row++, "Contact No:", editContactField);
+        addField(formPanel, gbc, row++, "Password:", editPasswordField);
+        addField(formPanel, gbc, row++, "Unit Details:", editUnitField);
+        addField(formPanel, gbc, row++, "Location ID:", editLocationField);
+        addField(formPanel, gbc, row++, "Meal Plan:", editMealPlanDropdown);
+
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Diet Preferences:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(dietScroll, gbc);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton saveBtn = new JButton("Save Changes");
+
+        buttonPanel.add(saveBtn);
+
+        editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
+        editPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        clientDropdown.addActionListener(e -> {
+            Client selected = (Client) clientDropdown.getSelectedItem();
+            if (selected != null) {
+                editNameField.setText(selected.getName());
+                editContactField.setText(selected.getContactNo());
+                editPasswordField.setText(selected.getPassword());
+                editUnitField.setText(selected.getUnitDetails());
+                editLocationField.setText(String.valueOf(selected.getLocationID()));
+
+                for (int i = 0; i < editMealPlanDropdown.getItemCount(); i++) {
+                    if (editMealPlanDropdown.getItemAt(i).getPlan_id() == selected.getPlanID()) {
+                        editMealPlanDropdown.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                List<Integer> dietIds = clientController.getDietPreferenceIDs(selected.getClientID());
+                int[] selectedIndices = Arrays.stream(editDietList.getSelectedIndices())
+                        .filter(i -> dietIds.contains(editDietList.getModel().getElementAt(i).getDiet_preference_id()))
+                        .toArray();
+                editDietList.setSelectedIndices(selectedIndices);
+            }
+        });
+
+
+        saveBtn.addActionListener(e -> {
+            try {
+                Client selected = (Client) clientDropdown.getSelectedItem();
+                if (selected == null) {
+                    JOptionPane.showMessageDialog(this, "Please select a client.");
+                    return;
+                }
+
+                String newName = editNameField.getText();
+                String newContact = editContactField.getText();
+                String newPassword = new String(editPasswordField.getPassword());
+                String newUnit = editUnitField.getText();
+                int newLocation = Integer.parseInt(editLocationField.getText());
+                int newPlanId = ((MealPlan) editMealPlanDropdown.getSelectedItem()).getPlan_id();
+                List<Integer> newDietIds = editDietList.getSelectedValuesList()
+                        .stream().map(DietPreference::getDiet_preference_id).collect(Collectors.toList());
+
+                boolean ok = clientController.updateClient(
+                        selected.getClientID(), newName, newContact, newPassword,
+                        newUnit, newPlanId, newDietIds, newLocation
+                );
+
+                if (ok) {
+                    JOptionPane.showMessageDialog(this, "Client updated successfully!");
+                    refreshClientTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to update client.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+            }
+        });
     }
+
 
     private void searchClient() {
         searchTableModel.setRowCount(0);

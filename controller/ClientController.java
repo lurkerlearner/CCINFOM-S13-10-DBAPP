@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ClientController {
 
+    private Client client;
     private ClientDAO clientDAO;
     private LocationDAO locationDAO;
 
@@ -72,6 +73,28 @@ public class ClientController {
     public boolean deleteClient(int clientId) {
         return clientDAO.deleteClient(clientId);
     }
+
+    public boolean updateClient(int clientId, String name, String contact, String password,
+                                String unit, int planId, List<Integer> dietIds, int locationId) {
+        try {
+
+            boolean updatedClient = clientDAO.updateClient(clientId, name, contact, password, unit, planId, locationId);
+            if (!updatedClient) return false;
+
+            clientDAO.updateClientDietPreferences(clientId, dietIds);
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Integer> getDietPreferenceIDs(int clientId) {
+        return clientDAO.getClientDietPreferences(clientId);
+    }
+
+
 
 }
 

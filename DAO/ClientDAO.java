@@ -233,6 +233,73 @@ public class ClientDAO {
         }
     }
 
+    public List<Integer> getClientDietPreferences(int clientId) {
+        List<Integer> dietIds = new ArrayList<>();
+        String sql = "SELECT diet_preference_id FROM CLIENT_DIET_PREFERENCE WHERE client_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, clientId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dietIds.add(rs.getInt("diet_preference_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dietIds;
+    }
+
+
+    public boolean updateClient(int clientId, String name, String contact, String password,
+                                String unit, int planId, int locationId) {
+        String sql = "UPDATE CLIENT SET name = ?, contact_no = ?, password = ?, unit_details = ?, plan_id = ?, location_id = ? WHERE client_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setString(2, contact);
+            ps.setString(3, password);
+            ps.setString(4, unit);
+            ps.setInt(5, planId);
+            ps.setInt(6, locationId);
+            ps.setInt(7, clientId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void updateClientDietPreferences(int clientId, List<Integer> dietIds) throws SQLException {
+        Connection conn = DBConnection.getConnection(); // single connection for the whole method
+        try {
+            conn.setAutoCommit(false); // start transaction
+
+            String deleteSql = "DELETE FROM CLIENT_DIET_PREFERENCE WHERE client_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(deleteSql)) {
+                ps.setInt(1, clientId);
+                ps.executeUpdate();
+            }
+
+            String insertSql = "INSERT INTO CLIENT_DIET_PREFERENCE(diet_preference_id, client_id) VALUES (?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+                for (Integer dietId : dietIds) {
+                    ps.setInt(1, dietId);
+                    ps.setInt(2, clientId);
+                    ps.addBatch();
+                }
+                ps.executeBatch();
+            }
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            conn.rollback();
+        } finally {
+            conn.setAutoCommit(true);
+        }
+    }
+
+
 
     private Client mapResultSetToClient(ResultSet rs) throws SQLException {
         Client c = new Client();
