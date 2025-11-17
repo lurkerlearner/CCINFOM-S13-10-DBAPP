@@ -14,18 +14,21 @@ public class SalesReportPanel extends JPanel {
 
     // UI Components
     private JTabbedPane tabbedPane;
-    private JPanel viewPanel;
+    private JPanel monthlyPanel;
+    private JPanel annualPanel;
 
-    // Components for viewing sales report
-    private JTable salesReportTable;
-    private DefaultTableModel tableModel;
-    private JButton generateButton;
+    // Components for monthly report
+    private JTable monthlyReportTable;
+    private DefaultTableModel monthlyTableModel;
+    private JTextField monthlyInputYear;
+    private JTextField monthlyInputMonth;
+    private JButton monthlyGenerateButton;
 
-    // Components for inputting parameters
-    private JComboBox<String> reportTypeComboBox;
-    private JTextField inputYear;
-    private JTextField inputMonth;
-    private JLabel monthLabel;
+    // Components for annual report
+    private JTable annualReportTable;
+    private DefaultTableModel annualTableModel;
+    private JTextField annualInputYear;
+    private JButton annualGenerateButton;
 
     // Button to go back to main menu
     private JButton mainMenuButton;
@@ -33,9 +36,7 @@ public class SalesReportPanel extends JPanel {
     public SalesReportPanel(DeliveryController deliveryController)
     {
         this.controller = deliveryController;
-
         setLayout(new BorderLayout());
-
         initComponents();
     }
 
@@ -45,64 +46,43 @@ public class SalesReportPanel extends JPanel {
         // Create the tabbed pane
         tabbedPane = new JTabbedPane();
         
-        // Create view panel
-        createViewPanel();
+        // Create panels for each report type
+        createMonthlyReportPanel();
+        createAnnualReportPanel();
         
-        tabbedPane.addTab("Generate Sales Report", viewPanel);
+        tabbedPane.addTab("Monthly Report", monthlyPanel);
+        tabbedPane.addTab("Annual Report", annualPanel);
         
         add(tabbedPane, BorderLayout.CENTER);
     }
 
-    // Create the panel for viewing all contents of the sales report
-    private void createViewPanel()
+    // Create the panel for monthly sales reports
+    private void createMonthlyReportPanel()
     {
-        viewPanel = new JPanel();
-        viewPanel.setLayout(new BorderLayout());
-        viewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        monthlyPanel = new JPanel();
+        monthlyPanel.setLayout(new BorderLayout());
+        monthlyPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        // Panel for inputting parameters
+        // Input panel for monthly report
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridBagLayout());
-        inputPanel.setBorder(BorderFactory.createTitledBorder("Enter Report Parameters"));
+        inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.setBorder(BorderFactory.createTitledBorder("Enter Monthly Report Parameters"));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
+        monthlyInputYear = new JTextField(10);
+        monthlyInputMonth = new JTextField(5);
 
-        // Report Type selection
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        inputPanel.add(new JLabel("Report Type:"), gbc);
+        inputPanel.add(new JLabel("Year:"));
+        inputPanel.add(monthlyInputYear);
+        inputPanel.add(Box.createHorizontalStrut(20));
+        inputPanel.add(new JLabel("Month (1-12):"));
+        inputPanel.add(monthlyInputMonth);
 
-        gbc.gridx = 1;
-        reportTypeComboBox = new JComboBox<>(
-            new String[]{"Monthly Report", "Annual Report"});
-        reportTypeComboBox.addActionListener(e -> updateInputFieldsVisibility());
-        inputPanel.add(reportTypeComboBox, gbc);
-
-        // Year input
-        gbc.gridx = 0; gbc.gridy = 1;
-        inputPanel.add(new JLabel("Year:"), gbc);
-        gbc.gridx = 1;
-        inputYear = new JTextField(10);
-        inputPanel.add(inputYear, gbc);
-
-        // Month input
-        gbc.gridx = 0; gbc.gridy = 2;
-        monthLabel = new JLabel("Month (1-12):");
-        inputPanel.add(monthLabel, gbc);
-
-        gbc.gridx = 1;
-        inputMonth = new JTextField(5);
-        inputPanel.add(inputMonth, gbc);
-
-        // Set up table columns based on report type
-        String[] columnNames = {
+        // Table for monthly report
+        String[] monthlyColumns = {
             "Year", "Month", "Sales Made", "Gross Income", "Net Profit"
         };
 
-        // create a view-only table
-        tableModel = new DefaultTableModel(columnNames, 0) 
+        monthlyTableModel = new DefaultTableModel(monthlyColumns, 0) 
         {
             @Override
             public boolean isCellEditable(int row, int column) 
@@ -111,11 +91,11 @@ public class SalesReportPanel extends JPanel {
             }
         };
 
-        salesReportTable = new JTable(tableModel);
-        salesReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        salesReportTable.getTableHeader().setReorderingAllowed(false);
+        monthlyReportTable = new JTable(monthlyTableModel);
+        monthlyReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        monthlyReportTable.getTableHeader().setReorderingAllowed(false);
 
-        // Create button panel
+        // Button panel for monthly report
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
@@ -124,68 +104,85 @@ public class SalesReportPanel extends JPanel {
             SwingUtilities.getWindowAncestor(this).dispose();
             new AdminMainMenu().setVisible(true);
         });
-        
-        generateButton = new JButton("Generate Report");
-        generateButton.addActionListener(e -> generateSalesReport());
+        monthlyGenerateButton = new JButton("Generate Monthly Report");
+        monthlyGenerateButton.addActionListener(e -> generateMonthlyReport());
 
         buttonPanel.add(mainMenuButton);
-        buttonPanel.add(generateButton);
+        buttonPanel.add(monthlyGenerateButton);
         
-        // Add components to view panel
-        viewPanel.add(inputPanel, BorderLayout.NORTH);
-        viewPanel.add(new JScrollPane(salesReportTable), BorderLayout.CENTER);
-        viewPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // show different input fields based on selected report type
-        updateInputFieldsVisibility();
+        // Add components to monthly panel
+        monthlyPanel.add(inputPanel, BorderLayout.NORTH);
+        monthlyPanel.add(new JScrollPane(monthlyReportTable), BorderLayout.CENTER);
+        monthlyPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    // show different input fields based on selected report type
-    private void updateInputFieldsVisibility() 
+    // Create the panel for annual sales reports
+    private void createAnnualReportPanel()
     {
-        String selectedType = (String) reportTypeComboBox.getSelectedItem();
-        boolean isMonthly = "Monthly Report".equals(selectedType);
+        annualPanel = new JPanel();
+        annualPanel.setLayout(new BorderLayout());
+        annualPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        // Show/hide month field based on report type
-        monthLabel.setVisible(isMonthly);
-        inputMonth.setVisible(isMonthly);
-        
-        // Update table columns based on report type
-        updateTableColumns(isMonthly);
-    }
+        // Input panel for annual report
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.setBorder(BorderFactory.createTitledBorder("Enter Annual Report Parameters"));
 
-    // Update table columns based on report type
-    private void updateTableColumns(boolean includeMonth) 
-    {
-        tableModel.setRowCount(0); // Clear existing data
-        
-        if (includeMonth) 
+        annualInputYear = new JTextField(10);
+
+        inputPanel.add(new JLabel("Year:"));
+        inputPanel.add(annualInputYear);
+
+        // Table for annual report (no month column)
+        String[] annualColumns = {
+            "Year", "Sales Made", "Gross Income", "Net Profit"
+        };
+
+        annualTableModel = new DefaultTableModel(annualColumns, 0) 
         {
-            // Monthly report columns
-            tableModel.setColumnIdentifiers(new String[]{
-                "Year", "Month", "Sales Made", "Gross Income", "Net Profit"
-            });
-        } 
-        else 
-        {
-            // Annual report columns (no month column)
-            tableModel.setColumnIdentifiers(new String[]{
-                "Year", "Sales Made", "Gross Income", "Net Profit"
-            });
-        }
+            @Override
+            public boolean isCellEditable(int row, int column) 
+            {
+                return false;
+            }
+        };
+
+        annualReportTable = new JTable(annualTableModel);
+        annualReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        annualReportTable.getTableHeader().setReorderingAllowed(false);
+
+        // Button panel for annual report
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        
+        mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
+        });
+        annualGenerateButton = new JButton("Generate Annual Report");
+        annualGenerateButton.addActionListener(e -> generateAnnualReport());
+
+        buttonPanel.add(mainMenuButton);
+        buttonPanel.add(annualGenerateButton);
+        
+        // Add components to annual panel
+        annualPanel.add(inputPanel, BorderLayout.NORTH);
+        annualPanel.add(new JScrollPane(annualReportTable), BorderLayout.CENTER);
+        annualPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    // Generate and display the sales report based on user input
-    private void generateSalesReport() 
+    // Generate monthly sales report
+    private void generateMonthlyReport() 
     {
-        tableModel.setRowCount(0); // Clear table
+        monthlyTableModel.setRowCount(0); // Clear table
 
         try 
         {
-            String reportType = (String) reportTypeComboBox.getSelectedItem();
-            int year = Integer.parseInt(inputYear.getText().trim());
+            int year = Integer.parseInt(monthlyInputYear.getText().trim());
+            int month = Integer.parseInt(monthlyInputMonth.getText().trim());
 
-            // Validate year (reasonable range)
+            // Validate year
             if (year < 1900 || year > 2100) 
             {
                 JOptionPane.showMessageDialog(this, 
@@ -195,79 +192,44 @@ public class SalesReportPanel extends JPanel {
                 return;
             }
 
-            // Generate reports based sa report type
-            ArrayList<SalesReport> salesRecords;
-
-            if ("Monthly Report".equals(reportType)) 
+            // Validate month
+            if (month < 1 || month > 12) 
             {
-                // Generate monthly report
-                int month = Integer.parseInt(inputMonth.getText().trim());
+                JOptionPane.showMessageDialog(this, 
+                    "Month must be between 1 and 12.", 
+                    "Invalid Input", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                // Validate month range
-                if (month < 1 || month > 12) 
-                {
-                    JOptionPane.showMessageDialog(this, 
-                        "Month must be between 1 and 12.", 
-                        "Invalid Input", 
-                        JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                salesRecords = controller.generateSalesReportByMonthYear(year, month);
-                
-                if (salesRecords.isEmpty()) 
-                {
-                    JOptionPane.showMessageDialog(this, 
-                        "No sales data found for " + getMonthName(month) + " " + year, 
-                        "No Data", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-
-                // Populate table with monthly report data
-                for (SalesReport s : salesRecords) 
-                {
-                    Object[] row = new Object[]
-                    {
-                        s.getYear(),
-                        getMonthName(s.getMonth()),
-                        s.getSales_made(),
-                        String.format("%.2f", s.getGross_income()),
-                        String.format("%.2f", s.getNet_profit())
-                    };
-                    tableModel.addRow(row);
-                }
-            } 
-            else 
+            // Get monthly sales report
+            ArrayList<SalesReport> salesRecords = controller.generateSalesReportByMonthYear(year, month);
+            
+            if (salesRecords.isEmpty()) 
             {
-                // Generate annual report
-                salesRecords = controller.generateSalesReportByYear(year);
-                
-                if (salesRecords.isEmpty()) 
-                {
-                    JOptionPane.showMessageDialog(this, 
-                        "No sales data found for year " + year, 
-                        "No Data", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
+                JOptionPane.showMessageDialog(this, 
+                    "No sales data found for " + getMonthName(month) + " " + year, 
+                    "No Data", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
 
-                // Populate table with annual report data (no month column)
-                for (SalesReport s : salesRecords) 
+            // Populate table with monthly report data
+            for (SalesReport s : salesRecords) 
+            {
+                Object[] row = new Object[]
                 {
-                    Object[] row = new Object[]
-                    {
-                        s.getYear(),
-                        s.getSales_made(),
-                        String.format("%.2f", s.getGross_income()),
-                        String.format("%.2f", s.getNet_profit())
-                    };
-                    tableModel.addRow(row);
-                }
+                    s.getYear(),
+                    getMonthName(s.getMonth()),
+                    s.getSales_made(),
+                    String.format("%.2f", s.getGross_income()),
+                    String.format("%.2f", s.getNet_profit())
+                };
+                monthlyTableModel.addRow(row);
             }
 
             JOptionPane.showMessageDialog(this, 
-                "Sales report generated successfully!", 
+                "Monthly sales report generated successfully!", 
                 "Success", 
                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -276,6 +238,73 @@ public class SalesReportPanel extends JPanel {
         {
             JOptionPane.showMessageDialog(this, 
                 "Please enter valid numbers for year and month.", 
+                "Invalid Input", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(this, 
+                "An error occurred while generating the report: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    // Generate annual sales report
+    private void generateAnnualReport() 
+    {
+        annualTableModel.setRowCount(0); // Clear table
+
+        try 
+        {
+            int year = Integer.parseInt(annualInputYear.getText().trim());
+
+            // Validate year
+            if (year < 1900 || year > 2100) 
+            {
+                JOptionPane.showMessageDialog(this, 
+                    "Please enter a valid year.", 
+                    "Invalid Input", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Get annual sales report
+            ArrayList<SalesReport> salesRecords = controller.generateSalesReportByYear(year);
+            
+            if (salesRecords.isEmpty()) 
+            {
+                JOptionPane.showMessageDialog(this, 
+                    "No sales data found for year " + year, 
+                    "No Data", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Populate table with annual report data
+            for (SalesReport s : salesRecords) 
+            {
+                Object[] row = new Object[]
+                {
+                    s.getYear(),
+                    s.getSales_made(),
+                    String.format("%.2f", s.getGross_income()),
+                    String.format("%.2f", s.getNet_profit())
+                };
+                annualTableModel.addRow(row);
+            }
+
+            JOptionPane.showMessageDialog(this, 
+                "Annual sales report generated successfully!", 
+                "Success", 
+                JOptionPane.INFORMATION_MESSAGE);
+
+        } 
+        catch (NumberFormatException e) 
+        {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter a valid number for year.", 
                 "Invalid Input", 
                 JOptionPane.ERROR_MESSAGE);
         }
