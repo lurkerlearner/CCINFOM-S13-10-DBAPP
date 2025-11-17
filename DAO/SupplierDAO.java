@@ -46,7 +46,7 @@ public class SupplierDAO {
         }
     } 
 
-    public boolean updateSupplier(Supplier supplier) {
+    public boolean updateSupplierAll(Supplier supplier) {
         // Check if supplier has a valid ID (should exist in database to update)
         if (supplier.getSupplier_id() <= 0) 
         {
@@ -72,6 +72,86 @@ public class SupplierDAO {
         }
         catch (SQLException e) {
             System.err.println("Error updating supplier: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateSupplierName(int supplier_id, String newName) {
+
+        String sqlQuery = "UPDATE SUPPLIER SET supplier_name = ? WHERE supplier_id = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newName);
+            stmt.setInt(2, supplier_id); // WHERE clause
+
+            int affectedRows = stmt.executeUpdate();
+            
+            return affectedRows > 0;
+        }
+        catch (SQLException e) {
+            System.err.println("Error updating name: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateContactNo(int supplier_id, String newContact) {
+
+        String sqlQuery = "UPDATE SUPPLIER SET contact_no = ? WHERE supplier_id = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newContact);
+            stmt.setInt(2, supplier_id); // WHERE clause
+
+            int affectedRows = stmt.executeUpdate();
+            
+            return affectedRows > 0;
+        }
+        catch (SQLException e) {
+            System.err.println("Error updating contact number: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateAltContactNo(int supplier_id, String newAltContact) {
+
+        String sqlQuery = "UPDATE SUPPLIER SET alt_contact_no = ? WHERE supplier_id = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, newAltContact);
+            stmt.setInt(2, supplier_id); // WHERE clause
+
+            int affectedRows = stmt.executeUpdate();
+            
+            return affectedRows > 0;
+        }
+        catch (SQLException e) {
+            System.err.println("Error updating alt contact number: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean updateLocationID(int supplier_id, int location_id) {
+
+        String sqlQuery = "UPDATE SUPPLIER SET location_id = ? WHERE supplier_id = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setInt(1, location_id);
+            stmt.setInt(2, supplier_id); // WHERE clause
+
+            int affectedRows = stmt.executeUpdate();
+            
+            return affectedRows > 0;
+        }
+        catch (SQLException e) {
+            System.err.println("Error updating location ID: " + e.getMessage());
             return false;
         }
     }

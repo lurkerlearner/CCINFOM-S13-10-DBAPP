@@ -25,6 +25,26 @@ public class SupplierController {
         return supplierDAO.deleteSupplier(supplier_id);
     }
 
+    public boolean updateSupplierAll(Supplier supplier) {
+        return supplierDAO.updateSupplierAll(supplier);
+    }
+
+    public boolean updateSupplierName(int supplier_id, String newName) {
+        return supplierDAO.updateSupplierName(supplier_id, newName);
+    }
+
+    public boolean updateSupplierContactNo(int supplier_id, String newContactNo) {
+        return supplierDAO.updateContactNo(supplier_id, newContactNo);
+    }
+
+    public boolean updateSupplierAltContactNo(int supplier_id, String newAltContactNo) {
+        return supplierDAO.updateContactNo(supplier_id, newAltContactNo);
+    }
+
+    public boolean updateSupplierLocationID(int supplier_id, int newLocationID) {
+        return supplierDAO.updateLocationID(supplier_id, newLocationID);
+    }
+
     public ArrayList<Supplier> getAllSuppliers() {
         return supplierDAO.getAllSuppliers();
     }
