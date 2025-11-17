@@ -28,7 +28,7 @@ public enum Restock_status {
     public static Restock_status calculateStatus(double stock_quantity) {
     if (stock_quantity == 0) {
             return OUT_OF_STOCK;
-        } else if (stock_quantity > 0 && stock_quantity <= 30) {
+        } else if (stock_quantity > 0 && stock_quantity <= 1000) {
             return LOW_STOCK;
         } else {
             return AVAILABLE;

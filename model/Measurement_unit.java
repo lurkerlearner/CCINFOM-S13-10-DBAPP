@@ -9,7 +9,7 @@ package model;/*
  */
 public enum Measurement_unit {
     GRAMS("grams"), 
-    LITRES("litres");
+    MILLILITRES("millilitres");
 
     private final String dbValue;
 
@@ -28,6 +28,4 @@ public enum Measurement_unit {
     {
         return valueOf(dbVal.toUpperCase());
     }
-
-
 }

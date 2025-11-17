@@ -27,7 +27,6 @@ public class IngredientDAO {
             stmt.setString(5, ingredient.getMeasurement_unit().getDbValue());
             stmt.setDouble(6, ingredient.getStock_quantity());
             stmt.setDate(7, ingredient.getExpiry_date());
-            // stmt.setString(8, ingredient.getRestock_status().name());
             stmt.setInt(8, ingredient.getSupplier_id()); // ensure that supplier table already has records
 
             int affectedRows = stmt.executeUpdate();
