@@ -49,15 +49,14 @@ public class AdminMainMenu extends JFrame {
         centerPanel.add(welcomeLabel);
         centerPanel.add(Box.createVerticalStrut(20));
         centerPanel.add(dateLabel);
-        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(Box.createVerticalStrut(80));
 
         JButton manageRecordsBtn = new JButton("Manage records");
-        JButton makeTransactionBtn = new JButton("Make a transaction");
         JButton generateReportBtn = new JButton("Generate a report");
 
         //==PAM PA DESIGN SA BUTTONS
-        Dimension btnSize = new Dimension(250, 50);
-        for (JButton btn : new JButton[]{manageRecordsBtn, makeTransactionBtn, generateReportBtn}) {
+        Dimension btnSize = new Dimension(400, 80);
+        for (JButton btn : new JButton[]{manageRecordsBtn, generateReportBtn}) {
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
             btn.setPreferredSize(btnSize);
             btn.setMaximumSize(btnSize);
@@ -92,12 +91,6 @@ public class AdminMainMenu extends JFrame {
             this.dispose();
             new ManageRecordsFrame().setVisible(true); // Faith
         });
-
-        makeTransactionBtn.addActionListener(e -> {
-            // TODO: implement whatever
-            JOptionPane.showMessageDialog(this, "Make a transaction clicked."); // just to test if button works
-        });
-
 
         generateReportBtn.addActionListener(e -> {
             // TODO: implement whatever
