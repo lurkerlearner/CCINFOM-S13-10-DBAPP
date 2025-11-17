@@ -11,7 +11,7 @@ public class SupplierController {
         this.supplierDAO = dao;
     }
 
-    public boolean addSupplier(String supplier_name, int contact_no, int alt_contact_no, int location_id) {
+    public boolean addSupplier(String supplier_name, String contact_no, String alt_contact_no, int location_id) {
         Supplier supplier = new Supplier();
         supplier.setSupplier_name(supplier_name);
         supplier.setContact_no(contact_no);

@@ -18,8 +18,8 @@ public class SupplierDAO {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) 
         {
             stmt.setString(1, supplier.getSupplier_name());
-            stmt.setInt(2, supplier.getContact_no());
-            stmt.setInt(3, supplier.getAlt_contact_no());
+            stmt.setString(2, supplier.getContact_no());
+            stmt.setString(3, supplier.getAlt_contact_no());
             stmt.setInt(4, supplier.getLocation_id()); // ensure that location table already has records
 
             int affectedRows = stmt.executeUpdate();
@@ -61,8 +61,8 @@ public class SupplierDAO {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
         {
             stmt.setString(1, supplier.getSupplier_name());
-            stmt.setInt(2, supplier.getContact_no());
-            stmt.setInt(3, supplier.getAlt_contact_no());
+            stmt.setString(2, supplier.getContact_no());
+            stmt.setString(3, supplier.getAlt_contact_no());
             stmt.setInt(4, supplier.getLocation_id());
             stmt.setInt(5, supplier.getSupplier_id()); // WHERE clause
 
@@ -123,8 +123,8 @@ public class SupplierDAO {
                     Supplier supplier = new Supplier(
                         rs.getInt("supplier_id"),
                         rs.getString("supplier_name"),
-                        rs.getInt("contact_no"),
-                        rs.getInt("alt_contact_no"),
+                        rs.getString("contact_no"),
+                        rs.getString("alt_contact_no"),
                         rs.getInt("location_id")
                     );
                     suppliers.add(supplier);
@@ -155,8 +155,8 @@ public class SupplierDAO {
                     Supplier supplier = new Supplier(
                         rs.getInt("supplier_id"),
                         rs.getString("supplier_name"),
-                        rs.getInt("contact_no"),
-                        rs.getInt("alt_contact_no"),
+                        rs.getString("contact_no"),
+                        rs.getString("alt_contact_no"),
                         rs.getInt("location_id")
                     );
                     suppliers.add(supplier);
@@ -186,8 +186,8 @@ public class SupplierDAO {
                     return new Supplier(
                         rs.getInt("supplier_id"),
                         rs.getString("supplier_name"),
-                        rs.getInt("contact_no"),
-                        rs.getInt("alt_contact_no"),
+                        rs.getString("contact_no"),
+                        rs.getString("alt_contact_no"),
                         rs.getInt("location_id")
                     );
                 }

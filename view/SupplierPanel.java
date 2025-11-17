@@ -137,8 +137,8 @@ public class SupplierPanel extends JPanel
         try 
         {
             String name = supplier_name.getText().trim();
-            int contactNo = Integer.parseInt(contact_no.getText().trim());
-            int altContactNo = Integer.parseInt(alt_contact_no.getText().trim());
+            String contactNo = contact_no.getText().trim();
+            String altContactNo = alt_contact_no.getText().trim();
             int locationId = Integer.parseInt(location_id.getText().trim());
 
             controller.addSupplier(name, contactNo, altContactNo, locationId);
