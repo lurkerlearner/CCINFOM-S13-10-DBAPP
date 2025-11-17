@@ -156,10 +156,6 @@ CREATE TABLE IF NOT EXISTS CLIENT_DIET_PREFERENCE (
         ON UPDATE CASCADE
 );
 
-INSERT INTO diet_preference (diet_preference_id,diet_name, description)
-VALUES (1, 'Standard Diet', 'Default diet preference for new users')
-ON DUPLICATE KEY UPDATE diet_name = diet_name;
-
 INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
 ('Vegan','No animal products'),
 ('Vegetarian','No meat'),
@@ -172,9 +168,6 @@ INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
 ('Diabetic-Friendly','Low sugar'),
 ('Low Fat','Reduced fat intake');
 
-INSERT INTO meal_plan (plan_id, plan_name, description, total_price)
-VALUES (1, 'Default Plan', 'Used for registration', 0.00)
-ON DUPLICATE KEY UPDATE plan_name = plan_name;
 INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
 ('Vegan Starter','A starter vegan meal plan',500),
 ('High Protein Plan','Protein-packed meals',1200),
@@ -335,30 +328,6 @@ INSERT INTO MEAL_INGREDIENT (meal_id, ingredient_id, quantity) VALUES
 (11, 10, 30);  -- Eggs
 
 
-SELECT * FROM SUPPLIER;
-SELECT * FROM INGREDIENT;
-SELECT * FROM MEAL_PLAN;
-SELECT * FROM MEAL;
-
-SET FOREIGN_KEY_CHECKS = 0;
-
-TRUNCATE TABLE meal_ingredient;
-TRUNCATE TABLE ingredient;
-ALTER TABLE ingredient AUTO_INCREMENT = 1;
-
-TRUNCATE TABLE supplier;
-ALTER TABLE supplier AUTO_INCREMENT = 1;
-
--- Truncate other dependent tables if needed
-TRUNCATE TABLE meal;
-ALTER TABLE meal AUTO_INCREMENT = 1;
-
-TRUNCATE TABLE delivery;
-ALTER TABLE delivery AUTO_INCREMENT = 1;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-SELECT * FROM MEAL_INGREDIENT;
 
 -- -------------------
 -- DELIVERY
@@ -430,3 +399,12 @@ INSERT INTO flood_data (flood_factor, avg_water_level, affected_households, road
 
 SELECT * FROM flood_data;
 
+-- CLIENT_DIET_PREFERENCE
+-- -------------------
+INSERT INTO CLIENT_DIET_PREFERENCE (diet_preference_id, client_id) VALUES
+(1,1),(3,1),(8,2),(2,2),(5,3),(4,3),(6,4),(9,5),(7,6),(2,7),(5,8),(3,9);
+
+SELECT * FROM client_diet_preference;
+SELECT * FROM client;
+
+SELECT * FROM client;
