@@ -22,15 +22,17 @@ public class GenerateReportFrame extends JFrame {
     private SupplierController supplierController;
     private RiderController riderController;
     private MealIngredientController mealIngredientController;
+    private ClientEngagementController clientEngagementController;
 
     // Main panels and panels of reports
     private JPanel mainPanel;
     private SalesReportPanel salesReportPanel;
+    private ClientEngagementPanel clientEngagementPanel;
     // padagdag nlng panels para sa reports nyo
 
     // nav panel and buttons
     private JPanel navPanel;
-    private JButton salesReportBtn;
+    private JButton salesReportBtn, clientEngagementBtn;
 
     public GenerateReportFrame() {
         setTitle("FloodPanda - Admin / Manage Records");
@@ -64,9 +66,11 @@ public class GenerateReportFrame extends JFrame {
         supplierController = new SupplierController(new SupplierDAO());
         riderController = new RiderController(new RiderDAO(DBConnection.getConnection()));
         mealIngredientController = new MealIngredientController(new MealIngredientDAO());
+        clientEngagementController = new ClientEngagementController();
 
         // Initialize panels
         salesReportPanel = new SalesReportPanel(deliveryController);
+        clientEngagementPanel = new ClientEngagementPanel(clientEngagementController);
 
         // show sales report panel by default
         mainPanel.add(salesReportPanel, BorderLayout.CENTER);
@@ -99,11 +103,14 @@ public class GenerateReportFrame extends JFrame {
 
         // Initialize buttons for each record panel
         salesReportBtn = createNavButton("Sales Report", e -> switchToPanel(salesReportPanel));
+        clientEngagementBtn = createNavButton("Client Engagement", e-> switchToPanel(clientEngagementPanel));
         
         // Add buttons to navigation panel
         navPanel.add(salesReportBtn);
         navPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        // add nyo nlng buttons nyo
+        navPanel.add(clientEngagementBtn);
+        navPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
 
         navPanel.add(Box.createVerticalGlue());
     }
