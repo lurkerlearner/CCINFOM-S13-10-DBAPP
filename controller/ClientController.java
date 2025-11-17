@@ -68,18 +68,10 @@ public class ClientController {
     public List<Client> searchClientsByContact(String contactNo) {
         return clientDAO.searchClients("contact", contactNo);
     }
-/*
-    public Client getClientById(int clientId) {
-        Client client = clientDAO.getClientById(clientId);
-        if (client != null) {
 
-            int locId = client.getLocationID();
-            Location location = locationDAO.getLocationById(locId);
-            client.setLocationID(location);
-        }
-        return client;
+    public boolean deleteClient(int clientId) {
+        return clientDAO.deleteClient(clientId);
     }
-*/
 
 }
 

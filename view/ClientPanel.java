@@ -35,7 +35,7 @@ public class ClientPanel extends JPanel {
     private DefaultTableModel searchTableModel;
     private JButton searchBtn;
     private JButton searchDetailsBtn;
-
+    private JButton deleteBtn;
 
     private JTabbedPane tabbedPane;
 
@@ -154,7 +154,12 @@ public class ClientPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         refreshBtn = new JButton("Refresh");
         refreshBtn.addActionListener(e -> refreshClientTable());
+        deleteBtn = new JButton("Delete Selected");
+        deleteBtn.addActionListener(e -> deleteClient());
         buttonPanel.add(refreshBtn);
+        buttonPanel.add(deleteBtn);
+
+
 
         viewPanel.add(new JScrollPane(clientTable), BorderLayout.CENTER);
         viewPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -258,6 +263,40 @@ public class ClientPanel extends JPanel {
         JOptionPane.showMessageDialog(this, scroll, "Client Details",
                 JOptionPane.INFORMATION_MESSAGE);
     }
+
+    private void deleteClient() {
+        int selectedRow = clientTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a client to delete.",
+                    "No Selection", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete the selected client? This may affect related records (e.g., deliveries, diet preferences).",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                int clientIdToDelete = (int) clientTableModel.getValueAt(selectedRow, 0);
+
+                if (clientController.deleteClient(clientIdToDelete)) {
+                    JOptionPane.showMessageDialog(this, "Client deleted successfully.");
+                    refreshClientTable();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Failed to delete client. Check database constraints.",
+                            "Deletion Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                        "An error occurred during deletion: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
 
 
 

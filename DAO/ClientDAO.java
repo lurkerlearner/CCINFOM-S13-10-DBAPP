@@ -216,6 +216,23 @@ public class ClientDAO {
         return clients;
     }
 
+    public boolean deleteClient(int clientId) {
+        String sql = "DELETE FROM CLIENT WHERE client_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, clientId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // Handle FK constraints explicitly if needed
+            System.err.println("Cannot delete client due to related records: " + e.getMessage());
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private Client mapResultSetToClient(ResultSet rs) throws SQLException {
         Client c = new Client();
