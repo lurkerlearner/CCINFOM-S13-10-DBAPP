@@ -192,18 +192,62 @@ INSERT INTO SUPPLIER (supplier_name, contact_no, alt_contact_no, location_id) VA
 ('NutriSource','09173334455',NULL,1),
 ('Organic Supplies','09174445566','09175556677',10);
 
-INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, restock_status, supplier_id) VALUES
-(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31','Available',3),
-(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30','Low Stock',3),
-(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20','Available',2),
-(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18','Low Stock',6),
-(105,'Olive Oil','Fat','Dry','litres',100,'2026-01-31','Available',5),
-(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15','Available',4),
-(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31','Available',5),
-(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28','Available',9),
-(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25','Available',2),
-(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31','Available',4),
-(111, 'Beef Sirloin', 'Protein', 'Refrigerated', 'grams', 4000, '2025-12-15', 'Available', 3);
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM INGREDIENT;
+ALTER TABLE INGREDIENT AUTO_INCREMENT = 1;
+SET SQL_SAFE_UPDATES = 1;
+
+ALTER TABLE INGREDIENT 
+MODIFY COLUMN measurement_unit ENUM('grams', 'millilitres');
+
+-- Drop existing triggers if they exist (for clean setup)
+DROP TRIGGER IF EXISTS update_restock_status_before_insert;
+DROP TRIGGER IF EXISTS update_restock_status_before_update;
+
+-- Trigger for INSERT operations
+DELIMITER //
+CREATE TRIGGER update_restock_status_before_insert
+BEFORE INSERT ON INGREDIENT
+FOR EACH ROW
+BEGIN
+    IF NEW.stock_quantity = 0 THEN
+        SET NEW.restock_status = 'Out of Stock';
+    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
+        SET NEW.restock_status = 'Low Stock';
+    ELSE
+        SET NEW.restock_status = 'Available';
+    END IF;
+END//
+DELIMITER ;
+
+-- Trigger for UPDATE operations
+DELIMITER //
+CREATE TRIGGER update_restock_status_before_update
+BEFORE UPDATE ON INGREDIENT
+FOR EACH ROW
+BEGIN
+    IF NEW.stock_quantity = 0 THEN
+        SET NEW.restock_status = 'Out of Stock';
+    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
+        SET NEW.restock_status = 'Low Stock';
+    ELSE
+        SET NEW.restock_status = 'Available';
+    END IF;
+END//
+DELIMITER ;
+
+INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, supplier_id) VALUES
+(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31',3),
+(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30',3),
+(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20',2),
+(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18',6),
+(105,'Olive Oil','Fat','Dry','millilitres',100,'2026-01-31',5),
+(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15',4),
+(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31',5),
+(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28',9),
+(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25',2),
+(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31',4),
+(111,'Beef Sirloin','Protein','Refrigerated','grams',4000,'2025-12-15',3);
 
 INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
 ('Vegan Starter','A starter vegan meal plan',500),
@@ -272,8 +316,9 @@ INSERT INTO RIDER (rider_name, hire_date, contact_no) VALUES
 ('Rider H','2024-08-01','09170000008'),
 ('Rider I','2024-09-01','09170000009'),
 ('Rider J','2024-10-01','09170000010');
+SELECT * FROM RIDER;
 
-
+SELECT * FROM MEAL_INGREDIENT;
 INSERT INTO MEAL_INGREDIENT (meal_id, ingredient_id, quantity) VALUES
 -- 1. Vegan Salad
 (1, 3, 150),   -- Broccoli
@@ -325,6 +370,7 @@ INSERT INTO MEAL_INGREDIENT (meal_id, ingredient_id, quantity) VALUES
 -- -------------------
 -- DELIVERY
 -- -------------------
+SELECT * FROM DELIVERY;
 INSERT INTO delivery (
     order_date, time_ordered, time_delivered, 
     payment_mode, payment_status, delivery_method, delivery_status, 
@@ -380,6 +426,7 @@ SELECT * FROM flood_data;
 -- -------------------
 -- MEAL_DELIVERY
 -- -------------------
+SELECT * FROM MEAL_DELIVERY;
 INSERT INTO meal_delivery (meal_id, transaction_id, remarks) VALUES
 -- Transaction 1
 (5, 1, 'Delivered on time'),
@@ -441,6 +488,7 @@ INSERT INTO meal_delivery (meal_id, transaction_id, remarks) VALUES
 INSERT INTO MEAL_MEAL_PLAN (plan_id, meal_id, remarks) VALUES
 (1,1,'Vegan combo'),(1,5,'Vegan combo'),(2,2,'High protein plan'),(2,10,'High protein plan'),
 (3,6,'Low carb plan'),(4,4,'Family plan'),(5,7,'Gluten-free plan');
+SELECT * FROM MEAL_MEAL_PLAN;
 
 -- CLIENT_DIET_PREFERENCE
 -- -------------------
@@ -452,62 +500,6 @@ SELECT * FROM client;
 
 SELECT * FROM client;
 
-SET SQL_SAFE_UPDATES = 0;
-DELETE FROM INGREDIENT;
-ALTER TABLE INGREDIENT AUTO_INCREMENT = 1;
-SET SQL_SAFE_UPDATES = 1;
-
-ALTER TABLE INGREDIENT 
-MODIFY COLUMN measurement_unit ENUM('grams', 'millilitres');
-
-INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, supplier_id) VALUES
-(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31',3),
-(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30',3),
-(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20',2),
-(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18',6),
-(105,'Olive Oil','Fat','Dry','millilitres',100,'2026-01-31',5),
-(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15',4),
-(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31',5),
-(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28',9),
-(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25',2),
-(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31',4),
-(111,'Beef Sirloin','Protein','Refrigerated','grams',4000,'2025-12-15',3);
-
--- Drop existing triggers if they exist (for clean setup)
-DROP TRIGGER IF EXISTS update_restock_status_before_insert;
-DROP TRIGGER IF EXISTS update_restock_status_before_update;
-
--- Trigger for INSERT operations
-DELIMITER //
-CREATE TRIGGER update_restock_status_before_insert
-BEFORE INSERT ON INGREDIENT
-FOR EACH ROW
-BEGIN
-    IF NEW.stock_quantity = 0 THEN
-        SET NEW.restock_status = 'Out of Stock';
-    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
-        SET NEW.restock_status = 'Low Stock';
-    ELSE
-        SET NEW.restock_status = 'Available';
-    END IF;
-END//
-DELIMITER ;
-
--- Trigger for UPDATE operations
-DELIMITER //
-CREATE TRIGGER update_restock_status_before_update
-BEFORE UPDATE ON INGREDIENT
-FOR EACH ROW
-BEGIN
-    IF NEW.stock_quantity = 0 THEN
-        SET NEW.restock_status = 'Out of Stock';
-    ELSEIF NEW.stock_quantity > 0 AND NEW.stock_quantity <= 1000 THEN
-        SET NEW.restock_status = 'Low Stock';
-    ELSE
-        SET NEW.restock_status = 'Available';
-    END IF;
-END//
-DELIMITER ;
 
 SELECT * FROM client;
 SELECT * FROM client_diet_preference;
@@ -522,7 +514,4 @@ SELECT * FROM meal_ingredient;
 SELECT * FROM meal_meal_plan;
 SELECT * FROM rider;
 SELECT * FROM supplier;
-
-
-
 SELECT * FROM meal_plan;
