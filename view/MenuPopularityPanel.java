@@ -168,7 +168,7 @@ public class MenuPopularityPanel extends JPanel {
                 return;       
             }
 
-            List<MealPerformance> rows = mealController.getMealPerformanceByMonthYear(month, year);
+            List<MealPerformance> rows = mealController.getMealPerformanceByMonthYear(year, month);
 
            if (rows.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
