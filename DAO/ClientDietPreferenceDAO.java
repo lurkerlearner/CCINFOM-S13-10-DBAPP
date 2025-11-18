@@ -217,5 +217,43 @@ public class ClientDietPreferenceDAO {
         return list;
     }
 
+    public boolean setClientDietPreferences(int clientId, List<Integer> dietPrefIds) {
+        String deleteSql = "DELETE FROM client_diet_preference WHERE client_id = ?";
+        String insertSql = "INSERT INTO client_diet_preference (diet_preference_id, client_id) VALUES (?, ?)";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement psDel = conn.prepareStatement(deleteSql)) {
+                psDel.setInt(1, clientId);
+                psDel.executeUpdate();
+            }
+
+            try (PreparedStatement psIns = conn.prepareStatement(insertSql)) {
+                for (Integer dietId : dietPrefIds) {
+                    psIns.setInt(1, dietId);
+                    psIns.setInt(2, clientId);
+                    psIns.addBatch();
+                }
+                psIns.executeBatch();
+            }
+
+            conn.commit();
+            conn.setAutoCommit(true);
+            return true;
+        } catch (SQLException e) {
+            try {
+                Connection conn = DBConnection.getConnection();
+                conn.rollback();
+                conn.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
 }

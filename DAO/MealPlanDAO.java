@@ -178,6 +178,26 @@ public List<Meal> getMealsInPlan(int mealPlanId) {
         }
     }
 
+    //pang acct management
+    public boolean updateMealPlanForClient(int clientId, int newPlanId) {
+        String sql = "UPDATE client SET plan_id = ? WHERE client_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, newPlanId);
+            ps.setInt(2, clientId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 
     private MealPlan mapResultSetToMealPlan(ResultSet resultSet) throws SQLException{
         return new MealPlan(

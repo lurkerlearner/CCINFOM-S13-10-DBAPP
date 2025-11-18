@@ -6,18 +6,29 @@ import controller.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class AccountManagementScreen extends JFrame {
 
     private final Client client;
     private final ClientDAO clientDAO = new ClientDAO();
     private final LocationDAO locationDAO = new LocationDAO();
+    private final DietPreferenceDAO dietDAO = new DietPreferenceDAO();
+    private final ClientDietPreferenceDAO clientDietDAO = new ClientDietPreferenceDAO();
+    private final MealPlanDAO mealPlanDAO = new MealPlanDAO();
 
     private final JTextField nameField;
     private final JTextField contactField;
     private final JTextField unitField;
     private final JComboBox<Location> locationDropdown;
+    private final JComboBox<MealPlan> mealPlanDropdown;
+
+    private JPanel dietPanel;
+    private List<JCheckBox> dietCheckBoxes = new ArrayList<>();
 
     private JButton editBtn;
     private JButton saveBtn;
@@ -71,6 +82,17 @@ public class AccountManagementScreen extends JFrame {
         }
         locationDropdown.setEnabled(false);
 
+        List<MealPlan> plans = mealPlanDAO.getallMealPlans();
+        mealPlanDropdown = new JComboBox<>(new Vector<>(plans));
+        for (int i = 0; i < plans.size(); i++) {
+            if (plans.get(i).getPlan_id() == client.getPlanID()) {
+                mealPlanDropdown.setSelectedIndex(i);
+                break;
+            }
+        }
+        mealPlanDropdown.setEnabled(false);
+
+
 
         gbc.gridx = 0; gbc.gridy = 0;
         centerPanel.add(new JLabel("Name:"), gbc);
@@ -94,6 +116,16 @@ public class AccountManagementScreen extends JFrame {
         centerPanel.add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
         centerPanel.add(locationDropdown, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 4;
+        centerPanel.add(new JLabel("Meal Plan:"), gbc);
+        gbc.gridx = 1;
+        centerPanel.add(mealPlanDropdown, gbc);
+
+        setupDietPreferencesPanel();
+        gbc.gridx = 0; gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        centerPanel.add(dietPanel, gbc);
 
         add(centerPanel, BorderLayout.CENTER);
 
@@ -131,6 +163,10 @@ public class AccountManagementScreen extends JFrame {
         contactField.setEnabled(editable);
         unitField.setEnabled(editable);
         locationDropdown.setEnabled(editable);
+        mealPlanDropdown.setEnabled(editable);
+        for (JCheckBox cb : dietCheckBoxes) {
+            cb.setEnabled(editable);
+        }
     }
 
     private void saveChanges() {
@@ -154,6 +190,26 @@ public class AccountManagementScreen extends JFrame {
         client.setUnitDetails(newUnit);
         client.setLocationID(newLocation.getLocationId());
 
+        MealPlan selectedPlan = (MealPlan) mealPlanDropdown.getSelectedItem();
+        if (selectedPlan != null) {
+            client.setPlanID(selectedPlan.getPlan_id());
+            mealPlanDAO.updateMealPlanForClient(client.getClientID(), selectedPlan.getPlan_id());
+        }
+
+        List<Integer> selectedDietIds = dietCheckBoxes.stream()
+                .filter(JCheckBox::isSelected)
+                .map(cb -> {
+                    DietPreference dp = dietDAO.getDietPreferenceByName(cb.getText());
+                    return dp.getDiet_preference_id();
+                })
+                .collect(Collectors.toList());
+
+        if (!clientDietDAO.setClientDietPreferences(client.getClientID(), selectedDietIds)) {
+            JOptionPane.showMessageDialog(this, "Failed to update diet preferences.");
+            return;
+        }
+
+
         boolean updated = clientDAO.updateClient(client);
         if (updated) {
             JOptionPane.showMessageDialog(this, "Profile updated successfully!");
@@ -162,4 +218,31 @@ public class AccountManagementScreen extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to update profile.");
         }
     }
+
+    private void setupDietPreferencesPanel() {
+        dietPanel = new JPanel(new GridLayout(0, 1));
+        dietPanel.setBorder(BorderFactory.createTitledBorder("Diet Preferences"));
+
+        List<DietPreference> allPrefs = dietDAO.getAllDietPreferences();
+        List<ClientDietPreference> clientPrefs = clientDietDAO.searchByClient(client.getClientID());
+        Set<Integer> clientPrefIds = clientPrefs.stream()
+                .map(ClientDietPreference::getDietPreferenceID)
+                .collect(Collectors.toSet());
+
+        dietCheckBoxes.clear();
+        for (DietPreference dp : allPrefs) {
+            JCheckBox cb = new JCheckBox(dp.getDiet_name());
+            if (clientPrefIds.contains(dp.getDiet_preference_id())) {
+                cb.setSelected(true);
+            }
+            dietCheckBoxes.add(cb);
+            dietPanel.add(cb);
+        }
+
+        for (JCheckBox cb : dietCheckBoxes) {
+            cb.setEnabled(false);
+        }
+
+    }
+
 }

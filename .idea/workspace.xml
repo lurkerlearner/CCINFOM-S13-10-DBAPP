@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAO/LocationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/LocationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LocationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/floodpanda.sql" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/app/floodpanda.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/salmon_bowl.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/resources/salmon_bowl.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/LocationPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/LocationPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/ClientDietPreferenceDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/ClientDietPreferenceDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO/MealPlanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DAO/MealPlanDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDietPreferenceDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/DAO/ClientDietPreferenceDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/AccountManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/AccountManagementScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
