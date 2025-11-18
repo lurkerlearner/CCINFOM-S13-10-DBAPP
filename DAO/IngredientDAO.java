@@ -14,7 +14,7 @@ public class IngredientDAO {
     public boolean addIngredient(Ingredient ingredient) {
         // model.Restock_status restock_status = model.Restock_status.calculateStatus(ingredient.getStock_quantity());
         String sqlQuery = "INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, " +
-        "measurement_unit, stock_quantity, expiry_date, supplier_id) + VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        "measurement_unit, stock_quantity, expiry_date, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // RETURN_GENERATED_KEYS to get the auto generated ingredient_id from the database
         try(Connection conn = DBConnection.getConnection();
