@@ -593,7 +593,9 @@ public class FloodDataDAO
      * - Delivery
      * - Location
      */
-    public ArrayList<FloodImpactReport> generateFloodImpactReport(int year, int quarter)
+
+    // quarterly report
+    public ArrayList<FloodImpactReport> generateFloodImpactReportQTR(int year, int quarter)
     {
         java.sql.Date startDate = null;
         java.sql.Date endDate = null;
@@ -643,6 +645,71 @@ public class FloodDataDAO
         {
             ps.setDate(1, startDate);
             ps.setDate(2, endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) 
+            {
+                int cid = rs.getInt("Client ID");
+                String n = rs.getString("Name");
+                String st = rs.getString("Street");
+                String ct = rs.getString("City");
+
+                int locID = rs.getInt("location_id");
+
+                // risk calculations
+                String rbff = getRiskByFloodFactor(locID);
+                double rbawl = getRiskByAverageWaterLevel(locID);
+
+                int sl = rs.getInt("Sales");
+
+                report.add(new FloodImpactReport(cid, n, st, ct, rbff, rbawl, sl));
+            }
+
+            // reorder so that highest overall risk is at the top
+            report.sort((r1, r2) -> 
+            {
+                int severity1 = getFloodSeverityRank(r1.getRiskByFactor());
+                int severity2 = getFloodSeverityRank(r2.getRiskByFactor());
+
+                // flood factor descending
+                int cmp = Integer.compare(severity2, severity1);
+                if (cmp != 0) return cmp;
+
+                // average water level descending
+                return Double.compare(r2.getRiskByAWL(), r1.getRiskByAWL());
+            });
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+
+        return report;
+    }
+
+    // yearly report
+    public ArrayList<FloodImpactReport> generateFloodImpactReportYEAR(int year)
+    {
+        ArrayList<FloodImpactReport> report = new ArrayList<>();
+
+        String sql = """
+                    SELECT 
+                        c.client_id AS "Client ID",
+                        c.name AS Name,
+                        l.location_id,
+                        l.street_address AS Street,
+                        l.city AS City,
+                        COUNT(d.transaction_id) AS Sales
+                    FROM client c
+                    JOIN location l ON c.location_id = l.location_id
+                    LEFT JOIN delivery d ON c.client_id = d.client_id
+                              AND YEAR(d.order_date) = ?
+                    GROUP BY c.client_id, c.name, l.location_id, l.street_address, l.city;
+                """;
+        
+        try (PreparedStatement ps = c.prepareStatement(sql)) 
+        {
+            ps.setInt(1, year);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) 
