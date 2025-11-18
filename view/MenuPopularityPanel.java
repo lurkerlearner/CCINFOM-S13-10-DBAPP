@@ -63,6 +63,7 @@ public class MenuPopularityPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         inputPanel.setBorder(BorderFactory.createTitledBorder("Enter Monthly Report Parameters"));
+        
         monthlyInputYear = new JTextField(10);
         monthlyInputMonth = new JTextField(5);
 
@@ -97,8 +98,8 @@ public class MenuPopularityPanel extends JPanel {
         monthlyGenerateButton = new JButton("Generate Monthly Report");
         monthlyGenerateButton.addActionListener(e -> generateMonthlyReport());
 
-        buttonPanel.add(monthlyGenerateButton);
         buttonPanel.add(mainMenuButton);
+        buttonPanel.add(monthlyGenerateButton);
 
         monthlyPanel.add(inputPanel, BorderLayout.NORTH);
         monthlyPanel.add(new JScrollPane(monthlyReportTable), BorderLayout.CENTER);
@@ -142,8 +143,8 @@ public class MenuPopularityPanel extends JPanel {
         annualGenerateButton = new JButton("Generate Annual Report");
         annualGenerateButton.addActionListener(e -> generateAnnualReport());
 
-        buttonPanel.add(annualGenerateButton);
         buttonPanel.add(mainMenuButton);
+        buttonPanel.add(annualGenerateButton);
 
         annualPanel.add(inputPanel, BorderLayout.NORTH);
         annualPanel.add(new JScrollPane(annualReportTable), BorderLayout.CENTER);
