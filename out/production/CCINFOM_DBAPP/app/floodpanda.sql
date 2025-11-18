@@ -155,6 +155,17 @@ CREATE TABLE IF NOT EXISTS CLIENT_DIET_PREFERENCE (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+INSERT INTO LOCATION (street_address, city, zip_code) VALUES
+('8751 Paseo de Roxas St., San Miguel Village', 'Makati City', '1226'),
+('7114 Kundiman St., Sampaloc', 'Manila City', '1008'),
+('123 Panay Avenue, Talayan', 'Quezon City', '1103'),
+('456 F.B. Harrison Ave., Barangay 73', 'Pasay City', '1300'),
+('789 Marcos Highway, Barangay San Roque', 'Marikina City', '1800'),
+('321 P. Domingo St., Barangay Carmona', 'Makati City', '1207'),
+('654 Gen. Malvar St., Barangay Y', 'Parañaque City', '1700'),
+('987 Muntinlupa‑Cavite Road, Barangay Z', 'Muntinlupa City', '1770'),
+('159 A. Bonifacio Avenue, Barangay A', 'Caloocan City', '1422'),
+('753 Lawton Avenue, Barangay B', 'Mandaluyong City', '1550');
 
 INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
 ('Vegan','No animal products'),
@@ -168,6 +179,32 @@ INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
 ('Diabetic-Friendly','Low sugar'),
 ('Low Fat','Reduced fat intake');
 
+
+INSERT INTO SUPPLIER (supplier_name, contact_no, alt_contact_no, location_id) VALUES
+('Fresh Farm','09171234567','09181234567',5),
+('Green Grocers','09172223344','09173334455',2),
+('Protein Plus','09174445566',NULL,3),
+('Dairy Delight','09175556677','09176667788',4),
+('Grain Masters','09177778899',NULL,6),
+('Veggie World','09178889900','09179990011',7),
+('Fruitopia','09170001122',NULL,8),
+('Healthy Harvest','09171112233','09172223344',9),
+('NutriSource','09173334455',NULL,1),
+('Organic Supplies','09174445566','09175556677',10);
+
+INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, restock_status, supplier_id) VALUES
+(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31','Available',3),
+(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30','Low Stock',3),
+(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20','Available',2),
+(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18','Low Stock',6),
+(105,'Olive Oil','Fat','Dry','litres',100,'2026-01-31','Available',5),
+(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15','Available',4),
+(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31','Available',5),
+(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28','Available',9),
+(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25','Available',2),
+(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31','Available',4),
+(111, 'Beef Sirloin', 'Protein', 'Refrigerated', 'grams', 4000, '2025-12-15', 'Available', 3);
+
 INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
 ('Vegan Starter','A starter vegan meal plan',500),
 ('High Protein Plan','Protein-packed meals',1200),
@@ -179,10 +216,17 @@ INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
 ('Vegetarian Combo','Vegetarian meals',900),
 ('Diabetic-Friendly','Low sugar meals',950),
 ('Quick Meals Plan','Fast-prep meals',800);
-
+SELECT * FROM MEAL_PLAN;
 
 SELECT * FROM diet_preference;
+
+ALTER TABLE client
+ADD COLUMN unit_details VARCHAR(50) NULL;
+
+ALTER TABLE client
+ADD COLUMN password VARCHAR(255) NOT NULL;      
 SELECT * FROM client;
+
 INSERT INTO CLIENT (name, contact_no, password, date_created, location_id, plan_id, diet_preference_id, unit_details) VALUES
 ('Alice Santos','09171230001','passA!28','2025-01-05',5,8,3,'Unit 7B'),
 ('Bob Reyes','09171230002','Bx7d!plQ','2025-02-10',2,2,7,'House #220'),
@@ -197,37 +241,7 @@ INSERT INTO CLIENT (name, contact_no, password, date_created, location_id, plan_
 ('Laura Garcia','09171230011','Laur@556','2025-11-01',2,1,2,'House #18B'),
 ('Mark Santos','09171230012','MrkSnt#88','2025-11-02',5,6,7,'Blk 2 Lot 12');
 
-
-INSERT INTO LOCATION (street_address, city, zip_code) VALUES
-('8751 Paseo de Roxas St., San Miguel Village', 'Makati City', '1226'),
-('7114 Kundiman St., Sampaloc', 'Manila City', '1008'),
-('123 Panay Avenue, Talayan', 'Quezon City', '1103'),
-('456 F.B. Harrison Ave., Barangay 73', 'Pasay City', '1300'),
-('789 Marcos Highway, Barangay San Roque', 'Marikina City', '1800'),
-('321 P. Domingo St., Barangay Carmona', 'Makati City', '1207'),
-('654 Gen. Malvar St., Barangay Y', 'Parañaque City', '1700'),
-('987 Muntinlupa‑Cavite Road, Barangay Z', 'Muntinlupa City', '1770'),
-('159 A. Bonifacio Avenue, Barangay A', 'Caloocan City', '1422'),
-('753 Lawton Avenue, Barangay B', 'Mandaluyong City', '1550');
-
-ALTER TABLE client
-ADD COLUMN unit_details VARCHAR(50) NULL;
-
 SELECT * FROM CLIENT;
-
-INSERT INTO MEAL_PLAN (plan_name, description, total_price) VALUES
-('Vegan Starter','A starter vegan meal plan',500),
-('High Protein Plan','Protein-packed meals',1200),
-('Low Carb Plan','Low carbohydrate meals',1000),
-('Family Plan','Meals for 4 people',2000),
-('Gluten-Free Plan','Gluten-free meals',1100),
-('Keto Delight','Keto-friendly meals',1300),
-('Mediterranean Mix','Balanced Mediterranean diet',1400),
-('Vegetarian Combo','Vegetarian meals',900),
-('Diabetic-Friendly','Low sugar meals',950),
-('Quick Meals Plan','Fast-prep meals',800);
-
-SELECT * FROM MEAL_PLAN;
 
 INSERT INTO MEAL (meal_name, price, cost, nutrients, calories, preparation_time, diet_preference_id) VALUES
 ('Vegan Salad',150,50,'Vitamin A, C',200,10,1),
@@ -244,42 +258,21 @@ INSERT INTO MEAL (meal_name, price, cost, nutrients, calories, preparation_time,
 
 SELECT * FROM MEAL;
 
-INSERT INTO INGREDIENT (batch_no, ingredient_name, category, storage_type, measurement_unit, stock_quantity, expiry_date, restock_status, supplier_id) VALUES
-(101,'Chicken Breast','Protein','Refrigerated','grams',5000,'2025-12-31','Available',3),
-(102,'Salmon Fillet','Protein','Frozen','grams',2000,'2025-11-30','Low Stock',3),
-(103,'Broccoli','Produce','Refrigerated','grams',3000,'2025-11-20','Available',2),
-(104,'Spinach','Produce','Refrigerated','grams',1500,'2025-11-18','Low Stock',6),
-(105,'Olive Oil','Fat','Dry','litres',100,'2026-01-31','Available',5),
-(106,'Cheddar Cheese','Dairy','Refrigerated','grams',800,'2025-12-15','Available',4),
-(107,'Brown Rice','Grains','Dry','grams',10000,'2026-03-31','Available',5),
-(108,'Almonds','Protein','Dry','grams',2000,'2026-02-28','Available',9),
-(109,'Tomatoes','Produce','Refrigerated','grams',2500,'2025-11-25','Available',2),
-(110,'Eggs','Protein','Refrigerated','grams',1000,'2025-12-31','Available',4),
-(111, 'Beef Sirloin', 'Protein', 'Refrigerated', 'grams', 4000, '2025-12-15', 'Available', 3);
+-- -------------------
+-- RIDER
+-- -------------------
+INSERT INTO RIDER (rider_name, hire_date, contact_no) VALUES
+('Rider A','2024-01-01','09170000001'),
+('Rider B','2024-02-01','09170000002'),
+('Rider C','2024-03-01','09170000003'),
+('Rider D','2024-04-01','09170000004'),
+('Rider E','2024-05-01','09170000005'),
+('Rider F','2024-06-01','09170000006'),
+('Rider G','2024-07-01','09170000007'),
+('Rider H','2024-08-01','09170000008'),
+('Rider I','2024-09-01','09170000009'),
+('Rider J','2024-10-01','09170000010');
 
-INSERT INTO DIET_PREFERENCE (diet_name, description) VALUES
-('Vegan','No animal products'),
-('Vegetarian','No meat'),
-('Keto','Low carb, high fat'),
-('Paleo','Whole foods, no processed'),
-('Mediterranean','Balanced diet with olive oil'),
-('Gluten-Free','No gluten products'),
-('Low Sodium','Reduced salt intake'),
-('High Protein','Protein-focused diet'),
-('Diabetic-Friendly','Low sugar'),
-('Low Fat','Reduced fat intake');
-
-INSERT INTO SUPPLIER (supplier_name, contact_no, alt_contact_no, location_id) VALUES
-('Fresh Farm','09171234567','09181234567',5),
-('Green Grocers','09172223344','09173334455',2),
-('Protein Plus','09174445566',NULL,3),
-('Dairy Delight','09175556677','09176667788',4),
-('Grain Masters','09177778899',NULL,6),
-('Veggie World','09178889900','09179990011',7),
-('Fruitopia','09170001122',NULL,8),
-('Healthy Harvest','09171112233','09172223344',9),
-('NutriSource','09173334455',NULL,1),
-('Organic Supplies','09174445566','09175556677',10);
 
 INSERT INTO MEAL_INGREDIENT (meal_id, ingredient_id, quantity) VALUES
 -- 1. Vegan Salad
@@ -360,21 +353,6 @@ INSERT INTO delivery (
 
 SELECT * FROM delivery;
 
--- -------------------
--- RIDER
--- -------------------
-INSERT INTO RIDER (rider_name, hire_date, contact_no) VALUES
-('Rider A','2024-01-01','09170000001'),
-('Rider B','2024-02-01','09170000002'),
-('Rider C','2024-03-01','09170000003'),
-('Rider D','2024-04-01','09170000004'),
-('Rider E','2024-05-01','09170000005'),
-('Rider F','2024-06-01','09170000006'),
-('Rider G','2024-07-01','09170000007'),
-('Rider H','2024-08-01','09170000008'),
-('Rider I','2024-09-01','09170000009'),
-('Rider J','2024-10-01','09170000010');
-
 INSERT INTO flood_data (flood_factor, avg_water_level, affected_households, road_condition, special_packaging, alt_delivery_method, location_id) VALUES
 ('LOW', 0.45, 12, 'Accessible', FALSE, 'Motorcycle', 3),
 ('MODERATE', 1.20, 60, 'Partially Flooded', TRUE, 'Drone', 1),
@@ -398,6 +376,71 @@ INSERT INTO flood_data (flood_factor, avg_water_level, affected_households, road
 ('MODERATE', 1.25, 45, 'Partially Flooded', TRUE, 'Tikling Tricycle', 9);
 
 SELECT * FROM flood_data;
+
+-- -------------------
+-- MEAL_DELIVERY
+-- -------------------
+INSERT INTO meal_delivery (meal_id, transaction_id, remarks) VALUES
+-- Transaction 1
+(5, 1, 'Delivered on time'),
+(1, 1, 'Side dish included'),
+-- Transaction 2
+(2, 2, 'Delayed due to traffic'),
+-- Transaction 3
+(7, 3, 'Delivered on time'),
+(11, 3, 'Protein shake added'),
+-- Transaction 4
+(1, 4, 'Rider arrived early'),
+(4, 4, 'Main meal'),
+-- Transaction 5
+(3, 5, 'Delayed due to road closure'),
+(5, 5, 'Salad included'),
+-- Transaction 6
+(6, 6, 'Delivered on time'),
+(10, 6, 'Veggie side added'),
+-- Transaction 7
+(7, 7, 'Rider arrived late'),
+-- Transaction 8
+(8, 8, 'Delivered on time'),
+(3, 8, 'Side dish included'),
+-- Transaction 9
+(9, 9, 'Delayed due to weather'),
+-- Transaction 10
+(10, 10, 'Delivered on time'),
+(2, 10, 'Extra protein included'),
+-- Transaction 11
+(1, 11, 'Delivered on time'),
+-- Transaction 12
+(2, 12, 'Delayed due to traffic'),
+(5, 12, 'Side dish included'),
+-- Transaction 13
+(3, 13, 'Delivered on time'),
+-- Transaction 14
+(4, 14, 'Rider arrived late'),
+(7, 14, 'Side dish included'),
+-- Transaction 15
+(5, 15, 'Delivered on time'),
+(11, 15, 'Protein shake added'),
+-- Transaction 16
+(9, 16, 'Delivered on time'),
+-- Transaction 17
+(4, 17, 'Delayed due to traffic'),
+(8, 17, 'Extra side included'),
+-- Transaction 18
+(6, 18, 'Delivered on time'),
+-- Transaction 19
+(3, 19, 'Rider arrived early'),
+(10, 19, 'Side dish added'),
+-- Transaction 20
+(10, 20, 'Delivered on time'),
+(1, 20, 'Extra protein included');
+
+-- -------------------
+-- MEAL_MEAL_PLAN
+-- -------------------
+INSERT INTO MEAL_MEAL_PLAN (plan_id, meal_id, remarks) VALUES
+(1,1,'Vegan combo'),(1,5,'Vegan combo'),(2,2,'High protein plan'),(2,10,'High protein plan'),
+(3,6,'Low carb plan'),(4,4,'Family plan'),(5,7,'Gluten-free plan');
 
 -- CLIENT_DIET_PREFERENCE
 -- -------------------
@@ -465,6 +508,21 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+SELECT * FROM client;
+SELECT * FROM client_diet_preference;
+SELECT * FROM delivery;
+SELECT * FROM diet_preference;
+SELECT * FROM flood_data;
+SELECT * FROM ingredient;
+SELECT * FROM location;
+SELECT * FROM meal;
+SELECT * FROM meal_delivery;
+SELECT * FROM meal_ingredient;
+SELECT * FROM meal_meal_plan;
+SELECT * FROM rider;
+SELECT * FROM supplier;
+SELECT * FROM meal_plan;
 
 
 
