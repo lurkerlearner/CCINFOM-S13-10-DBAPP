@@ -191,7 +191,7 @@ public class MealDAO {
         return meals;
     }
 
-     public List<MealPerformance> getMealPerformanceReport(int year, int month){
+     public List<MealPerformance> getMealPerformanceByMonthYear(int year, int month){
         List<MealPerformance> report = new ArrayList<>();
         String query = "SELECT m.meal_id, m.meal_name, COUNT(md.transaction_id) AS TimesOrdered, " +
                        " (COUNT(md.transaction_id) * m.price) AS TotalRevenue, " +
@@ -228,6 +228,41 @@ public class MealDAO {
         }
         return report;
     }  
+
+    public List<MealPerformance> getMealPerformaceByYear(int year){
+        List<MealPerformance> report = new ArrayList<>();
+        String query = "SELECT m.meal_id, m.meal_name, COUNT(md.transaction_id) AS TimesOrdered, " +
+                       " (COUNT(md.transaction_id) * m.price) AS TotalRevenue, " +
+                       " COUNT(DISTINCT c.location_id) AS DistinctLocations " +
+                       " FROM meal m " +
+                       " JOIN meal_delivery md ON m.meal_id = md.meal_id " +
+                       " JOIN delivery d ON md.transaction_id = d.transaction_id " +
+                       " JOIN client c ON d.client_id = c.client_id " +
+                       " WHERE YEAR(d.order_date) = ? "+
+                       " GROUP BY m.meal_id, m.meal_name " +
+                       " ORDER BY TotalRevenue DESC";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) 
+        {
+            preparedStatement.setInt(1, year);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    MealPerformance performance = new MealPerformance(
+                        resultSet.getInt("meal_id"),
+                        resultSet.getString("meal_name"),
+                        resultSet.getInt("TimesOrdered"),
+                        resultSet.getFloat("TotalRevenue"),
+                        resultSet.getInt("DistinctLocations")
+                    );
+                    report.add(performance);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating meal performance report for " + year  + ":" + e.getMessage());
+            e.printStackTrace();
+        }
+        return report;
+    }
     
 
 

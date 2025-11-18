@@ -6,6 +6,8 @@ import DAO.IngredientDAO;
 import DAO.MealIngredientDAO;
 import DAO.MealMealPlanDAO;
 import DAO.DietPreferenceDAO;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -154,5 +156,14 @@ public String updateMeal(int mealId, String name, float price, float cost, int p
         return "Failed to update meal in database."; 
     }
 }
+
+
+    public List<MealPerformance> getMealPerformanceByMonthYear(int year, int month) {
+        return mealDAO.getMealPerformanceByMonthYear(year, month);
+    }
+
+    public List<MealPerformance> getMealPerformaceByYear(int year) {
+        return mealDAO.getMealPerformaceByYear(year);
+    }
 
 }
