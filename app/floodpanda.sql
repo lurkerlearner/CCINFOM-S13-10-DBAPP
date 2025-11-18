@@ -514,4 +514,3 @@ SELECT * FROM meal_ingredient;
 SELECT * FROM meal_meal_plan;
 SELECT * FROM rider;
 SELECT * FROM supplier;
-SELECT * FROM meal_plan;
