@@ -1,16 +1,55 @@
 package view;
 
-import controller.*;
-import model.*;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.stream.Collectors;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.MealDAO;
+import DAO.RiderDAO;
+import app.DBConnection;
+import controller.ClientController;
+import controller.DeliveryController;
+import controller.MealController;
+import model.Client;
+import model.Delivery;
+import model.DeliveryMethod;
+import model.DeliveryStatus;
+import model.DietPreference;
+import model.MealPlan;
+import model.PaymentMode;
+import model.PaymentStatus;
 
 public class DeliveryPanel extends JPanel 
 {
@@ -21,6 +60,7 @@ public class DeliveryPanel extends JPanel
     private JPanel addPanel;
     private JPanel viewPanel;
     private JPanel searchPanel;
+    private JPanel editPanel;
     
     // Components for adding deliveries
     private JTextField orderDate;
@@ -72,10 +112,12 @@ public class DeliveryPanel extends JPanel
         createAddPanel();
         createViewPanel();
         createSearchPanel();
+        createEditPanel();
         
         tabbedPane.addTab("Add Delivery", addPanel);
-        tabbedPane.addTab("View All", viewPanel);
-        tabbedPane.addTab("Search", searchPanel);
+        tabbedPane.addTab("View All Deliveries", viewPanel);
+        tabbedPane.addTab("Search Deliveries", searchPanel);
+        tabbedPane.addTab("Edit Delivery", editPanel);
         
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -324,13 +366,242 @@ public class DeliveryPanel extends JPanel
         searchPanel.add(new JScrollPane(searchResultTable), BorderLayout.CENTER);
         searchPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
+
+    // Create the panel for editing deliveries
+    private void createEditPanel() {
+        editPanel = new JPanel(new BorderLayout());
+        editPanel.setLayout(new BorderLayout());
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+
+        JComboBox<Delivery> deliveryDropdown = new JComboBox<>();
+        for (Delivery d : controller.getAllDeliveries()) {
+            deliveryDropdown.addItem(d);
+        }
+        deliveryDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Delivery delivery) {
+                    setText("Transaction #" + delivery.getTransactionID());
+                }
+                return this;
+            }
+        });
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Select Delivery:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(deliveryDropdown, gbc);
+
+        JLabel editOrderDateLabel = new JLabel("Order Date: ");
+        JLabel editTimeOrderedLabel = new JLabel("Time Ordered: ");
+        gbc.gridx = 0; gbc.gridy = 1;
+        formPanel.add(editOrderDateLabel, gbc);
+        gbc.gridx = 0; gbc.gridy = 2;
+        formPanel.add(editTimeOrderedLabel, gbc);
+
+        SpinnerDateModel timeModel = new SpinnerDateModel();
+        JSpinner editTimeDeliveredSpinner = new JSpinner(timeModel);
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(editTimeDeliveredSpinner, "HH:mm:ss");
+        editTimeDeliveredSpinner.setEditor(timeEditor);
+
+        JComboBox<PaymentMode> editPaymentMode = new JComboBox<>(new PaymentMode[]
+                                                    {
+                                                        PaymentMode.BANK,
+                                                        PaymentMode.GCASH,
+                                                        PaymentMode.CASH_ON_DELIVERY
+                                                    });
+        
+        JComboBox<PaymentStatus> editPaymentStatus = new JComboBox<>(new PaymentStatus[]
+                                                    {
+                                                        PaymentStatus.PAID,
+                                                        PaymentStatus.PENDING,
+                                                        PaymentStatus.FAILED
+                                                    });
+                                                    
+        JComboBox<DeliveryMethod> editDeliveryMethod = new JComboBox<DeliveryMethod>(new DeliveryMethod[]
+                                                    {
+                                                        DeliveryMethod.MOTORCYCLE,
+                                                        DeliveryMethod.TIKLING_TRICYCLE,
+                                                        DeliveryMethod.DRONE,
+                                                        DeliveryMethod.BOAT,
+                                                        DeliveryMethod.TRUCK
+                                                    });
+
+        JComboBox<DeliveryStatus> editDeliveryStatus = new JComboBox<>(new DeliveryStatus[]
+                                                    {
+                                                        DeliveryStatus.ON_TIME,
+                                                        DeliveryStatus.DELAYED,
+                                                        DeliveryStatus.CANCELLED
+                                                    });
+
+        JTextField editClientField = new JTextField(5);
+        JTextField editMealField = new JTextField(5);
+        JTextField editRiderField = new JTextField(5);
+
+        int row = 3;
+        addField(formPanel, gbc, row++, "Time Delivered:", editTimeDeliveredSpinner);
+        addField(formPanel, gbc, row++, "Payment Mode:", editPaymentMode);
+        addField(formPanel, gbc, row++, "Payment Status:", editPaymentStatus);
+        addField(formPanel, gbc, row++, "Delivery Method:", editDeliveryMethod);
+        addField(formPanel, gbc, row++, "Delivery Status:", editDeliveryStatus);
+        addField(formPanel, gbc, row++, "Client ID:", editClientField);
+        addField(formPanel, gbc, row++, "Meal ID:", editMealField);
+        addField(formPanel, gbc, row, "Rider ID:", editRiderField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton saveBtn = new JButton("Save Changes");
+
+        buttonPanel.add(saveBtn);
+
+        editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
+        editPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        deliveryDropdown.addActionListener(e -> 
+        {
+            Delivery selected = (Delivery) deliveryDropdown.getSelectedItem();
+            if (selected != null) 
+            {
+                editOrderDateLabel.setText("Order Date: " + (java.sql.Date)selected.getOrderDate());
+                editTimeOrderedLabel.setText("Time Ordered: " + (Time)selected.getTimeOrdered());
+
+                Date now = new Date();
+                editTimeDeliveredSpinner.setValue(now);
+                editPaymentMode.setSelectedItem(selected.getPaymentMode());
+                editPaymentStatus.setSelectedItem(selected.getPaymentStatus());
+                editDeliveryMethod.setSelectedItem(selected.getDeliveryMethod());
+                editDeliveryStatus.setSelectedItem(selected.getDeliveryStatus());
+                editClientField.setText("" + selected.getClientID());
+                editMealField.setText("" + selected.getMealID());
+                editRiderField.setText("" + selected.getRiderID());
+            }
+        });
+
+        saveBtn.addActionListener(e -> {
+            try 
+            {
+                Delivery selected = (Delivery) deliveryDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a delivery transaction.");
+                    return;
+                }
+
+                Date spinnerDate = (Date) editTimeDeliveredSpinner.getValue();
+                Time newTD = new Time(spinnerDate.getTime());
+                PaymentMode newPM = (PaymentMode) editPaymentMode.getSelectedItem();
+                PaymentStatus newPS = (PaymentStatus) editPaymentStatus.getSelectedItem();
+                DeliveryMethod newDM = (DeliveryMethod) editDeliveryMethod.getSelectedItem();
+                DeliveryStatus newDS = (DeliveryStatus) editDeliveryStatus.getSelectedItem();
+                int newClient = Integer.parseInt(editClientField.getText());
+                int newMeal = Integer.parseInt(editMealField.getText());
+                int newRider = Integer.parseInt(editRiderField.getText());
+
+                int key = selected.getTransactionID();
+
+                if (newTD != null && newTD != selected.getTimeDelivered())
+                {
+                    boolean TD_ok = controller.changeDeliveryColumn(key, "time_delivered", newTD);
+                    if (TD_ok)
+                        JOptionPane.showMessageDialog(this, "Time delivered updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                if (newPM != null && newPM != selected.getPaymentMode())
+                {
+                    boolean PM_ok = controller.updatePaymentMode(key, newPM);
+                    if (PM_ok)
+                        JOptionPane.showMessageDialog(this, "Payment mode updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                if (newPS != null && newPS != selected.getPaymentStatus())
+                {
+                    boolean PS_ok = controller.updatePaymentStatus(key, newPS);
+                    if (PS_ok)
+                        JOptionPane.showMessageDialog(this, "Payment status updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                if (newDM != null && newDM != selected.getDeliveryMethod())
+                {
+                    boolean DM_ok = controller.updateDeliveryMethod(key, newDM);
+                    if (DM_ok)
+                        JOptionPane.showMessageDialog(this, "Delivery method updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                if (newDS != null && newDS != selected.getDeliveryStatus())
+                {
+                    boolean DS_ok = controller.updateDeliveryStatus(key, newDS);
+                    if (DS_ok)
+                        JOptionPane.showMessageDialog(this, "Delivery status updated successfully!");
+                    refreshDeliveryTable();
+                }
+                
+                if (editClientField.getText() != null)
+                {
+                    ClientController cc = new ClientController();
+                    boolean C_ok = false;
+                    if (cc.searchClientsById(editClientField.getText()) != null
+                        && newClient != selected.getClientID())
+                        C_ok = controller.changeDeliveryColumn(key, "client_id", newClient);
+                    if (C_ok)
+                        JOptionPane.showMessageDialog(this, "Client updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                
+                if (editMealField.getText() != null)
+                {
+                    MealDAO md = new MealDAO();
+                    boolean M_ok = false;
+                    if (md.getMealById(newMeal) != null && newMeal != selected.getMealID())
+                        M_ok = controller.changeDeliveryColumn(key, "meal_id", newMeal);
+                    if (M_ok)
+                        JOptionPane.showMessageDialog(this, "Meal updated successfully!");
+                    refreshDeliveryTable();
+                }
+
+                if (editRiderField.getText() != null)
+                {
+                    RiderDAO rd = new RiderDAO(DBConnection.getConnection());
+                    boolean R_ok = false;
+                    if (rd.getRiderByKey(newRider) != null && newRider != selected.getRiderID()) 
+                        R_ok = controller.changeDeliveryColumn(key, "rider_id", newRider);
+                    if (R_ok)
+                        JOptionPane.showMessageDialog(this, "Rider updated successfully!");
+                    refreshDeliveryTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+            }
+        });
+
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+    }
     
     // Add a new delivery using the input fields
     private void addDelivery() 
     {
         try 
         {
-            Date orderDateSQL = java.sql.Date.valueOf(orderDate.getText().trim()); 
+            java.sql.Date orderDateSQL = java.sql.Date.valueOf(orderDate.getText().trim()); 
             Time timeOrderedSQL = java.sql.Time.valueOf(timeOrdered.getText().trim()); 
             Time timeDeliveredSQL = null;
             String td = timeDelivered.getText().trim();
@@ -482,8 +753,8 @@ public class DeliveryPanel extends JPanel
                     break;
 
                 case "By Date Range":
-                    Date startDate = Date.valueOf(startDateField.getText().trim());
-                    Date endDate = Date.valueOf(endDateField.getText().trim());
+                    java.sql.Date startDate = java.sql.Date.valueOf(startDateField.getText().trim());
+                    java.sql.Date endDate = java.sql.Date.valueOf(endDateField.getText().trim());
                     results = controller.getDeliveriesWithinDateRange(startDate, endDate);
                     break;
 
