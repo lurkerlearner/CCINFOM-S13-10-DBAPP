@@ -29,6 +29,7 @@ public class GenerateReportFrame extends JFrame {
     private SalesReportPanel salesReportPanel;
     private ClientEngagementPanel clientEngagementPanel;
     private MenuPopularityPanel menuPopularityPanel;
+    private FloodImpactReportPanel  floodImpactPanel;
     // padagdag nlng panels para sa reports nyo
 
     // nav panel and buttons

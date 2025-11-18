@@ -63,8 +63,9 @@ public class MenuPopularityPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         inputPanel.setBorder(BorderFactory.createTitledBorder("Enter Monthly Report Parameters"));
+        
         monthlyInputYear = new JTextField(10);
-        monthlyInputMonth = new JTextField(10);
+        monthlyInputMonth = new JTextField(5);
 
         inputPanel.add(new JLabel("Year: "));
         inputPanel.add(monthlyInputYear);
@@ -94,11 +95,11 @@ public class MenuPopularityPanel extends JPanel {
             new AdminMainMenu().setVisible(true);
         });
 
-        monthlyGenerateButton = new JButton("Generate Report");
+        monthlyGenerateButton = new JButton("Generate Monthly Report");
         monthlyGenerateButton.addActionListener(e -> generateMonthlyReport());
 
-        buttonPanel.add(monthlyGenerateButton);
         buttonPanel.add(mainMenuButton);
+        buttonPanel.add(monthlyGenerateButton);
 
         monthlyPanel.add(inputPanel, BorderLayout.NORTH);
         monthlyPanel.add(new JScrollPane(monthlyReportTable), BorderLayout.CENTER);
@@ -142,8 +143,8 @@ public class MenuPopularityPanel extends JPanel {
         annualGenerateButton = new JButton("Generate Annual Report");
         annualGenerateButton.addActionListener(e -> generateAnnualReport());
 
-        buttonPanel.add(annualGenerateButton);
         buttonPanel.add(mainMenuButton);
+        buttonPanel.add(annualGenerateButton);
 
         annualPanel.add(inputPanel, BorderLayout.NORTH);
         annualPanel.add(new JScrollPane(annualReportTable), BorderLayout.CENTER);
@@ -168,7 +169,7 @@ public class MenuPopularityPanel extends JPanel {
                 return;       
             }
 
-            List<MealPerformance> rows = mealController.getMealPerformanceByMonthYear(month, year);
+            List<MealPerformance> rows = mealController.getMealPerformanceByMonthYear(year, month);
 
            if (rows.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -179,8 +180,8 @@ public class MenuPopularityPanel extends JPanel {
             for (MealPerformance mp : rows) {
                 monthlyTableModel.addRow(new Object[]{
 
-                    mp.getMeal_id(),
-                    mp.getMeal_name(),
+                    mp.getMealId(),
+                    mp.getMealName(),
                     mp.getTimesOrdered(),
                     mp.getTotalRevenue(),
                     mp.getDistinctLocations()
@@ -218,10 +219,10 @@ public class MenuPopularityPanel extends JPanel {
         List<MealPerformance> rows = mealController.getMealPerformanceByYear(year);
             
         for (MealPerformance mp : rows) {
-                monthlyTableModel.addRow(new Object[]{
+                annualTableModel.addRow(new Object[]{
 
-                    mp.getMeal_id(),
-                    mp.getMeal_name(),
+                    mp.getMealId(),
+                    mp.getMealName(),
                     mp.getTimesOrdered(),
                     mp.getTotalRevenue(),
                     mp.getDistinctLocations()

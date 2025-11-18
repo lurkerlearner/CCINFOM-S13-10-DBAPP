@@ -2,25 +2,25 @@ package model;
 
 public class MealPerformance {
     
-    private int meal_Id;
-    private String meal_name;
+    private int mealId;
+    private String mealName;
     private int TimesOrdered;
     private float TotalRevenue;
     private int distinctlocations;
 
-    public MealPerformance(int meal_Id, String meal_name, int TimesOrdered, float TotalRevenue, int distinctlocations){
-        this.meal_Id = meal_Id;
-        this.meal_name = meal_name;
+    public MealPerformance(int mealId, String mealName, int TimesOrdered, float TotalRevenue, int distinctlocations){
+        this.mealId = mealId;
+        this.mealName = mealName;
         this.TimesOrdered = TimesOrdered;
         this.TotalRevenue = TotalRevenue;
         this.distinctlocations = distinctlocations;
     }
 
-    public int getMeal_id(){
-        return meal_Id;
+    public int getMealId(){
+        return mealId;
     }
-    public String getMeal_name(){
-        return meal_name;
+    public String getMealName(){
+        return mealName;
     }
 
     public int getTimesOrdered(){
