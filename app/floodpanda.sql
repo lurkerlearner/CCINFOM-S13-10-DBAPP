@@ -118,18 +118,6 @@ CREATE TABLE IF NOT EXISTS FLOOD_DATA (
     FOREIGN KEY (location_id) REFERENCES LOCATION(location_id)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS MEAL_DELIVERY (
-    meal_id INT,
-    transaction_id INT,
-    remarks VARCHAR(100),
-    PRIMARY KEY (meal_id, transaction_id),
-    FOREIGN KEY (meal_id) REFERENCES MEAL(meal_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (transaction_id) REFERENCES DELIVERY(transaction_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS MEAL_MEAL_PLAN (
     plan_id INT,
@@ -380,64 +368,6 @@ INSERT INTO flood_data (flood_factor, avg_water_level, affected_households, road
 SELECT * FROM flood_data;
 
 -- -------------------
--- MEAL_DELIVERY
--- -------------------
-INSERT INTO meal_delivery (meal_id, transaction_id, remarks) VALUES
--- Transaction 1
-(5, 1, 'Delivered on time'),
-(1, 1, 'Side dish included'),
--- Transaction 2
-(2, 2, 'Delayed due to traffic'),
--- Transaction 3
-(7, 3, 'Delivered on time'),
-(11, 3, 'Protein shake added'),
--- Transaction 4
-(1, 4, 'Rider arrived early'),
-(4, 4, 'Main meal'),
--- Transaction 5
-(3, 5, 'Delayed due to road closure'),
-(5, 5, 'Salad included'),
--- Transaction 6
-(6, 6, 'Delivered on time'),
-(10, 6, 'Veggie side added'),
--- Transaction 7
-(7, 7, 'Rider arrived late'),
--- Transaction 8
-(8, 8, 'Delivered on time'),
-(3, 8, 'Side dish included'),
--- Transaction 9
-(9, 9, 'Delayed due to weather'),
--- Transaction 10
-(10, 10, 'Delivered on time'),
-(2, 10, 'Extra protein included'),
--- Transaction 11
-(1, 11, 'Delivered on time'),
--- Transaction 12
-(2, 12, 'Delayed due to traffic'),
-(5, 12, 'Side dish included'),
--- Transaction 13
-(3, 13, 'Delivered on time'),
--- Transaction 14
-(4, 14, 'Rider arrived late'),
-(7, 14, 'Side dish included'),
--- Transaction 15
-(5, 15, 'Delivered on time'),
-(11, 15, 'Protein shake added'),
--- Transaction 16
-(9, 16, 'Delivered on time'),
--- Transaction 17
-(4, 17, 'Delayed due to traffic'),
-(8, 17, 'Extra side included'),
--- Transaction 18
-(6, 18, 'Delivered on time'),
--- Transaction 19
-(3, 19, 'Rider arrived early'),
-(10, 19, 'Side dish added'),
--- Transaction 20
-(10, 20, 'Delivered on time'),
-(1, 20, 'Extra protein included');
-
--- -------------------
 -- MEAL_MEAL_PLAN
 -- -------------------
 INSERT INTO MEAL_MEAL_PLAN (plan_id, meal_id, remarks) VALUES
@@ -520,7 +450,6 @@ SELECT * FROM flood_data;
 SELECT * FROM ingredient;
 SELECT * FROM location;
 SELECT * FROM meal;
-SELECT * FROM meal_delivery;
 SELECT * FROM meal_ingredient;
 SELECT * FROM meal_meal_plan;
 SELECT * FROM rider;
@@ -787,7 +716,6 @@ SELECT * FROM flood_data;
 SELECT * FROM ingredient;
 SELECT * FROM location;
 SELECT * FROM meal;
-SELECT * FROM meal_delivery;
 SELECT * FROM meal_ingredient;
 SELECT * FROM meal_meal_plan;
 SELECT * FROM rider;
