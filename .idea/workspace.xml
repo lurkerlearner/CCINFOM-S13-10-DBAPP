@@ -6,13 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9cd77863-6cba-441f-a7e5-0a3e5179b3d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ForgotPasswordScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ForgotPasswordScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/OrderScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/OrderScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/AccountManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/AccountManagementScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/ClientMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ClientMainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/ForgotPasswordScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ForgotPasswordScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/OrderScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/OrderScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/ViewMealCatalogueScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ViewMealCatalogueScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ManageRecordsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCINFOM_DBAPP/view/ManageRecordsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/GenerateReportFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/GenerateReportFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/ManageRecordsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/view/ManageRecordsFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

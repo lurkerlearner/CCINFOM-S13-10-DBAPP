@@ -96,8 +96,11 @@ public class GenerateReportFrame extends JFrame {
         logoPanel.setLayout(new BorderLayout());
         logoPanel.setMaximumSize(new Dimension(180, 100));
         logoPanel.setBackground(new Color(240, 240, 240));
+        ImageIcon logoIcon = new ImageIcon("resources/floodpanda.png");
+        Image logoImg = logoIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        logoIcon = new ImageIcon(logoImg);
 
-        JLabel logo = new JLabel("FloodPanda");
+        JLabel logo = new JLabel("FloodPanda", logoIcon, SwingConstants.LEFT);
         logo.setFont(new Font("Arial", Font.BOLD, 20));
         logo.setForeground(new Color(220, 31, 127));
         logo.setHorizontalAlignment(JLabel.CENTER);
