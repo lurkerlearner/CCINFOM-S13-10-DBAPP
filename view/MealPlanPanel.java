@@ -140,14 +140,12 @@ public class MealPlanPanel extends JPanel
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
         mainMenuButton = new JButton("Return to Main Menu");
+        mainMenuButton = new JButton("Return to Main Menu");
         mainMenuButton.addActionListener(e -> {
-            // Placeholder: Assume AdminMainMenu exists
-            Window window = SwingUtilities.getWindowAncestor(this);
-            if (window != null) {
-                window.dispose();
-            }
-            // new AdminMainMenu().setVisible(true); // Uncomment if AdminMainMenu class is available
+            SwingUtilities.getWindowAncestor(this).dispose();
+            new AdminMainMenu().setVisible(true);
         });
+
         addButton = new JButton("Add Meal Plan");
         addButton.addActionListener(e -> addMealPlan());
         
