@@ -17,21 +17,19 @@ public class OrderScreen extends JFrame
     private final DeliveryDAO delDAO;
     private final ClientDAO cDAO;
     private final MealDAO mDAO;
-    private final MealDeliveryDAO mdDAO;
     private final FloodDataDAO fdDAO;
     private final RiderDAO rDAO;
     private final LocationDAO lDAO;
 
     public OrderScreen(Client c, DeliveryController dc, DeliveryDAO delDAO,
-                       ClientDAO cDAO, MealDAO mDAO, MealDeliveryDAO mdDAO,
-                       FloodDataDAO fdDAO, RiderDAO rDAO, LocationDAO lDAO)
+                       ClientDAO cDAO, MealDAO mDAO, FloodDataDAO fdDAO, 
+                       RiderDAO rDAO, LocationDAO lDAO)
     {
         this.c = c;
         this.dc = dc;
         this.delDAO = delDAO;
         this.cDAO = cDAO;
         this.mDAO = mDAO;
-        this.mdDAO = mdDAO;
         this.fdDAO = fdDAO;
         this.rDAO = rDAO;
         this.lDAO = lDAO;
@@ -207,4 +205,5 @@ public class OrderScreen extends JFrame
         bp.add(backButton);
         bp.add(viewCatalogueButton);
     }
+
 }

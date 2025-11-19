@@ -124,12 +124,17 @@ public class ManageRecordsFrame extends JFrame {
         logoPanel.setMaximumSize(new Dimension(180, 100));
         logoPanel.setBackground(new Color(240, 240, 240));
 
-        JLabel logo = new JLabel("FloodPanda");
+        ImageIcon logoIcon = new ImageIcon("resources/floodpanda.png");
+        Image logoImg = logoIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        logoIcon = new ImageIcon(logoImg);
+
+        JLabel logo = new JLabel("FloodPanda", logoIcon, SwingConstants.LEFT);
         logo.setFont(new Font("Arial", Font.BOLD, 20));
         logo.setForeground(new Color(220, 31, 127));
         logo.setHorizontalAlignment(JLabel.CENTER);
 
         logoPanel.add(logo, BorderLayout.CENTER);
+        navPanel.setBackground(new Color(248,248,255));
         navPanel.add(logoPanel);
         navPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
