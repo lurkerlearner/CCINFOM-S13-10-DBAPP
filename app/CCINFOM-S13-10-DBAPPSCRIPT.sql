@@ -255,7 +255,7 @@ ALTER TABLE client
 ADD COLUMN unit_details VARCHAR(50) NULL;
 
 ALTER TABLE client
-ADD COLUMN password VARCHAR(255) NOT NULL;      
+ADD COLUMN password VARCHAR(255) NOT NULL;
 
 INSERT INTO CLIENT (name, contact_no, password, date_created, location_id, plan_id, unit_details) VALUES
 ('Alice Santos','09171230001','passA!28','2025-01-05',5,8,'Unit 7B'),
@@ -304,7 +304,7 @@ INSERT INTO RIDER (rider_name, hire_date, contact_no) VALUES
 ('Kanao Tsuyuri','2024-05-01','09170000005'),
 ('Shinobu Kocho','2024-06-01','09170000006'),
 ('Giyu Tomioka','2024-07-01','09170000007'),
-('Mitsuri Kanroji','2024-08-01','09170000008'), 
+('Mitsuri Kanroji','2024-08-01','09170000008'),
 ('Obanai Iguro','2024-09-01','09170000009'),
 ('Sanemi Shinazugawa','2024-10-01','09170000010');
 
@@ -453,6 +453,13 @@ SELECT * FROM MEAL_MEAL_PLAN;
 INSERT INTO CLIENT_DIET_PREFERENCE (diet_preference_id, client_id) VALUES
 (1,1),(3,1),(8,2),(2,2),(5,3),(4,3),(6,4),(9,5),(7,6),(2,7),(5,8),(3,9),(10,13),
 (7,13),(1,14),(5,15),(6,15),(8,16),(3,17),(4,17),(2,18),(9,19),(10,19),(6,20),(7,21),(8,21),(5,22);
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE client DROP FOREIGN KEY client_ibfk_3;
+ALTER TABLE client DROP COLUMN diet_preference_id;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 SELECT * FROM client;
 SELECT * FROM client_diet_preference;
