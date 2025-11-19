@@ -25,7 +25,6 @@ public class ClientMainMenu extends JFrame {
     private DeliveryDAO delDAO;
     private ClientDAO cDAO;
     private MealDAO mDAO;
-    private MealDeliveryDAO mdDAO;
     private FloodDataDAO fdDAO;
     private RiderDAO rDAO;
 
@@ -42,7 +41,6 @@ public class ClientMainMenu extends JFrame {
         this.delDAO = new DeliveryDAO(DBConnection.getConnection());
         this.cDAO = new ClientDAO();
         this.mDAO = new MealDAO();
-        this.mdDAO = new MealDeliveryDAO(DBConnection.getConnection());
         this.fdDAO = new FloodDataDAO(DBConnection.getConnection());
         this.rDAO = new RiderDAO(DBConnection.getConnection());
 
@@ -168,7 +166,7 @@ public class ClientMainMenu extends JFrame {
         orderNowBtn.addActionListener(e -> {
             this.dispose();
             //JOptionPane.showMessageDialog(this, "Order Now clicked."); 
-            new OrderScreen(client, dc, delDAO, cDAO, mDAO, mdDAO, fdDAO, rDAO, locationDAO).setVisible(true); // Rahnee
+            new OrderScreen(client, dc, delDAO, cDAO, mDAO, fdDAO, rDAO, locationDAO).setVisible(true); // Rahnee
         });
 
         forgotPassBtn.addActionListener(e->{
