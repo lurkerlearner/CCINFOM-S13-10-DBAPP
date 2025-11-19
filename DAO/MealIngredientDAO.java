@@ -211,6 +211,7 @@ public class MealIngredientDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
         {
+            stmt.setInt(1, ingredientId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     MealIngredient mealIngredient = new MealIngredient(
@@ -237,6 +238,7 @@ public class MealIngredientDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
         {
+            stmt.setInt(1, mealId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     MealIngredient mealIngredient = new MealIngredient(

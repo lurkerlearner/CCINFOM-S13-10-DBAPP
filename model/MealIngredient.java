@@ -54,5 +54,12 @@ public class MealIngredient {
     private void setIngredient_name(String ingredient_name) {
         this.ingredient_name = ingredient_name;
     }
+
+    @Override
+    public String toString() {
+        return "Meal ID: " + meal_id + "\n" +
+                "Ingredient ID: " + ingredient_id + "\n" +
+                "Contact Number: " + quantity;
+    }
     
 }
