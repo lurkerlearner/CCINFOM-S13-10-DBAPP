@@ -26,7 +26,7 @@ public class MealMealPlanDAO {
             return false;
         }
     }
-    public boolean removeMealFromPlan(int mealId, int mealPlanId , String remarks) {
+    public boolean removeMealFromPlan(int mealId, int mealPlanId) {
         String query = "DELETE FROM meal_meal_plan WHERE meal_id = ? AND plan_id = ? AND remarks = ?";
 
         try (Connection connection = DBConnection.getConnection();
@@ -34,7 +34,7 @@ public class MealMealPlanDAO {
 
             preparedStatement.setInt(1, mealId);
             preparedStatement.setInt(2, mealPlanId);
-            preparedStatement.setString(3, remarks);
+
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -62,6 +62,23 @@ public class MealMealPlanDAO {
             System.err.println("Error retrieving meals for plan " + mealPlanId + ": " + e.getMessage());
         }
         return mealIds;
+    }
+    public boolean updateRemarks(int planId, int mealId, String remarks){
+        String query = "UPDATE meal_meal_plan SET remarks = ? WHERE plan_id = ?";
+        
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, remarks);
+            preparedStatement.setInt(2, planId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error updating remarks for plan: " + e.getMessage());
+            return false;
+        }        
     }
 
 
