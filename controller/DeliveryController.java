@@ -141,7 +141,6 @@ public class DeliveryController
      * - Meal
      * - Ingredient
      * - Client
-     * - MealDelivery
      * - Flood Data
     */
     public boolean startOrderTransaction(int mealID, PaymentMode pm, int clientID) 
@@ -208,45 +207,6 @@ public class DeliveryController
                     }
                 }
             }
-            
-            /*
-            // inform client of risks and ask for confirmation
-            int option = JOptionPane.showConfirmDialog(
-                null,
-                "Flood risk for your area: " + floodRisk + 
-                "\nNote that the delivery may take longer or " +
-                "use alternative delivery methods/packaging " +
-                "if road conditions are not fully accessible." +
-                "\n\nDo you want to proceed with the order?",
-                "Confirm Order",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-
-            if (option != JOptionPane.YES_OPTION) 
-            {
-                c.rollback();
-                JOptionPane.showMessageDialog(null, 
-                "Order cancelled by user.");
-                return false;
-            }
-            else
-            {
-                boolean success = placeOrderAfterConfirmation(mealID, pm, clientID);
-                if (!success) 
-                {
-                    c.rollback(); // undo any changes if order placing failed
-                    JOptionPane.showMessageDialog(null, 
-                    "Order placing failed!");
-                    return false;
-                }
-                else
-                {
-                    c.commit();
-                    JOptionPane.showMessageDialog(null, 
-                    "Order placed successfully!");
-                    return true;
-                }
-            }*/
         } 
         catch (SQLException e) 
         {
@@ -302,7 +262,6 @@ public class DeliveryController
         MealIngredientDAO mealIngredientDAO = new MealIngredientDAO();
         ClientDAO clientDAO = new ClientDAO();
         RiderDAO riderDAO = new RiderDAO(c);
-        MealDeliveryDAO mealdelDAO = new MealDeliveryDAO(c);
 
         Meal order = mealDAO.getMealById(mealID);
         Client client = clientDAO.getClientById(clientID);
@@ -332,10 +291,6 @@ public class DeliveryController
         if (!addSuccess)
             return false;
 
-        // insert meal_delivery using generated transaction_id
-        MealDelivery md = new MealDelivery(mealID, d.getTransactionID(), "");
-        mealdelDAO.addMealDelivery(md);
-
         // reduce ingredients stock based on meal ordered
         mealIngredientDAO.updateStockQuantityBasedOnMealDelivery(mealID);
 
@@ -359,9 +314,3 @@ public class DeliveryController
 
     */
 }
-
-
-// junction tables pa
-
-
-
