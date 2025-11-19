@@ -465,7 +465,7 @@ public class SupplierPanel extends JPanel
         int row = 1;
         addField(formPanel, gbc, row++, "Supplier Name:", editSupplierName);
         addField(formPanel, gbc, row++, "Contact Number:", editContactNo);
-        addField(formPanel, gbc, row++, "Alternative Contact:", editAltContactNo);
+        addField(formPanel, gbc, row++, "Alternative Contact Number:", editAltContactNo);
         addField(formPanel, gbc, row++, "Location ID:", editLocationID);
         
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

@@ -352,7 +352,8 @@ public class IngredientPanel extends JPanel
         
         // add Expiring Soon, Restock status (available, low, out of stock) options if needed
         searchTypeComboBox = new JComboBox<>(new String[] {
-            "By Ingredient ID", "By Category", "By Batch No", "By Supplier ID"
+            "By Ingredient ID", "By Category", "By Batch No", "By Supplier ID",
+            "By Nearest Expiry Dates", "By Restock Status", "By Storage Type"
         });
 
         searchField = new JTextField(15);
@@ -418,6 +419,10 @@ public class IngredientPanel extends JPanel
                     Category category = Category.fromDbValue(query);
                     results = controller.getIngredientsByCategory(category);
                     break;
+                case "By Storage Type":
+                    Storage_type type = Storage_type.fromDbValue(query);
+                    results = controller.getIngredientsByStorageType(type);
+                    break;
                 case "By Batch No":
                     int batchNo = Integer.parseInt(query);
                     results = controller.getIngredientsByBatchNo(batchNo);
@@ -425,6 +430,13 @@ public class IngredientPanel extends JPanel
                 case "By Supplier ID":
                     int supplierId = Integer.parseInt(query);
                     results = controller.getIngredientsBySupplier(supplierId);
+                    break;
+                case "By Nearest Expiry Dates":
+                    results = controller.getIngredientsExpiringSoon(); 
+                    break;
+                case "By Restock Status":
+                    Restock_status status = Restock_status.fromDbValue(query);
+                    results = controller.getIngredientsByStatus(status);
                     break;
                 default:
                     JOptionPane.showMessageDialog(this, "Unknown search type.", 

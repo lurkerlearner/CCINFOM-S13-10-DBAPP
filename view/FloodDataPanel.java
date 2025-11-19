@@ -5,9 +5,16 @@ import model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import DAO.MealDAO;
+import DAO.RiderDAO;
+import app.DBConnection;
+
 import java.awt.*;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class FloodDataPanel extends JPanel 
@@ -19,6 +26,7 @@ public class FloodDataPanel extends JPanel
     private JPanel addPanel;
     private JPanel viewPanel;
     private JPanel searchPanel;
+    private JPanel editPanel;
     
     // Components for adding flood data
     private JComboBox<String> floodFactor;
@@ -65,10 +73,12 @@ public class FloodDataPanel extends JPanel
         createAddPanel();
         createViewPanel();
         createSearchPanel();
+        createEditPanel();
         
         tabbedPane.addTab("Add Flood Data", addPanel);
         tabbedPane.addTab("View All", viewPanel);
-        tabbedPane.addTab("Search", searchPanel);
+        tabbedPane.addTab("Search Flood Data", searchPanel);
+        tabbedPane.addTab("Edit Flood Data", editPanel);
         
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -278,6 +288,226 @@ public class FloodDataPanel extends JPanel
         searchPanel.add(searchControls, BorderLayout.NORTH);
         searchPanel.add(new JScrollPane(searchResultTable), BorderLayout.CENTER);
         searchPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    // Create the panel for editing flood data records
+    private void createEditPanel() {
+        editPanel = new JPanel(new BorderLayout());
+        editPanel.setLayout(new BorderLayout());
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+
+        JComboBox<FloodData> floodDropdown = new JComboBox<>();
+        for (FloodData f : controller.getAllFloodData()) {
+            floodDropdown.addItem(f);
+        }
+        floodDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof FloodData flood) {
+                    setText("Flood ID " + flood.getFloodID());
+                }
+                return this;
+            }
+        });
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Select Flood Data Record:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(floodDropdown, gbc);
+
+        JComboBox<FloodFactor> editFloodFactor = new JComboBox<>(new FloodFactor[]
+                                                    {
+                                                        FloodFactor.LOW,
+                                                        FloodFactor.MODERATE,
+                                                        FloodFactor.HIGH,
+                                                        FloodFactor.SEVERE
+                                                    });
+        
+        JComboBox<RoadCondition> editRoadCondition = new JComboBox<>(new RoadCondition[]
+                                                    {
+                                                        RoadCondition.ACCESSIBLE,
+                                                        RoadCondition.PARTIALLY_FLOODED,
+                                                        RoadCondition.NOT_ACCESSIBLE
+                                                    });
+                                                    
+        JComboBox<AltDeliveryMethod> editAltDeliveryMethod = new JComboBox<>(new AltDeliveryMethod[]
+                                                    {
+                                                        AltDeliveryMethod.MOTORCYCLE,
+                                                        AltDeliveryMethod.TIKLING_TRICYCLE,
+                                                        AltDeliveryMethod.TIKLING_TRICYCLE,
+                                                        AltDeliveryMethod.DRONE,
+                                                        AltDeliveryMethod.BOAT,
+                                                        AltDeliveryMethod.TRUCK
+                                                    });
+
+        JTextField editAWLField = new JTextField(5);
+        JTextField editAHField = new JTextField(5);
+        JTextField editSPField = new JTextField(5);
+        JTextField editLocationField = new JTextField(5);
+
+        int row = 1;
+        addField(formPanel, gbc, row++, "Flood Factor:", editFloodFactor);
+        addField(formPanel, gbc, row++, "Average Water Level:", editAWLField);
+        addField(formPanel, gbc, row++, "Affected Households:", editAHField);
+        addField(formPanel, gbc, row++, "Road Condition:", editRoadCondition);
+        addField(formPanel, gbc, row++, "Special Packaging:", editSPField);
+        addField(formPanel, gbc, row++, "Alt Delivery Method:", editAltDeliveryMethod);
+        addField(formPanel, gbc, row++, "Location ID:", editLocationField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton saveBtn = new JButton("Save Changes");
+        JButton deleteBtn = new JButton("Delete Flood Data");
+
+        buttonPanel.add(saveBtn);
+        buttonPanel.add(deleteBtn);
+
+        editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
+        editPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        floodDropdown.addActionListener(e -> 
+        {
+            FloodData selected = (FloodData) floodDropdown.getSelectedItem();
+            if (selected != null) 
+            {
+                editFloodFactor.setSelectedItem(selected.getFloodFactor());
+                editAWLField.setText("" + selected.getAvgWaterLevel());
+                editAHField.setText("" + selected.getAffectedHouseholds());
+                editRoadCondition.setSelectedItem(selected.getRoadCondition());
+                editSPField.setText("" + selected.getSpecialPackaging());
+                editAltDeliveryMethod.setSelectedItem(selected.getAltDeliveryMethod());
+                editLocationField.setText("" + selected.getLocationID());
+            }
+        });
+
+        saveBtn.addActionListener(e -> {
+            try 
+            {
+                FloodData selected = (FloodData) floodDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a flood data record.");
+                    return;
+                }
+
+                FloodFactor newFF = (FloodFactor) editFloodFactor.getSelectedItem();
+                float newAWL = Float.parseFloat(editAWLField.getText());
+                int newAH = Integer.parseInt(editAHField.getText());
+                RoadCondition newRC = (RoadCondition) editRoadCondition.getSelectedItem();
+                boolean newSP = Boolean.parseBoolean(editSPField.getText());
+                AltDeliveryMethod newADM = (AltDeliveryMethod) editAltDeliveryMethod.getSelectedItem();
+                int newLocation = Integer.parseInt(editLocationField.getText());
+
+                int key = selected.getFloodID();
+
+                if (newFF != null && newFF != selected.getFloodFactor())
+                {
+                    boolean FF_ok = controller.updateFloodFactor(key, newFF);
+                    if (FF_ok)
+                        JOptionPane.showMessageDialog(this, "Flood factor updated successfully!");
+                    refreshFloodTable();
+                }
+
+                if (editAWLField.getText() != null &&
+                Math.abs(newAWL - selected.getAvgWaterLevel()) > 0.0001)
+                {
+                    boolean AWL_ok = controller.changeFloodDataColumn(key, 
+                    "avg_water_level", newAWL);
+                    if (AWL_ok)
+                        JOptionPane.showMessageDialog(this, "Average water level updated successfully!");
+                    refreshFloodTable();
+                }
+
+                if (editAHField.getText() != null && newAH != selected.getAffectedHouseholds())
+                {
+                    boolean AH_ok = controller.changeFloodDataColumn(key, 
+                    "affected_households", newAH);
+                    if (AH_ok)
+                        JOptionPane.showMessageDialog(this, "Number of affected households updated successfully!");
+                    refreshFloodTable();
+                }
+
+                if (newRC != null && newRC != selected.getRoadCondition())
+                {
+                    boolean RC_ok = controller.updateRoadCondition(key, newRC);
+                    if (RC_ok)
+                        JOptionPane.showMessageDialog(this, "Road condition updated successfully!");
+                    refreshFloodTable();
+                }
+
+                if (newSP != selected.getSpecialPackaging())
+                {
+                    boolean SP_ok = controller.changeFloodDataColumn(key, 
+                    "special_packaging", newSP);
+                    if (SP_ok)
+                        JOptionPane.showMessageDialog(this, "Special packaging updated successfully!");
+                    refreshFloodTable();
+                }
+
+                if (newADM != null && newADM != selected.getAltDeliveryMethod())
+                {
+                    boolean ADM_ok = controller.updateAltDeliveryMethod(key, newADM);
+                    if (ADM_ok)
+                        JOptionPane.showMessageDialog(this, "Alternative delivery method updated successfully!");
+                    refreshFloodTable();
+                }
+                
+                if (editLocationField.getText() != null)
+                {
+                    LocationController lc = new LocationController();
+                    boolean l_ok = false;
+                    if (lc.searchLocationById(editLocationField.getText()) != null
+                        && newLocation != selected.getLocationID())
+                        l_ok = controller.changeFloodDataColumn(key, 
+                        "location_id", newLocation);
+                    if (l_ok)
+                        JOptionPane.showMessageDialog(this, "Location updated successfully!");
+                    refreshFloodTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+            }
+        });
+
+        deleteBtn.addActionListener(e -> 
+        {
+            try 
+            {
+                FloodData selected = (FloodData) floodDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a flood data record.");
+                    return;
+                }
+                else
+                {
+                    int key = selected.getFloodID();
+                    boolean dlt_ok = controller.deleteFloodData(key);
+                    if (dlt_ok)
+                        JOptionPane.showMessageDialog(this, "Flood data record deleted successfully!");
+                    refreshFloodTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error deleting flood data record! " + ex.getMessage());
+            }
+        });
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
     }
     
     // Add new flood data using the input fields

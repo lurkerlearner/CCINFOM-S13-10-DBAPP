@@ -58,7 +58,14 @@ public class Supplier {
     public void setLocation_id(int location_id) {
         this.location_id = location_id;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Supplier ID: " + supplier_id + "\n" +
+                "Supplier Name: " + supplier_name + "\n" +
+                "Contact Number: " + contact_no + "\n" +
+                "Alternative Contact Number: " + alt_contact_no + "\n" +
+                "Location ID: " + location_id;
+    }
 
 }

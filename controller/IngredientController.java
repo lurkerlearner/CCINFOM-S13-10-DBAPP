@@ -89,4 +89,16 @@ public class IngredientController {
     public ArrayList<Ingredient> getIngredientsByCategory(Category category) {
         return ingredientDAO.getIngredientsByCategory(category);
     }
+
+    public ArrayList<Ingredient> getIngredientsExpiringSoon() {
+        return ingredientDAO.getIngredientsExpiringSoon();
+    }
+
+    public ArrayList<Ingredient> getIngredientsByStorageType(Storage_type type) {
+        return ingredientDAO.getIngredientsByStorageType(type);
+    }
+
+    public ArrayList<Ingredient> getIngredientsByStatus(Restock_status status) {
+        return ingredientDAO.getIngredientsByRestockStatus(status);
+    }
 }

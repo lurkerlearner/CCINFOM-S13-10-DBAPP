@@ -393,7 +393,7 @@ public class IngredientDAO {
              PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
         {
             
-            stmt.setString(1, category.name()); // convert enum to string
+            stmt.setString(1, category.getDbValue()); 
             
             try(ResultSet rs = stmt.executeQuery()) 
             {
@@ -463,13 +463,53 @@ public class IngredientDAO {
         return ingredients;
     }
 
-    public ArrayList<Ingredient> getOutOfStockIngredients() {
+    public ArrayList<Ingredient> getIngredientsByRestockStatus(Restock_status status) {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM INGREDIENT WHERE stock_quantity <= 0";
+        String sqlQuery = "SELECT * FROM INGREDIENT WHERE restock_status = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
         {
+            stmt.setString(1, status.getDbValue());
+            try(ResultSet rs = stmt.executeQuery())
+            {
+                // go thru each row and add it to the arraylist    
+                while (rs.next()) 
+                {
+                    Ingredient ingredient = new Ingredient(
+                        rs.getInt("ingredient_id"),
+                        rs.getInt("batch_no"),
+                        rs.getString("ingredient_name"),
+                        Category.fromDbValue(rs.getString("category")),
+                        Storage_type.fromDbValue(rs.getString("storage_type")),
+                        Measurement_unit.fromDbValue(rs.getString("measurement_unit")),
+                        rs.getDouble("stock_quantity"),
+                        rs.getDate("expiry_date"),
+                        Restock_status.fromDbValue(rs.getString("restock_status")),
+                        rs.getInt("supplier_id")
+                    );
+                    ingredients.add(ingredient);
+                }
+            }
+        } 
+
+        catch (SQLException e) 
+        {
+            System.err.println("Error fetching ingredients: " + e.getMessage());
+        }
+
+        return ingredients;
+    }
+
+    public ArrayList<Ingredient> getIngredientsByStorageType(Storage_type storage_type) {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM INGREDIENT WHERE storage_type = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) 
+        {
+            stmt.setString(1, storage_type.getDbValue());
+
             try(ResultSet rs = stmt.executeQuery())
             {
                 // go thru each row and add it to the arraylist    

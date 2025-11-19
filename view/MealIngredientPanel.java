@@ -463,7 +463,7 @@ public class MealIngredientPanel extends JPanel
 
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to delete the selected record? " + 
-                "This would mean there's no relationship between this meal and ingredient",
+                "\nThis would mean there's no relationship between this meal and ingredient.",
                 "Confirm Delete", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {

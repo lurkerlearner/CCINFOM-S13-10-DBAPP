@@ -1,15 +1,41 @@
 package view;
 
-import controller.*;
-import model.*;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.sql.Date;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import controller.RiderController;
+import model.Rider;
 
 public class RiderPanel extends JPanel 
 {
@@ -20,6 +46,7 @@ public class RiderPanel extends JPanel
     private JPanel addPanel;
     private JPanel viewPanel;
     private JPanel searchPanel;
+    private JPanel editPanel;
     
     // Components for adding riders
     private JTextField riderName;
@@ -62,10 +89,12 @@ public class RiderPanel extends JPanel
         createAddPanel();
         createViewPanel();
         createSearchPanel();
+        createEditPanel();
         
         tabbedPane.addTab("Add Rider", addPanel);
-        tabbedPane.addTab("View All", viewPanel);
-        tabbedPane.addTab("Search", searchPanel);
+        tabbedPane.addTab("View All Riders", viewPanel);
+        tabbedPane.addTab("Search Riders", searchPanel);
+        tabbedPane.addTab("Edit Rider", editPanel);
         
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -226,13 +255,136 @@ public class RiderPanel extends JPanel
         searchPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
     
+    // Create the panel for editing riders
+    private void createEditPanel() {
+        editPanel = new JPanel(new BorderLayout());
+        editPanel.setLayout(new BorderLayout());
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+
+        JComboBox<Rider> riderDropdown = new JComboBox<>();
+        for (Rider r : controller.getAllRiders()) {
+            riderDropdown.addItem(r);
+        }
+        riderDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Rider rider) {
+                    setText("Rider ID " + rider.getRiderID());
+                }
+                return this;
+            }
+        });
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Select Rider:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(riderDropdown, gbc);
+
+        SpinnerDateModel timeModel = new SpinnerDateModel();
+        JSpinner editDateHiredSpinner = new JSpinner(timeModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(editDateHiredSpinner, "yyyy-MM-dd");
+        editDateHiredSpinner.setEditor(dateEditor);
+
+        JTextField editNameField = new JTextField(5);
+        JTextField editContactNoField = new JTextField(5);
+
+        int row = 1;
+        addField(formPanel, gbc, row++, "Rider Name:", editNameField);
+        addField(formPanel, gbc, row++, "Hire Date:", editDateHiredSpinner);
+        addField(formPanel, gbc, row++, "Contact Number:", editContactNoField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton saveBtn = new JButton("Save Changes");
+
+        buttonPanel.add(saveBtn);
+
+        editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
+        editPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        riderDropdown.addActionListener(e -> 
+        {
+            Rider selected = (Rider) riderDropdown.getSelectedItem();
+            if (selected != null) 
+            {
+                editNameField.setText("" + selected.getRiderName());
+                LocalDate today = LocalDate.now();
+                Date dateOnly = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                editDateHiredSpinner.setValue(dateOnly);
+                editContactNoField.setText("" + selected.getContactNo());
+            }
+        });
+
+        saveBtn.addActionListener(e -> {
+            try 
+            {
+                Rider selected = (Rider) riderDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a rider.");
+                    return;
+                }
+
+                String newName = editNameField.getText();
+                Date newHD = (Date) editDateHiredSpinner.getValue();
+                String newContactNo = editContactNoField.getText();
+
+                int key = selected.getRiderID();
+                
+                if (newName != selected.getRiderName())
+                {
+                    boolean N_ok = controller.modifyRiderColumn(key, "rider_name", newName);
+                    if (N_ok)
+                        JOptionPane.showMessageDialog(this, "Rider name updated successfully!");
+                    refreshRiderTable();
+                }
+
+                if (newHD != selected.getHireDate())
+                {
+                    java.sql.Date newHireDate = (java.sql.Date) newHD;
+                    boolean HD_ok = controller.modifyRiderColumn(key, "hire_date", newHireDate);
+                    if (HD_ok)
+                        JOptionPane.showMessageDialog(this, "Hire date updated successfully!");
+                    refreshRiderTable();
+                }
+
+                if (newContactNo != selected.getContactNo())
+                {
+                    boolean CN_ok = controller.modifyRiderColumn(key, "contact_no", newContactNo);
+                    if (CN_ok)
+                        JOptionPane.showMessageDialog(this, "Contact number updated successfully!");
+                    refreshRiderTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+            }
+        });
+
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+    }
+
     // Add new rider using the input fields
     private void addRider() 
     {
         try 
         {
             String name = riderName.getText().trim();
-            Date hireDateSQL = java.sql.Date.valueOf(hireDate.getText().trim());             
+            java.sql.Date hireDateSQL = java.sql.Date.valueOf(hireDate.getText().trim());             
             String contact = contactNo.getText().trim();
 
             controller.addRider(name, hireDateSQL, contact);
