@@ -12,9 +12,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -457,8 +455,10 @@ public class DeliveryPanel extends JPanel
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton saveBtn = new JButton("Save Changes");
+        JButton deleteBtn = new JButton("Delete Delivery");
 
         buttonPanel.add(saveBtn);
+        buttonPanel.add(deleteBtn);
 
         editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
         editPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -483,7 +483,8 @@ public class DeliveryPanel extends JPanel
             }
         });
 
-        saveBtn.addActionListener(e -> {
+        saveBtn.addActionListener(e -> 
+        {
             try 
             {
                 Delivery selected = (Delivery) deliveryDropdown.getSelectedItem();
@@ -585,6 +586,29 @@ public class DeliveryPanel extends JPanel
             }
         });
 
+        deleteBtn.addActionListener(e -> 
+        {
+            try 
+            {
+                Delivery selected = (Delivery) deliveryDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a delivery transaction.");
+                    return;
+                }
+                else
+                {
+                    int key = selected.getTransactionID();
+                    boolean dlt_ok = controller.deleteDelivery(key);
+                    if (dlt_ok)
+                        JOptionPane.showMessageDialog(this, "Delivery record deleted successfully!");
+                    refreshDeliveryTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error deleting delivery record! " + ex.getMessage());
+            }
+        });
     }
 
     private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
