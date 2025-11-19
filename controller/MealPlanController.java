@@ -49,12 +49,12 @@ public class MealPlanController {
         return mealDAO.getAllMeals();
     }
 
-    public boolean addMealtoPlan(int mealId, int planId){
+    public boolean addMealtoPlan(int mealId, int planId, String remarks){
         if(mealId <= 0 || planId <=0){
             System.err.println("Validation Error: Invalid meal or plan id.");
             return false;
         }
-        if (mealMealPlanDAO.addMealToPlan(mealId, planId)) {
+        if (mealMealPlanDAO.addMealToPlan(mealId, planId, remarks)) {
             Meal meal = mealDAO.getMealById(mealId);
             MealPlan plan = mealPlanDAO.getMealPlanbyId(planId);
             
@@ -88,12 +88,12 @@ public class MealPlanController {
         return mealPlanDAO.getMealsInPlan(planId);
     }
 
-    public boolean removeMealFromPlan(int mealId, int planId){
+    public boolean removeMealFromPlan(int mealId, int planId,  String remarks){
         if (mealId<=0 || planId <= 0) {
             System.err.println("Validation Error: Invalid meal or plan id for removal.");
             return false;
         }
-        return mealMealPlanDAO.removeMealFromPlan(mealId, planId);
+        return mealMealPlanDAO.removeMealFromPlan(mealId, planId, remarks);
     }
 
 

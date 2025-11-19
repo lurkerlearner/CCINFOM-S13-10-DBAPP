@@ -10,14 +10,15 @@ import java.util.List;
 
 public class MealMealPlanDAO {
 
-    public boolean addMealToPlan(int mealId, int mealPlanId) {
-        String query = "INSERT INTO meal_meal_plan (meal_id, plan_id) VALUES (?, ?)";
+    public boolean addMealToPlan(int mealId, int mealPlanId, String remarks) {
+        String query = "INSERT INTO meal_meal_plan (meal_id, plan_id, remarks) VALUES (?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, mealId);
             preparedStatement.setInt(2, mealPlanId);
+            preparedStatement.setString(3, remarks);
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -25,14 +26,15 @@ public class MealMealPlanDAO {
             return false;
         }
     }
-    public boolean removeMealFromPlan(int mealId, int mealPlanId) {
-        String query = "DELETE FROM meal_meal_plan WHERE meal_id = ? AND plan_id = ?";
+    public boolean removeMealFromPlan(int mealId, int mealPlanId , String remarks) {
+        String query = "DELETE FROM meal_meal_plan WHERE meal_id = ? AND plan_id = ? AND remarks = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, mealId);
             preparedStatement.setInt(2, mealPlanId);
+            preparedStatement.setString(3, remarks);
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
