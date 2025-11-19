@@ -35,6 +35,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import controller.RiderController;
+import model.FloodData;
 import model.Rider;
 
 public class RiderPanel extends JPanel 
@@ -128,7 +129,7 @@ public class RiderPanel extends JPanel
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        formPanel.add(new JLabel("Hire Date:"), gbc);
+        formPanel.add(new JLabel("Hire Date (YYYY-MM-DD):"), gbc);
 
         gbc.gridx = 1;
         formPanel.add(hireDate, gbc);
@@ -302,8 +303,10 @@ public class RiderPanel extends JPanel
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton saveBtn = new JButton("Save Changes");
+        JButton deleteBtn = new JButton("Delete Rider");
 
         buttonPanel.add(saveBtn);
+        buttonPanel.add(deleteBtn);
 
         editPanel.add(new JScrollPane(formPanel), BorderLayout.CENTER);
         editPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -367,6 +370,29 @@ public class RiderPanel extends JPanel
             }
         });
 
+        deleteBtn.addActionListener(e -> 
+        {
+            try 
+            {
+                Rider selected = (Rider) riderDropdown.getSelectedItem();
+                if (selected == null) 
+                {
+                    JOptionPane.showMessageDialog(this, "Please select a rider.");
+                    return;
+                }
+                else
+                {
+                    int key = selected.getRiderID();
+                    boolean dlt_ok = controller.deleteRider(key);
+                    if (dlt_ok)
+                        JOptionPane.showMessageDialog(this, "Rider deleted successfully!");
+                    refreshRiderTable();
+                }
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error deleting rider record! " + ex.getMessage());
+            }
+        });
     }
 
     private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
