@@ -33,6 +33,7 @@ public class ClientPanel extends JPanel {
 
 
     private JComboBox<String> searchTypeDropdown;
+    JComboBox<Client> clientDropdown;
     private JTextField searchField;
     private JTable searchTable;
     private DefaultTableModel searchTableModel;
@@ -68,6 +69,12 @@ public class ClientPanel extends JPanel {
        tabbedPane.addTab("View Clients", viewPanel);
        tabbedPane.addTab("Search Clients", searchPanel);
        tabbedPane.addTab("Edit Clients", editPanel);
+
+       tabbedPane.addChangeListener(e -> {
+           if (tabbedPane.getSelectedComponent() == editPanel) {
+               reloadClientDropdown();
+           }
+       });
 
        add(tabbedPane, BorderLayout.CENTER);
 
@@ -214,7 +221,7 @@ public class ClientPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(8, 8, 8, 8);
 
-        JComboBox<Client> clientDropdown = new JComboBox<>();
+        clientDropdown = new JComboBox<>();
         for (Client c : clientController.getAllClients()) {
             clientDropdown.addItem(c);
         }
@@ -506,6 +513,13 @@ public class ClientPanel extends JPanel {
         locationIdField.setText("");
         dietList.clearSelection();
         mealPlanDropdown.setSelectedIndex(0);
+    }
+
+    private void reloadClientDropdown() {
+        clientDropdown.removeAllItems();
+        for (Client c : clientController.getAllClients()) {
+            clientDropdown.addItem(c);
+        }
     }
 
 }

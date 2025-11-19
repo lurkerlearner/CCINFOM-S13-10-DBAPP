@@ -123,7 +123,7 @@ public class ClientDietPreferencePanel extends JPanel {
         viewPanel = new JPanel(new BorderLayout());
 
         cdTableModel = new DefaultTableModel(
-                new String[]{"Diet Pref ID", "Client ID"}, 0
+                new String[]{"Client ID", "Diet Pref ID"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -151,8 +151,8 @@ public class ClientDietPreferencePanel extends JPanel {
 
         for (ClientDietPreference c : list) {
             cdTableModel.addRow(new Object[]{
-                    c.getDietPreferenceID(),
-                    c.getClientID()
+                    c.getClientID(),
+                    c.getDietPreferenceID()
             });
         }
     }
@@ -172,10 +172,11 @@ public class ClientDietPreferencePanel extends JPanel {
         top.add(searchBtn);
 
         searchTableModel = new DefaultTableModel(
-                new String[]{"Diet Pref ID", "Client ID"}, 0
+                new String[]{"Client ID", "Diet Pref ID"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
+
 
         searchResultTable = new JTable(searchTableModel);
         searchResultTable.getTableHeader().setReorderingAllowed(false);
@@ -201,8 +202,8 @@ public class ClientDietPreferencePanel extends JPanel {
 
             for (ClientDietPreference c : results) {
                 searchTableModel.addRow(new Object[]{
-                        c.getDietPreferenceID(),
-                        c.getClientID()
+                        c.getClientID(),
+                        c.getDietPreferenceID()
                 });
             }
 
@@ -218,8 +219,8 @@ public class ClientDietPreferencePanel extends JPanel {
             return;
         }
 
-        int dietPrefID = (int) cdTableModel.getValueAt(selectedRow, 0);
-        int clientID = (int) cdTableModel.getValueAt(selectedRow, 1);
+        int clientID = (int) cdTableModel.getValueAt(selectedRow, 0);
+        int dietPrefID = (int) cdTableModel.getValueAt(selectedRow, 1);
 
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to remove this diet preference from the client?",

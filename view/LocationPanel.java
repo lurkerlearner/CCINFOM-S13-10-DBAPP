@@ -368,8 +368,4 @@ public class LocationPanel extends JPanel {
             locationDropdown.addItem(l);
         }
     }
-
-
-
-
 }
